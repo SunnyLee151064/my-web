@@ -1,34 +1,66 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { sql } from '@/lib/db';
 
-async function getPhotos() {
-  try {
-    const db = sql();
-    const photos = await db`
-      SELECT id, url, description, created_at FROM photos
-      ORDER BY created_at DESC
-    `;
-    return photos;
-  } catch {
-    return [];
-  }
+interface Photo {
+  id: number;
+  url: string;
+  description: string;
+  created_at: string;
 }
 
-async function deletePhoto(formData: FormData) {
-  'use server';
-  const id = Number(formData.get('id'));
-  try {
-    const db = sql();
-    await db`DELETE FROM photos WHERE id = ${id}`;
-  } catch (error) {
-    console.error('Delete error:', error);
-  }
-  redirect('/admin/photos');
-}
+export default function AdminPhotosPage() {
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-export default async function AdminPhotosPage() {
-  const photos = await getPhotos();
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  const fetchPhotos = async () => {
+    try {
+      const res = await fetch('/api/photos');
+      const data = await res.json();
+      if (data.success) {
+        setPhotos(data.photos || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch photos:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this photo?')) return;
+
+    try {
+      const res = await fetch(`/api/photos/delete?id=${id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        // 重新获取列表
+        await fetchPhotos();
+      } else {
+        alert(data.error || 'Failed to delete');
+      }
+    } catch (err) {
+      alert('Failed to delete');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -79,24 +111,21 @@ export default async function AdminPhotosPage() {
                   {photo.description}
                 </p>
               )}
-              <form action={deletePhoto}>
-                <input type="hidden" name="id" value={photo.id} />
-                <button
-                  type="submit"
-                  style={{
-                    width: '100%',
-                    padding: '0.25rem',
-                    background: '#ff4444',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '0.8rem'
-                  }}
-                >
-                  Delete
-                </button>
-              </form>
+              <button
+                onClick={() => handleDelete(photo.id)}
+                style={{
+                  width: '100%',
+                  padding: '0.25rem',
+                  background: '#ff4444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem'
+                }}
+              >
+                Delete
+              </button>
             </div>
           </div>
         ))}
@@ -104,7 +133,7 @@ export default async function AdminPhotosPage() {
 
       <div style={{ marginTop: '2rem' }}>
         <Link
-          href="/welcome"
+          href="/"
           style={{ color: '#0066cc', textDecoration: 'underline' }}
         >
           Back to Home

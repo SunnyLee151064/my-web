@@ -2,6 +2,24 @@ import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { put } from '@vercel/blob';
 
+export async function GET() {
+  try {
+    const db = sql();
+    const photos = await db`
+      SELECT id, url, blob_id, description, created_at FROM photos
+      ORDER BY created_at DESC
+    `;
+
+    return NextResponse.json({ success: true, photos });
+  } catch (error) {
+    console.error('GET photos error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to fetch photos', photos: [] },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -25,7 +43,7 @@ export async function POST(request: Request) {
     const result = await db`
       INSERT INTO photos (url, blob_id, description)
       VALUES (${blob.url}, ${blob.pathname}, ${description || null})
-      RETURNING id, url
+      RETURNING id, url, created_at
     `;
 
     return NextResponse.json({ success: true, photo: result[0] });

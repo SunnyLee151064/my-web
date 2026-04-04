@@ -1,34 +1,66 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { sql } from '@/lib/db';
 
-async function getPosts() {
-  try {
-    const db = sql();
-    const posts = await db`
-      SELECT id, title, slug, created_at FROM posts
-      ORDER BY created_at DESC
-    `;
-    return posts;
-  } catch {
-    return [];
-  }
+interface Post {
+  id: number;
+  title: string;
+  slug: string;
+  created_at: string;
 }
 
-async function deletePost(formData: FormData) {
-  'use server';
-  const id = Number(formData.get('id'));
-  try {
-    const db = sql();
-    await db`DELETE FROM posts WHERE id = ${id}`;
-  } catch (error) {
-    console.error('Delete error:', error);
-  }
-  redirect('/admin/blog');
-}
+export default function AdminBlogPage() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-export default async function AdminBlogPage() {
-  const posts = await getPosts();
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const res = await fetch('/api/blog');
+      const data = await res.json();
+      if (data.success) {
+        setPosts(data.posts || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch posts:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this post?')) return;
+
+    try {
+      const res = await fetch(`/api/blog/${id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        // 重新获取列表
+        await fetchPosts();
+      } else {
+        alert(data.error || 'Failed to delete');
+      }
+    } catch (err) {
+      alert('Failed to delete');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
@@ -88,22 +120,19 @@ export default async function AdminBlogPage() {
                 >
                   Edit
                 </Link>
-                <form action={deletePost}>
-                  <input type="hidden" name="id" value={post.id} />
-                  <button
-                    type="submit"
-                    style={{
-                      padding: '0.5rem 1rem',
-                      background: '#ff4444',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Delete
-                  </button>
-                </form>
+                <button
+                  onClick={() => handleDelete(post.id)}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    background: '#ff4444',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}
@@ -112,7 +141,7 @@ export default async function AdminBlogPage() {
 
       <div style={{ marginTop: '2rem' }}>
         <Link
-          href="/welcome"
+          href="/"
           style={{ color: '#0066cc', textDecoration: 'underline' }}
         >
           Back to Home

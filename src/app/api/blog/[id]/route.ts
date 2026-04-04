@@ -59,3 +59,21 @@ export async function PUT(
     );
   }
 }
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const db = sql();
+    await db`DELETE FROM posts WHERE id = ${id}`;
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete post' },
+      { status: 500 }
+    );
+  }
+}
