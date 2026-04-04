@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { sql } from '@/lib/db';
 
 async function getPosts() {
@@ -14,14 +15,16 @@ async function getPosts() {
   }
 }
 
-async function deletePost(id: number) {
+async function deletePost(formData: FormData) {
   'use server';
+  const id = Number(formData.get('id'));
   try {
     const db = sql();
     await db`DELETE FROM posts WHERE id = ${id}`;
   } catch (error) {
     console.error('Delete error:', error);
   }
+  redirect('/admin/blog');
 }
 
 export default async function AdminBlogPage() {
@@ -29,7 +32,7 @@ export default async function AdminBlogPage() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '2rem' }}>✏️ 管理博客</h1>
+      <h1 style={{ marginBottom: '2rem' }}>Manage Blog</h1>
 
       <Link
         href="/admin/blog/new"
@@ -43,11 +46,11 @@ export default async function AdminBlogPage() {
           marginBottom: '2rem'
         }}
       >
-        + 新建文章
+        + New Post
       </Link>
 
       {posts.length === 0 ? (
-        <p style={{ color: '#666' }}>暂无文章</p>
+        <p style={{ color: '#666' }}>No posts</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {posts.map((post) => (
@@ -68,7 +71,7 @@ export default async function AdminBlogPage() {
                   <h3 style={{ margin: '0 0 0.5rem' }}>{post.title}</h3>
                 </Link>
                 <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>
-                  {new Date(post.created_at).toLocaleDateString('zh-CN')}
+                  {new Date(post.created_at).toLocaleDateString()}
                 </p>
               </div>
 
@@ -83,12 +86,10 @@ export default async function AdminBlogPage() {
                     color: '#333'
                   }}
                 >
-                  编辑
+                  Edit
                 </Link>
-                <form action={async () => {
-                  'use server';
-                  await deletePost(post.id);
-                }}>
+                <form action={deletePost}>
+                  <input type="hidden" name="id" value={post.id} />
                   <button
                     type="submit"
                     style={{
@@ -100,7 +101,7 @@ export default async function AdminBlogPage() {
                       cursor: 'pointer'
                     }}
                   >
-                    删除
+                    Delete
                   </button>
                 </form>
               </div>
@@ -114,7 +115,7 @@ export default async function AdminBlogPage() {
           href="/welcome"
           style={{ color: '#0066cc', textDecoration: 'underline' }}
         >
-          ← 返回首页
+          Back to Home
         </Link>
       </div>
     </div>

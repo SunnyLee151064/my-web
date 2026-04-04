@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { sql } from '@/lib/db';
 
 async function getPhotos() {
@@ -14,22 +15,24 @@ async function getPhotos() {
   }
 }
 
+async function deletePhoto(formData: FormData) {
+  'use server';
+  const id = Number(formData.get('id'));
+  try {
+    const db = sql();
+    await db`DELETE FROM photos WHERE id = ${id}`;
+  } catch (error) {
+    console.error('Delete error:', error);
+  }
+  redirect('/admin/photos');
+}
+
 export default async function AdminPhotosPage() {
   const photos = await getPhotos();
 
-  async function deletePhoto(id: number) {
-    'use server';
-    try {
-      const db = sql();
-      await db`DELETE FROM photos WHERE id = ${id}`;
-    } catch (error) {
-      console.error('Delete error:', error);
-    }
-  }
-
   return (
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '2rem' }}>🖼️ 管理照片</h1>
+      <h1 style={{ marginBottom: '2rem' }}>Manage Photos</h1>
 
       <Link
         href="/admin/photos/upload"
@@ -43,7 +46,7 @@ export default async function AdminPhotosPage() {
           marginBottom: '2rem'
         }}
       >
-        + 上传照片
+        + Upload Photo
       </Link>
 
       <div style={{
@@ -60,7 +63,7 @@ export default async function AdminPhotosPage() {
           }}>
             <img
               src={photo.url}
-              alt={photo.description || '照片'}
+              alt={photo.description || 'Photo'}
               style={{
                 width: '100%',
                 height: '150px',
@@ -76,7 +79,8 @@ export default async function AdminPhotosPage() {
                   {photo.description}
                 </p>
               )}
-              <form action={deletePhoto.bind(null, photo.id)}>
+              <form action={deletePhoto}>
+                <input type="hidden" name="id" value={photo.id} />
                 <button
                   type="submit"
                   style={{
@@ -90,7 +94,7 @@ export default async function AdminPhotosPage() {
                     fontSize: '0.8rem'
                   }}
                 >
-                  删除
+                  Delete
                 </button>
               </form>
             </div>
@@ -103,7 +107,7 @@ export default async function AdminPhotosPage() {
           href="/welcome"
           style={{ color: '#0066cc', textDecoration: 'underline' }}
         >
-          ← 返回首页
+          Back to Home
         </Link>
       </div>
     </div>
