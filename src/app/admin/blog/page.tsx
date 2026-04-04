@@ -3,7 +3,8 @@ import { sql } from '@/lib/db';
 
 async function getPosts() {
   try {
-    const posts = await sql`
+    const db = sql();
+    const posts = await db`
       SELECT id, title, slug, created_at FROM posts
       ORDER BY created_at DESC
     `;
@@ -16,7 +17,8 @@ async function getPosts() {
 async function deletePost(id: number) {
   'use server';
   try {
-    await sql`DELETE FROM posts WHERE id = ${id}`;
+    const db = sql();
+    await db`DELETE FROM posts WHERE id = ${id}`;
   } catch (error) {
     console.error('Delete error:', error);
   }

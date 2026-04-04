@@ -3,7 +3,8 @@ import { sql } from '@/lib/db';
 
 async function getPhotos() {
   try {
-    const photos = await sql`
+    const db = sql();
+    const photos = await db`
       SELECT id, url, description, created_at FROM photos
       ORDER BY created_at DESC
     `;

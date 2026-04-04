@@ -7,7 +7,8 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const posts = await sql`
+    const db = sql();
+    const posts = await db`
       SELECT id, title, content, slug FROM posts WHERE id = ${id}
     `;
 
@@ -42,7 +43,8 @@ export async function PUT(
       );
     }
 
-    const result = await sql`
+    const db = sql();
+    const result = await db`
       UPDATE posts
       SET title = ${title}, content = ${content}, updated_at = CURRENT_TIMESTAMP
       WHERE id = ${id}

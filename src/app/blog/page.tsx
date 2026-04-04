@@ -3,7 +3,8 @@ import { sql } from '@/lib/db';
 
 async function getPosts() {
   try {
-    const posts = await sql`
+    const db = sql();
+    const posts = await db`
       SELECT id, title, slug, created_at FROM posts
       ORDER BY created_at DESC
     `;
@@ -18,10 +19,10 @@ export default async function BlogPage() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '2rem' }}>📝 博客</h1>
+      <h1 style={{ marginBottom: '2rem' }}>Blog</h1>
 
       {posts.length === 0 ? (
-        <p style={{ color: '#666' }}>暂无文章，去写一篇吧！</p>
+        <p style={{ color: '#666' }}>No posts yet. Write one!</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {posts.map((post) => (
@@ -40,7 +41,7 @@ export default async function BlogPage() {
             >
               <h2 style={{ margin: '0 0 0.5rem' }}>{post.title}</h2>
               <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>
-                {new Date(post.created_at).toLocaleDateString('zh-CN')}
+                {new Date(post.created_at).toLocaleDateString()}
               </p>
             </Link>
           ))}
@@ -52,7 +53,7 @@ export default async function BlogPage() {
           href="/welcome"
           style={{ color: '#0066cc', textDecoration: 'underline' }}
         >
-          ← 返回首页
+          Back to Home
         </Link>
       </div>
     </div>

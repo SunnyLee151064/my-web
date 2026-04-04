@@ -12,7 +12,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await sql`
+    const db = sql();
+    const result = await db`
       INSERT INTO posts (title, content, slug)
       VALUES (${title}, ${content}, ${slug})
       RETURNING id, title, slug

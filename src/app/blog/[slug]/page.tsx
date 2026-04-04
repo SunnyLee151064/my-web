@@ -4,7 +4,8 @@ import ReactMarkdown from 'react-markdown';
 
 async function getPost(slug: string) {
   try {
-    const posts = await sql`
+    const db = sql();
+    const posts = await db`
       SELECT id, title, content, created_at, updated_at FROM posts WHERE slug = ${slug}
     `;
     return posts[0] || null;

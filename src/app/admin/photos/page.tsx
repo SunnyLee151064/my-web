@@ -3,7 +3,8 @@ import { sql } from '@/lib/db';
 
 async function getPhotos() {
   try {
-    const photos = await sql`
+    const db = sql();
+    const photos = await db`
       SELECT id, url, description, created_at FROM photos
       ORDER BY created_at DESC
     `;
@@ -19,7 +20,8 @@ export default async function AdminPhotosPage() {
   async function deletePhoto(id: number) {
     'use server';
     try {
-      await sql`DELETE FROM photos WHERE id = ${id}`;
+      const db = sql();
+      await db`DELETE FROM photos WHERE id = ${id}`;
     } catch (error) {
       console.error('Delete error:', error);
     }

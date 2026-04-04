@@ -21,7 +21,8 @@ export async function POST(request: Request) {
     });
 
     // 保存到数据库
-    const result = await sql`
+    const db = sql();
+    const result = await db`
       INSERT INTO photos (url, blob_id, description)
       VALUES (${blob.url}, ${blob.pathname}, ${description || null})
       RETURNING id, url

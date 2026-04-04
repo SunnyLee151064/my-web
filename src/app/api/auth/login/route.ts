@@ -14,7 +14,8 @@ export async function POST(request: Request) {
     }
 
     // 查找用户
-    const users = await sql`
+    const db = sql();
+    const users = await db`
       SELECT id, username, password, role FROM users WHERE username = ${username}
     `;
 
