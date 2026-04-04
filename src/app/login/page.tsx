@@ -70,7 +70,7 @@ export default function LoginPage() {
             fontSize: '1.5rem',
             color: 'white'
           }}>
-            👤
+            USER
           </div>
           <h1 style={{
             margin: 0,
@@ -78,10 +78,10 @@ export default function LoginPage() {
             color: '#333',
             fontWeight: '600'
           }}>
-            {isRegister ? '注册账号' : '欢迎回来'
+            {isRegister ? "Register" : "Welcome"}
           </h1>
           <p style={{ margin: '0.5rem 0 0', color: '#666', fontSize: '0.9rem' }}>
-            {isRegister ? '创建你的管理员账号' : '登录到个人网站'}
+            {isRegister ? "Create your admin account" : "Login to your site"}
           </p>
         </div>
 
@@ -94,25 +94,22 @@ export default function LoginPage() {
               fontWeight: '500',
               fontSize: '0.9rem'
             }}>
-              用户名
+              Username
             </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="请输入用户名"
+              placeholder="Enter username"
               style={{
                 width: '100%',
                 padding: '0.875rem 1rem',
                 border: '2px solid #e0e0e0',
                 borderRadius: '8px',
                 fontSize: '1rem',
-                transition: 'border-color 0.2s',
                 outline: 'none',
                 boxSizing: 'border-box'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#667eea'}
-              onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}
               required
             />
           </div>
@@ -125,25 +122,22 @@ export default function LoginPage() {
               fontWeight: '500',
               fontSize: '0.9rem'
             }}>
-              密码
+              Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="请输入密码"
+              placeholder="Enter password"
               style={{
                 width: '100%',
                 padding: '0.875rem 1rem',
                 border: '2px solid #e0e0e0',
                 borderRadius: '8px',
                 fontSize: '1rem',
-                transition: 'border-color 0.2s',
                 outline: 'none',
                 boxSizing: 'border-box'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#667eea'}
-              onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}
               required
             />
           </div>
@@ -174,19 +168,15 @@ export default function LoginPage() {
               cursor: loading ? 'not-allowed' : 'pointer',
               opacity: loading ? 0.7 : 1,
               fontSize: '1rem',
-              fontWeight: '600',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+              fontWeight: '600'
             }}
-            onMouseOver={(e) => !loading && (e.currentTarget.style.transform = 'translateY(-2px)')}
-            onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
           >
-            {loading ? '处理中...' : (isRegister ? '注册' : '登录')}
+            {loading ? "Loading..." : (isRegister ? "Register" : "Login")}
           </button>
         </form>
 
         <p style={{ marginTop: '1.5rem', textAlign: 'center', color: '#666' }}>
-          {isRegister ? '已有账号？' : '没有账号？'}
+          {isRegister ? "Already have account?" : "No account?"}
           <button
             onClick={() => setIsRegister(!isRegister)}
             style={{
@@ -198,7 +188,7 @@ export default function LoginPage() {
               marginLeft: '0.25rem'
             }}
           >
-            {isRegister ? '去登录' : '注册管理员'}
+            {isRegister ? "Login" : "Register"}
           </button>
         </p>
       </div>

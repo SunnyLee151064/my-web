@@ -25,13 +25,13 @@ export default function WelcomePage() {
   if (!user) return null;
 
   const menuItems = [
-    { icon: '📝', label: '博客', path: '/blog', color: '#667eea' },
-    { icon: '📷', label: '照片', path: '/photos', color: '#f093fb' },
+    { icon: '📝', label: 'Blog', path: '/blog', color: '#667eea' },
+    { icon: '📷', label: 'Photos', path: '/photos', color: '#f093fb' },
   ];
 
   const adminItems = [
-    { icon: '✏️', label: '管理博客', path: '/admin/blog', color: '#4facfe' },
-    { icon: '🖼️', label: '管理照片', path: '/admin/photos', color: '#43e97b' },
+    { icon: '✏️', label: 'Manage Blog', path: '/admin/blog', color: '#4facfe' },
+    { icon: '🖼️', label: 'Manage Photos', path: '/admin/photos', color: '#43e97b' },
   ];
 
   return (
@@ -64,10 +64,10 @@ export default function WelcomePage() {
             margin: '0 auto 1rem',
             fontSize: '2rem'
           }}>
-            👋
+            HI
           </div>
           <h1 style={{ margin: 0, fontSize: '1.75rem', color: '#333', fontWeight: '600' }}>
-            欢迎回来
+            Welcome
           </h1>
           <p style={{ margin: '0.5rem 0 0', color: '#666', fontSize: '1.1rem' }}>
             {user.username}
@@ -79,7 +79,7 @@ export default function WelcomePage() {
               color: 'white',
               fontSize: '0.8rem'
             }}>
-              {user.role === 'admin' ? '管理员' : '用户'}
+              {user.role === 'admin' ? 'Admin' : 'User'}
             </span>
           </p>
         </div>
@@ -104,16 +104,7 @@ export default function WelcomePage() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '0.5rem',
-                transition: 'transform 0.2s, box-shadow 0.2s',
                 boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = `0 8px 25px ${item.color}40`;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
               }}
             >
               <span style={{ fontSize: '2rem' }}>{item.icon}</span>
@@ -130,7 +121,7 @@ export default function WelcomePage() {
               marginBottom: '1rem',
               fontSize: '0.9rem'
             }}>
-              ─── 管理员功能 ───
+              --- Admin ---
             </div>
             <div style={{
               display: 'grid',
@@ -152,16 +143,7 @@ export default function WelcomePage() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: '0.5rem',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
                     boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = `0 8px 25px ${item.color}60`;
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
                   }}
                 >
                   <span style={{ fontSize: '2rem' }}>{item.icon}</span>
@@ -185,13 +167,10 @@ export default function WelcomePage() {
               border: '2px solid #e0e0e0',
               borderRadius: '8px',
               cursor: 'pointer',
-              fontSize: '0.9rem',
-              transition: 'border-color 0.2s'
+              fontSize: '0.9rem'
             }}
-            onMouseOver={(e) => e.currentTarget.style.borderColor = '#667eea'}
-            onMouseOut={(e) => e.currentTarget.style.borderColor = '#e0e0e0'}
           >
-            退出登录
+            Logout
           </button>
         </div>
       </div>
