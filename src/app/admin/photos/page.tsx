@@ -13,17 +13,17 @@ async function getPhotos() {
   }
 }
 
-async function deletePhoto(id: number) {
-  'use server';
-  try {
-    await sql`DELETE FROM photos WHERE id = ${id}`;
-  } catch (error) {
-    console.error('Delete error:', error);
-  }
-}
+export default async function AdminPhotosPage() {
+  const photos = await getPhotos();
 
-export default function AdminPhotosPage() {
-  const photos = getPhotos();
+  async function deletePhoto(id: number) {
+    'use server';
+    try {
+      await sql`DELETE FROM photos WHERE id = ${id}`;
+    } catch (error) {
+      console.error('Delete error:', error);
+    }
+  }
 
   return (
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -49,7 +49,7 @@ export default function AdminPhotosPage() {
         gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
         gap: '1rem'
       }}>
-        {(await photos).map((photo) => (
+        {photos.map((photo) => (
           <div key={photo.id} style={{
             position: 'relative',
             borderRadius: '8px',
@@ -74,10 +74,7 @@ export default function AdminPhotosPage() {
                   {photo.description}
                 </p>
               )}
-              <form action={async () => {
-                'use server';
-                await deletePhoto(photo.id);
-              }}>
+              <form action={deletePhoto.bind(null, photo.id)}>
                 <button
                   type="submit"
                   style={{

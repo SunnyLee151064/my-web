@@ -1,22 +1,30 @@
-import { neon } from '@neondatabase/serverless';
+import { neon, NeonQueryFunction } from '@neondatabase/serverless';
 
 // 禁用 Vercel Edge 警告
 if (typeof window === 'undefined') {
   (globalThis as any).fetch ??= fetch;
 }
 
-export const sql = process.env.POSTGRES_URL
-  ? neon(process.env.POSTGRES_URL)
-  : null;
+// 类型定义
+export type Sql = NeonQueryFunction<false, false>;
+
+// 获取数据库连接
+const url = process.env.POSTGRES_URL;
+const _sql = url ? neon(url) : null;
+
+// 导出 sql，通过类型断言确保可用
+export const sql = _sql as Sql;
 
 // 初始化数据库表
 export async function initDatabase() {
-  if (!sql) {
-    throw new Error('Database connection not configured');
+  if (!url) {
+    throw new Error('Database is not configured. Please set POSTGRES_URL environment variable.');
   }
 
+  const db = neon(url);
+
   // 创建 users 表
-  await sql`
+  await db`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       username VARCHAR(255) UNIQUE NOT NULL,
@@ -27,7 +35,7 @@ export async function initDatabase() {
   `;
 
   // 创建 posts 表
-  await sql`
+  await db`
     CREATE TABLE IF NOT EXISTS posts (
       id SERIAL PRIMARY KEY,
       title VARCHAR(255) NOT NULL,
@@ -39,7 +47,7 @@ export async function initDatabase() {
   `;
 
   // 创建 photos 表
-  await sql`
+  await db`
     CREATE TABLE IF NOT EXISTS photos (
       id SERIAL PRIMARY KEY,
       url TEXT NOT NULL,
