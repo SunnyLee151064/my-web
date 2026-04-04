@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { sql } from '@/lib/db';
 import ReactMarkdown from 'react-markdown';
+import { notFound } from 'next/navigation';
+
+// 强制动态渲染
+export const dynamic = 'force-dynamic';
 
 async function getPost(slug: string) {
   try {
@@ -14,16 +18,12 @@ async function getPost(slug: string) {
   }
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await getPost(params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await getPost(slug);
 
   if (!post) {
-    return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        <h1>文章不存在</h1>
-        <Link href="/blog" style={{ color: '#0066cc' }}>返回博客列表</Link>
-      </div>
-    );
+    notFound();
   }
 
   return (
@@ -32,15 +32,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         href="/blog"
         style={{ color: '#0066cc', textDecoration: 'underline', marginBottom: '1rem', display: 'block' }}
       >
-        ← 返回博客列表
+        Back to Blog
       </Link>
 
       <h1 style={{ marginBottom: '0.5rem' }}>{post.title}</h1>
       <p style={{ color: '#666', marginBottom: '2rem' }}>
-        发布于 {new Date(post.created_at).toLocaleDateString('zh-CN')}
-        {post.updated_at !== post.created_at && (
-          <> · 更新于 {new Date(post.updated_at).toLocaleDateString('zh-CN')}</>
-        )}
+        {new Date(post.created_at).toLocaleDateString()}
       </p>
 
       <article style={{ lineHeight: '1.8' }}>

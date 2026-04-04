@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { sql } from '@/lib/db';
 
+// 强制动态渲染
+export const dynamic = 'force-dynamic';
+
 async function getPhotos() {
   try {
     const db = sql();
@@ -19,10 +22,10 @@ export default async function PhotosPage() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '2rem' }}>📷 照片</h1>
+      <h1 style={{ marginBottom: '2rem' }}>Photos</h1>
 
       {photos.length === 0 ? (
-        <p style={{ color: '#666' }}>暂无照片</p>
+        <p style={{ color: '#666' }}>No photos</p>
       ) : (
         <div style={{
           display: 'grid',
@@ -37,7 +40,7 @@ export default async function PhotosPage() {
             }}>
               <img
                 src={photo.url}
-                alt={photo.description || '照片'}
+                alt={photo.description || 'Photo'}
                 style={{
                   width: '100%',
                   height: '200px',
@@ -65,7 +68,7 @@ export default async function PhotosPage() {
           href="/welcome"
           style={{ color: '#0066cc', textDecoration: 'underline' }}
         >
-          ← 返回首页
+          Back to Home
         </Link>
       </div>
     </div>

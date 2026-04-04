@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { sql } from '@/lib/db';
 
+// 强制动态渲染，每次请求时重新获取数据
+export const dynamic = 'force-dynamic';
+
 async function getPosts() {
   try {
     const db = sql();
