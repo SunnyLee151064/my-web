@@ -7,12 +7,14 @@ export default function EditBlogPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const router = useRouter();
   const params = useParams();
-  const id = params.id;
+  const id = params.id as string;
 
   useEffect(() => {
-    // 获取文章内容
+    if (!id) return;
+
     fetch(`/api/blog/${id}`)
       .then(res => res.json())
       .then(data => {
@@ -20,6 +22,10 @@ export default function EditBlogPage() {
           setTitle(data.post.title);
           setContent(data.post.content);
         }
+        setFetching(false);
+      })
+      .catch(() => {
+        setFetching(false);
       });
   }, [id]);
 
@@ -36,25 +42,35 @@ export default function EditBlogPage() {
         body: JSON.stringify({ title, content }),
       });
 
-      if (res.ok) {
+      const data = await res.json();
+
+      if (data.success) {
         router.push('/admin/blog');
       } else {
-        alert('更新失败');
+        alert(data.error || 'Failed to update');
       }
-    } catch {
-      alert('更新失败');
+    } catch (err) {
+      alert('Failed to update');
     } finally {
       setLoading(false);
     }
   };
 
+  if (fetching) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1>✏️ 编辑文章</h1>
+      <h1>Edit Post</h1>
 
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem' }}>标题</label>
+          <label style={{ display: 'block', marginBottom: '0.5rem' }}>Title</label>
           <input
             type="text"
             value={title}
@@ -71,7 +87,7 @@ export default function EditBlogPage() {
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem' }}>内容 (支持 Markdown)</label>
+          <label style={{ display: 'block', marginBottom: '0.5rem' }}>Content (Markdown supported)</label>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -101,7 +117,7 @@ export default function EditBlogPage() {
               cursor: loading ? 'not-allowed' : 'pointer'
             }}
           >
-            {loading ? '保存中...' : '保存'}
+            {loading ? 'Saving...' : 'Save'}
           </button>
 
           <button
@@ -116,7 +132,7 @@ export default function EditBlogPage() {
               cursor: 'pointer'
             }}
           >
-            取消
+            Cancel
           </button>
         </div>
       </form>

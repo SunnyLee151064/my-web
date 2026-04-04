@@ -19,7 +19,7 @@ export default function NewBlogPage() {
     const slug = title
       .toLowerCase()
       .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-')
-      .replace(/^-|-$/g, '');
+      .replace(/^-|-$/g, '') + '-' + Date.now();
 
     try {
       const res = await fetch('/api/blog', {
@@ -28,13 +28,15 @@ export default function NewBlogPage() {
         body: JSON.stringify({ title, content, slug }),
       });
 
-      if (res.ok) {
+      const data = await res.json();
+
+      if (data.success) {
         router.push('/admin/blog');
       } else {
-        alert('创建失败');
+        alert(data.error || 'Failed to create post');
       }
-    } catch {
-      alert('创建失败');
+    } catch (err) {
+      alert('Failed to create post');
     } finally {
       setLoading(false);
     }
@@ -42,11 +44,11 @@ export default function NewBlogPage() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1>✏️ 新建文章</h1>
+      <h1>New Post</h1>
 
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem' }}>标题</label>
+          <label style={{ display: 'block', marginBottom: '0.5rem' }}>Title</label>
           <input
             type="text"
             value={title}
@@ -63,7 +65,7 @@ export default function NewBlogPage() {
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem' }}>内容 (支持 Markdown)</label>
+          <label style={{ display: 'block', marginBottom: '0.5rem' }}>Content (Markdown supported)</label>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -93,7 +95,7 @@ export default function NewBlogPage() {
               cursor: loading ? 'not-allowed' : 'pointer'
             }}
           >
-            {loading ? '发布中...' : '发布文章'}
+            {loading ? 'Publishing...' : 'Publish'}
           </button>
 
           <button
@@ -108,7 +110,7 @@ export default function NewBlogPage() {
               cursor: 'pointer'
             }}
           >
-            取消
+            Cancel
           </button>
         </div>
       </form>
