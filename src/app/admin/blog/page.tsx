@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -33,6 +33,7 @@ export default function AdminBlogPage() {
   const [user, setUser] = useState<User | null>(null);
   const [selectedNotebook, setSelectedNotebook] = useState<number | null>(null);
   const router = useRouter();
+  const abortControllerRef = React.useRef<AbortController | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -76,16 +77,34 @@ export default function AdminBlogPage() {
   };
 
   const fetchPosts = async () => {
+    // 取消之前的请求
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    
+    // 创建新的AbortController
+    abortControllerRef.current = new AbortController();
+    
     try {
       let url = '/api/blog';
       if (selectedNotebook) url += `?notebook_id=${selectedNotebook}`;
-      const res = await fetch(url);
+      
+      const res = await fetch(url, {
+        signal: abortControllerRef.current?.signal
+      });
       const data = await res.json();
       if (data.success) {
         setPosts(data.posts || []);
+      } else {
+        setPosts([]);
       }
     } catch (err) {
+      // 忽略取消请求的错误
+      if (err instanceof Error && err.name === 'AbortError') {
+        return;
+      }
       console.error('Failed to fetch posts:', err);
+      setPosts([]);
     } finally {
       setLoading(false);
     }
