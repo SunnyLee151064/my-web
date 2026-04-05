@@ -64,6 +64,22 @@ export async function initDatabase() {
     ALTER TABLE posts ADD CONSTRAINT IF NOT EXISTS posts_notebook_id_fkey FOREIGN KEY (notebook_id) REFERENCES notebooks(id)
   `;
 
+  // 创建 photo_albums 表
+  await sql`
+    CREATE TABLE IF NOT EXISTS photo_albums (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      is_default BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `;
+
+  // 检查是否已有默认图集，如果没有则创建
+  const existingAlbum = await sql`SELECT id FROM photo_albums WHERE is_default = TRUE`;
+  if (existingAlbum.length === 0) {
+    await sql`INSERT INTO photo_albums (name, is_default) VALUES ('默认图集', TRUE)`;
+  }
+
   // 创建 photos 表
   await sql`
     CREATE TABLE IF NOT EXISTS photos (
@@ -73,6 +89,16 @@ export async function initDatabase() {
       description TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
+  `;
+
+  // 添加 album_id 列（如果不存在）
+  await sql`
+    ALTER TABLE photos ADD COLUMN IF NOT EXISTS album_id INTEGER DEFAULT 1
+  `;
+
+  // 添加外键约束（如果不存在）
+  await sql`
+    ALTER TABLE photos ADD CONSTRAINT IF NOT EXISTS photos_album_id_fkey FOREIGN KEY (album_id) REFERENCES photo_albums(id)
   `;
 
   console.log('Database tables created successfully');

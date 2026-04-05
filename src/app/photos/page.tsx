@@ -10,21 +10,31 @@ interface Photo {
   created_at: string;
 }
 
+interface Album {
+  id: number;
+  name: string;
+  is_default: boolean;
+}
+
 export default function PhotosPage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
+  const [albums, setAlbums] = useState<Album[]>([]);
+  const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     fetchPhotos();
-  }, []);
+  }, [selectedAlbum]);
 
   const fetchPhotos = async () => {
     try {
-      const res = await fetch('/api/photos');
+      const url = selectedAlbum ? `/api/photos?album_id=${selectedAlbum}` : '/api/photos';
+      const res = await fetch(url);
       const data = await res.json();
       if (data.success) {
         setPhotos(data.photos || []);
+        setAlbums(data.albums || []);
       }
     } catch (err) {
       console.error('Failed to fetch photos:', err);
@@ -131,6 +141,47 @@ export default function PhotosPage() {
         <p style={{ color: 'rgba(255, 255, 255, 0.7)', marginTop: '0.5rem', fontSize: '1rem' }}>
           记录美好瞬间
         </p>
+        
+        {/* 图集选择器 */}
+        <div style={{ marginTop: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+          <button
+            onClick={() => setSelectedAlbum(null)}
+            style={{
+              padding: '0.5rem 1rem',
+              background: selectedAlbum === null ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              color: 'white',
+              fontSize: '0.9rem',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            所有照片
+          </button>
+          {albums.map((album) => (
+            <button
+              key={album.id}
+              onClick={() => setSelectedAlbum(album.id)}
+              style={{
+                padding: '0.5rem 1rem',
+                background: selectedAlbum === album.id ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '0.9rem',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              {album.name} {album.is_default && '(默认)'}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* 照片网格 */}

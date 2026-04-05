@@ -9,10 +9,18 @@ interface User {
   role: string;
 }
 
+interface Album {
+  id: number;
+  name: string;
+  is_default: boolean;
+}
+
 export default function UploadPhotoPage() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [description, setDescription] = useState('');
+  const [selectedAlbum, setSelectedAlbum] = useState<number>(1);
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
@@ -28,6 +36,8 @@ export default function UploadPhotoPage() {
           setUser(parsedUser);
           if (parsedUser.role !== 'admin') {
             router.push('/');
+          } else {
+            fetchAlbums();
           }
         } else {
           localStorage.removeItem('user');
@@ -50,6 +60,23 @@ export default function UploadPhotoPage() {
     }
   };
 
+  const fetchAlbums = async () => {
+    try {
+      const res = await fetch('/api/photo-albums');
+      const data = await res.json();
+      if (data.success) {
+        setAlbums(data.albums || []);
+        // 如果有默认图集，选择默认图集
+        const defaultAlbum = data.albums.find((album: Album) => album.is_default);
+        if (defaultAlbum) {
+          setSelectedAlbum(defaultAlbum.id);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch albums:', err);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) return;
@@ -60,6 +87,7 @@ export default function UploadPhotoPage() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('description', description);
+      formData.append('album_id', selectedAlbum.toString());
 
       const res = await fetch('/api/photos', {
         method: 'POST',
@@ -186,6 +214,38 @@ export default function UploadPhotoPage() {
                   }}
                 />
               )}
+            </div>
+
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{
+                display: 'block',
+                marginBottom: '0.5rem',
+                color: 'rgba(255, 255, 255, 0.9)',
+                fontWeight: '500'
+              }}>
+                Album
+              </label>
+              <select
+                value={selectedAlbum}
+                onChange={(e) => setSelectedAlbum(parseInt(e.target.value))}
+                style={{
+                  width: '100%',
+                  padding: '0.875rem 1rem',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '8px',
+                  fontSize: '1rem',
+                  color: 'white',
+                  outline: 'none',
+                  boxSizing: 'border-box'
+                }}
+              >
+                {albums.map((album) => (
+                  <option key={album.id} value={album.id}>
+                    {album.name} {album.is_default && '(Default)'}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div style={{ marginBottom: '1.5rem' }}>
