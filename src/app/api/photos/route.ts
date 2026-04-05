@@ -45,9 +45,13 @@ export async function POST(request: Request) {
     // 确保数据库表已经创建
     await initDatabase();
     
+    console.log('Upload request received');
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const description = formData.get('description') as string;
+    const albumId = formData.get('album_id') as string;
+
+    console.log('Form data received:', { file: file?.name, description, albumId });
 
     if (!file) {
       return NextResponse.json(
@@ -57,24 +61,26 @@ export async function POST(request: Request) {
     }
 
     // 上传到 Vercel Blob
+    console.log('Uploading to Vercel Blob:', file.name);
     const blob = await put(file.name, file, {
       access: 'public',
     });
-
-    const albumId = formData.get('album_id') as string;
+    console.log('Blob upload successful:', blob.url);
 
     // 保存到数据库
+    console.log('Saving to database:', { url: blob.url, blobId: blob.pathname, description, albumId: albumId || 1 });
     const result = await sql`
       INSERT INTO photos (url, blob_id, description, album_id)
-      VALUES (${blob.url}, ${blob.pathname}, ${description || null}, ${albumId || 1})
+      VALUES (${blob.url}, ${blob.pathname}, ${description || null}, ${parseInt(albumId) || 1})
       RETURNING id, url, created_at
     `;
+    console.log('Database save successful:', result[0]);
 
     return NextResponse.json({ success: true, photo: result[0] });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to upload' },
+      { success: false, error: 'Failed to upload: ' + (error instanceof Error ? error.message : String(error)) },
       { status: 500 }
     );
   }
