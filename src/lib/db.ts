@@ -145,6 +145,59 @@ export async function initDatabase() {
     console.log('Photos foreign key constraint already exists');
   }
 
+  // 创建 note_books 表
+  try {
+    await sql`
+      CREATE TABLE note_books (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        is_default BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+  } catch (error) {
+    // 表已存在，忽略错误
+    console.log('Note books table already exists');
+  }
+
+  // 检查是否已有默认笔记本，如果没有则创建
+  try {
+    const existingNotebook = await sql`SELECT id FROM note_books WHERE is_default = TRUE`;
+    if (existingNotebook.length === 0) {
+      await sql`INSERT INTO note_books (name, is_default) VALUES ('默认笔记', TRUE)`;
+    }
+  } catch (error) {
+    console.error('Error checking default note book:', error);
+  }
+
+  // 创建 notes 表
+  try {
+    await sql`
+      CREATE TABLE notes (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        content TEXT NOT NULL,
+        slug VARCHAR(255) UNIQUE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        note_book_id INTEGER DEFAULT 1
+      )
+    `;
+  } catch (error) {
+    // 表已存在，忽略错误
+    console.log('Notes table already exists');
+  }
+
+  // 添加外键约束
+  try {
+    await sql`
+      ALTER TABLE notes ADD CONSTRAINT notes_note_book_id_fkey FOREIGN KEY (note_book_id) REFERENCES note_books(id)
+    `;
+  } catch (error) {
+    // 约束已存在，忽略错误
+    console.log('Notes foreign key constraint already exists');
+  }
+
   // 创建 activities 表（活动记录表）
   try {
     await sql`

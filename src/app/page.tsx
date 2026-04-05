@@ -665,6 +665,91 @@ export default function Home() {
                   />
                 </div>
               </button>
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  console.log('Navigating to /notes');
+                  router.push('/notes');
+                }}
+                style={{
+                  margin: '7px',
+                  display: 'flex',
+                  background: 'rgba(0, 0, 0, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
+                  borderRadius: '8px',
+                  padding: '15px',
+                  height: '100px',
+                  width: 'calc(25% - 15px)',
+                  transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
+                  cursor: 'pointer',
+                  zIndex: 10
+                }}
+                onMouseEnter={(e) => {
+                  try {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+                    const title = e.currentTarget.querySelector('div div:first-child');
+                    if (title) {
+                      (title as HTMLElement).style.fontSize = '18px';
+                    }
+                  } catch (error) {
+                    console.error('Error in mouse enter:', error);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  try {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+                    const title = e.currentTarget.querySelector('div div:first-child');
+                    if (title) {
+                      (title as HTMLElement).style.fontSize = '16px';
+                    }
+                  } catch (error) {
+                    console.error('Error in mouse leave:', error);
+                  }
+                }}
+              >
+                <div style={{
+                  transition: 'width 0.4s ease',
+                  height: '100%',
+                  width: '80%'
+                }}>
+                  <div style={{
+                    fontSize: '16px',
+                    color: 'white',
+                    fontWeight: '500',
+                    marginBottom: '15px',
+                    transition: 'font-size 0.4s ease'
+                  }}>
+                    Notes
+                  </div>
+                  <div style={{
+                    fontSize: '12px',
+                    color: 'white'
+                  }}>
+                    Quick Notes
+                  </div>
+                </div>
+                <div style={{
+                  overflow: 'hidden',
+                  transition: 'width 0.4s ease',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '20%',
+                  height: '100%'
+                }}>
+                  <img 
+                    src="/notes.png" 
+                    alt="Notes" 
+                    style={{ width: '39px', height: '39px', transition: 'transform 0.4s ease' }}
+                  />
+                </div>
+              </button>
             </div>
           </div>
 
@@ -849,6 +934,7 @@ export default function Home() {
                     const getActionText = (action: string, type: string) => {
                       const actionMap: Record<string, Record<string, string>> = {
                         blog: { create: '新增blog', update: '修改blog', delete: '删除blog' },
+                        note: { create: '新增note', update: '修改note', delete: '删除note' },
                         photo: { upload: '新增照片', delete: '删除照片' },
                         notebook: { create: '新增笔记本', delete: '删除笔记本' },
                         album: { create: '新增相册', delete: '删除相册' }
@@ -859,6 +945,7 @@ export default function Home() {
                     const getNodeColor = (action: string, type: string) => {
                       const colorMap: Record<string, Record<string, string>> = {
                         blog: { create: '#4ECDC4', update: '#FFD166', delete: '#EF476F' },
+                        note: { create: '#FF9F1C', update: '#FFE066', delete: '#EF476F' },
                         photo: { upload: '#06D6A0', delete: '#EF476F' },
                         notebook: { create: '#118AB2', delete: '#EF476F' },
                         album: { create: '#073B4C', delete: '#EF476F' }
@@ -874,6 +961,14 @@ export default function Home() {
                           return `新增文章《${activity.item_title || '未命名'}》`;
                         } else if (activity.action === 'update') {
                           return `修改文章《${activity.item_title || '未命名'}》`;
+                        }
+                      } else if (activity.type === 'note') {
+                        if (activity.action === 'delete') {
+                          return `删除笔记《${activity.item_title || '未命名'}》`;
+                        } else if (activity.action === 'create') {
+                          return `新增笔记《${activity.item_title || '未命名'}》`;
+                        } else if (activity.action === 'update') {
+                          return `修改笔记《${activity.item_title || '未命名'}》`;
                         }
                       } else if (activity.type === 'photo') {
                         if (activity.action === 'upload') {
@@ -900,12 +995,15 @@ export default function Home() {
                     const handleClick = () => {
                       if (item.type === 'blog' && item.item_slug && item.action !== 'delete') {
                         router.push(`/blog/${item.item_slug}`);
+                      } else if (item.type === 'note' && item.item_slug && item.action !== 'delete') {
+                        router.push(`/notes/${item.item_slug}`);
                       } else if (item.type === 'photo' && item.action !== 'delete') {
                         router.push('/photos');
                       }
                     };
 
                     const isClickable = (item.type === 'blog' && item.item_slug && item.action !== 'delete') || 
+                                       (item.type === 'note' && item.item_slug && item.action !== 'delete') ||
                                        (item.type === 'photo' && item.action !== 'delete');
 
                     return (
@@ -913,9 +1011,9 @@ export default function Home() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        marginRight: '2rem',
+                        marginRight: '1rem',
                         position: 'relative',
-                        minWidth: '150px'
+                        minWidth: '120px'
                       }}>
                         {/* 节点 */}
                         <div 
