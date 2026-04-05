@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import { initDatabase } from "@/lib/db";
+
+// 初始化数据库
+initDatabase().catch((error) => {
+  console.error("Database initialization error:", error);
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
