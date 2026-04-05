@@ -205,7 +205,7 @@ export default function Home() {
             <h1 style={{
               margin: '0 0 0.5rem',
               fontSize: '1.2rem',
-              color: '#1a1a1a',
+              color: 'white',
               fontWeight: '600'
             }}>
               SunnyLee
@@ -213,14 +213,14 @@ export default function Home() {
             <p style={{
               margin: '0 0 0.25rem',
               fontSize: '0.8rem',
-              color: 'rgba(0, 0, 0, 0.8)'
+              color: 'white'
             }}>
               Shanghai-China
             </p>
             <p style={{
               margin: '0',
               fontSize: '0.8rem',
-              color: 'rgba(0, 0, 0, 0.8)'
+              color: 'white'
             }}>
               Company: Huawei
             </p>
@@ -229,20 +229,14 @@ export default function Home() {
           {/* 联系按钮 */}
           <div style={{
             width: '100%',
-            background: 'rgba(0, 0, 0, 0.15)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 0, 0, 0.25)',
-            borderRadius: '13px',
-            padding: '1.5rem',
-            marginBottom: '1.5rem'
+            marginBottom: '1.5rem',
+            textAlign: 'center'
           }}>
             <h3 style={{
               margin: '0 0 1rem',
               fontSize: '1rem',
-              color: '#1a1a1a',
-              fontWeight: '600',
-              textAlign: 'center'
+              color: 'white',
+              fontWeight: '600'
             }}>
               CONTACT
             </h3>
@@ -501,7 +495,7 @@ export default function Home() {
             <h2 style={{
               margin: '0 0 1rem',
               fontSize: '1.5rem',
-              color: '#1a1a1a',
+              color: 'white',
               fontWeight: '600',
               display: 'flex',
               alignItems: 'center'
@@ -570,7 +564,7 @@ export default function Home() {
                 }}>
                   <div style={{
                     fontSize: '16px',
-                    color: '#1a1a1a',
+                    color: 'white',
                     fontWeight: '500',
                     marginBottom: '15px',
                     transition: 'font-size 0.4s ease'
@@ -579,7 +573,7 @@ export default function Home() {
                   </div>
                   <div style={{
                     fontSize: '12px',
-                    color: 'rgba(0, 0, 0, 0.8)'
+                    color: 'white'
                   }}>
                     Daily Records
                   </div>
@@ -655,7 +649,7 @@ export default function Home() {
                 }}>
                   <div style={{
                     fontSize: '16px',
-                    color: '#1a1a1a',
+                    color: 'white',
                     fontWeight: '500',
                     marginBottom: '15px',
                     transition: 'font-size 0.4s ease'
@@ -664,7 +658,7 @@ export default function Home() {
                   </div>
                   <div style={{
                     fontSize: '12px',
-                    color: 'rgba(0, 0, 0, 0.8)'
+                    color: 'white'
                   }}>
                     Photo Collection
                   </div>
@@ -694,7 +688,7 @@ export default function Home() {
               <h2 style={{
                 margin: '0 0 1rem',
                 fontSize: '1.5rem',
-                color: '#1a1a1a',
+                color: 'white',
                 fontWeight: '600',
                 display: 'flex',
                 alignItems: 'center'
@@ -741,7 +735,7 @@ export default function Home() {
                   }}>
                     <div style={{
                       fontSize: '16px',
-                      color: '#1976d2',
+                      color: 'white',
                       fontWeight: '500',
                       marginBottom: '15px',
                       transition: 'font-size 0.4s ease'
@@ -750,7 +744,7 @@ export default function Home() {
                     </div>
                     <div style={{
                       fontSize: '12px',
-                      color: 'rgba(25, 118, 210, 0.8)'
+                      color: 'white'
                     }}>
                       创建/编辑/删除
                     </div>
@@ -789,7 +783,7 @@ export default function Home() {
                   }}>
                     <div style={{
                       fontSize: '16px',
-                      color: '#388e3c',
+                      color: 'white',
                       fontWeight: '500',
                       marginBottom: '15px',
                       transition: 'font-size 0.4s ease'
@@ -798,7 +792,7 @@ export default function Home() {
                     </div>
                     <div style={{
                       fontSize: '12px',
-                      color: 'rgba(56, 142, 60, 0.8)'
+                      color: 'white'
                     }}>
                       上传/删除
                     </div>
@@ -813,7 +807,7 @@ export default function Home() {
             <h2 style={{
               margin: '0 0 1.5rem',
               fontSize: '1.5rem',
-              color: '#1a1a1a',
+              color: 'white',
               fontWeight: '600',
               display: 'flex',
               alignItems: 'center'
@@ -861,9 +855,9 @@ export default function Home() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    marginRight: '2rem',
+                    marginRight: '3rem',
                     position: 'relative',
-                    minWidth: '150px'
+                    minWidth: '180px'
                   }}>
                     {/* 节点 */}
                     <div style={{
@@ -881,13 +875,13 @@ export default function Home() {
                       fontSize: '0.8rem'
                     }}>
                       <div style={{
-                        color: 'rgba(0, 0, 0, 0.8)',
+                        color: 'white',
                         marginBottom: '0.25rem'
                       }}>
                         {item.time}
                       </div>
                       <div style={{
-                        color: '#1a1a1a',
+                        color: 'white',
                         fontWeight: '500'
                       }}>
                         {item.action}
