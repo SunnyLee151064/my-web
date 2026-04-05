@@ -248,12 +248,21 @@ export async function initDatabase() {
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         message TEXT NOT NULL,
+        is_approved BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
   } catch (error) {
     // 表已存在，忽略错误
     console.log('Guestbook table already exists');
+  }
+
+  // 给现有 guestbook 表添加 is_approved 字段（如果不存在）
+  try {
+    await sql`ALTER TABLE guestbook ADD COLUMN IF NOT EXISTS is_approved BOOLEAN DEFAULT FALSE`;
+  } catch (error) {
+    // 列已存在，忽略错误
+    console.log('is_approved column already exists');
   }
 
   console.log('Database tables created successfully');
