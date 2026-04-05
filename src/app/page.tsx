@@ -92,65 +92,7 @@ export default function Home() {
         zIndex: -1
       }} />
       
-      {/* Admin 按钮 - 右上角 */}
-      <div style={{ 
-        position: 'absolute', 
-        top: '1.5rem', 
-        right: '1.5rem',
-        zIndex: 10
-      }}>
-        {user ? (
-          <button
-            onClick={handleAdminClick}
-            style={{
-              padding: '0.5rem 1rem',
-              background: 'rgba(0, 0, 0, 0.15)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              border: '1px solid rgba(0, 0, 0, 0.25)',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontWeight: '500',
-              color: '#1a1a1a',
-              fontSize: '0.9rem',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-            }}
-          >
-            Admin ({user.username})
-          </button>
-        ) : (
-          <button
-            onClick={handleLogin}
-            style={{
-              padding: '0.5rem 1rem',
-              background: 'rgba(0, 0, 0, 0.15)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              border: '1px solid rgba(0, 0, 0, 0.25)',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontWeight: '500',
-              color: '#1a1a1a',
-              fontSize: '0.9rem',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-            }}
-          >
-            Admin Login
-          </button>
-        )}
-      </div>
+
 
       <div style={{
         display: 'flex',
@@ -170,14 +112,20 @@ export default function Home() {
           top: 0,
           padding: '2rem 1rem'
         }}>
-          {/* 头像区域 */}
+          {/* 头像区域 - 双击登录 */}
           <div style={{
             width: '90%',
             aspectRatio: '1/1',
             borderRadius: '50%',
             marginBottom: '1.5rem',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            cursor: 'pointer'
+          }}
+          onDoubleClick={() => {
+            if (!user) {
+              router.push('/login');
+            }
           }}>
             <img
               src="/boy.png"
@@ -185,7 +133,8 @@ export default function Home() {
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover'
+                objectFit: 'cover',
+                transition: 'transform 0.3s ease'
               }}
             />
           </div>
