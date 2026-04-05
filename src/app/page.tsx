@@ -24,6 +24,12 @@ export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [activitiesLoading, setActivitiesLoading] = useState(true);
+  const [tooltip, setTooltip] = useState<{ visible: boolean; text: string; x: number; y: number }>({
+    visible: false,
+    text: '',
+    x: 0,
+    y: 0
+  });
   const router = useRouter();
 
   const loadActivities = async () => {
@@ -927,45 +933,29 @@ export default function Home() {
                           }}
                           onClick={handleClick}
                           onMouseEnter={(e) => {
-                            const tooltip = document.createElement('div');
-                            tooltip.id = `tooltip-${item.id}`;
-                            tooltip.style.cssText = `
-                              position: fixed;
-                              background: rgba(0, 0, 0, 0.15);
-                              backdrop-filter: blur(10px);
-                              -webkit-backdrop-filter: blur(10px);
-                              border: 1px solid rgba(0, 0, 0, 0.25);
-                              color: white;
-                              padding: 10px 14px;
-                              border-radius: 8px;
-                              font-size: 0.8rem;
-                              white-space: nowrap;
-                              z-index: 9999;
-                              pointer-events: none;
-                            `;
-                            tooltip.textContent = getTooltipText(item);
-                            document.body.appendChild(tooltip);
-                            
-                            const updatePosition = (event: MouseEvent) => {
-                              tooltip.style.left = `${event.clientX + 10}px`;
-                              tooltip.style.top = `${event.clientY - 40}px`;
-                            };
-                            
-                            updatePosition(e);
-                            e.currentTarget.addEventListener('mousemove', updatePosition as EventListener);
-                            (e.currentTarget as any).tooltipUpdate = updatePosition;
-                            
+                            setTooltip({
+                              visible: true,
+                              text: getTooltipText(item),
+                              x: e.clientX + 10,
+                              y: e.clientY - 40
+                            });
                             e.currentTarget.style.transform = 'translateY(-50%) scale(1.3)';
                             e.currentTarget.style.boxShadow = `0 0 10px ${getNodeColor(item.action, item.type)}`;
                           }}
+                          onMouseMove={(e) => {
+                            setTooltip(prev => ({
+                              ...prev,
+                              x: e.clientX + 10,
+                              y: e.clientY - 40
+                            }));
+                          }}
                           onMouseLeave={(e) => {
-                            const tooltip = document.getElementById(`tooltip-${item.id}`);
-                            if (tooltip) {
-                              tooltip.remove();
-                            }
-                            if ((e.currentTarget as any).tooltipUpdate) {
-                              e.currentTarget.removeEventListener('mousemove', (e.currentTarget as any).tooltipUpdate);
-                            }
+                            setTooltip({
+                              visible: false,
+                              text: '',
+                              x: 0,
+                              y: 0
+                            });
                             e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
                             e.currentTarget.style.boxShadow = 'none';
                           }}
@@ -1056,6 +1046,28 @@ export default function Home() {
               x
             </button>
           </div>
+        </div>
+      )}
+      
+      {/* 全局悬浮提示 */}
+      {tooltip.visible && (
+        <div style={{
+          position: 'fixed',
+          left: `${tooltip.x}px`,
+          top: `${tooltip.y}px`,
+          background: 'rgba(0, 0, 0, 0.15)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: '1px solid rgba(0, 0, 0, 0.25)',
+          color: 'white',
+          padding: '10px 14px',
+          borderRadius: '8px',
+          fontSize: '0.8rem',
+          whiteSpace: 'nowrap',
+          zIndex: 9999,
+          pointerEvents: 'none'
+        }}>
+          {tooltip.text}
         </div>
       )}
     </div>
