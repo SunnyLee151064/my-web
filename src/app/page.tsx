@@ -86,22 +86,22 @@ export default function Home() {
             onClick={handleAdminClick}
             style={{
               padding: '0.5rem 1rem',
-              background: 'rgba(255, 255, 255, 0.2)',
+              background: 'rgba(0, 0, 0, 0.15)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
+              border: '1px solid rgba(0, 0, 0, 0.25)',
               borderRadius: '4px',
               cursor: 'pointer',
               fontWeight: '500',
-              color: 'white',
+              color: '#1a1a1a',
               fontSize: '0.9rem',
               transition: 'all 0.3s ease'
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
             }}
           >
             Admin ({user.username})
@@ -111,22 +111,22 @@ export default function Home() {
             onClick={handleLogin}
             style={{
               padding: '0.5rem 1rem',
-              background: 'rgba(255, 255, 255, 0.2)',
+              background: 'rgba(0, 0, 0, 0.15)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
+              border: '1px solid rgba(0, 0, 0, 0.25)',
               borderRadius: '4px',
               cursor: 'pointer',
               fontWeight: '500',
-              color: 'white',
+              color: '#1a1a1a',
               fontSize: '0.9rem',
               transition: 'all 0.3s ease'
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
             }}
           >
             Admin Login
@@ -175,10 +175,10 @@ export default function Home() {
           {/* 个人信息 */}
           <div style={{
             width: '100%',
-            background: 'rgba(255, 255, 255, 0.2)',
+            background: 'rgba(0, 0, 0, 0.15)',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
+            border: '1px solid rgba(0, 0, 0, 0.25)',
             borderRadius: '13px',
             padding: '1.5rem',
             textAlign: 'center',
@@ -187,7 +187,7 @@ export default function Home() {
             <h1 style={{
               margin: '0 0 0.5rem',
               fontSize: '1.2rem',
-              color: 'white',
+              color: '#1a1a1a',
               fontWeight: '600'
             }}>
               SunnyLee
@@ -195,14 +195,14 @@ export default function Home() {
             <p style={{
               margin: '0 0 0.25rem',
               fontSize: '0.8rem',
-              color: 'rgba(255, 255, 255, 0.8)'
+              color: 'rgba(0, 0, 0, 0.8)'
             }}>
               Shanghai-China
             </p>
             <p style={{
               margin: '0',
               fontSize: '0.8rem',
-              color: 'rgba(255, 255, 255, 0.8)'
+              color: 'rgba(0, 0, 0, 0.8)'
             }}>
               Company: Huawei
             </p>
@@ -214,21 +214,21 @@ export default function Home() {
                 onClick={handleLogout}
                 style={{
                   padding: '0.5rem 1rem',
-                  background: 'rgba(255, 255, 255, 0.2)',
+                  background: 'rgba(0, 0, 0, 0.15)',
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
                   borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '0.8rem',
-                  color: 'white',
+                  color: '#1a1a1a',
                   transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
                 }}
               >
                 Logout
@@ -250,7 +250,7 @@ export default function Home() {
             <h2 style={{
               margin: '0 0 1rem',
               fontSize: '2.5rem',
-              color: 'white',
+              color: '#1a1a1a',
               fontWeight: '600'
             }}>
               Hello I'm <span style={{ 
@@ -264,14 +264,14 @@ export default function Home() {
             <p style={{
               margin: '0 0 0.5rem',
               fontSize: '1rem',
-              color: 'rgba(255, 255, 255, 0.8)'
+              color: 'rgba(0, 0, 0, 0.8)'
             }}>
               An AI-Infra developer.
             </p>
             <p style={{
               margin: '0',
               fontSize: '1rem',
-              color: 'rgba(255, 255, 255, 0.8)'
+              color: 'rgba(0, 0, 0, 0.8)'
             }}>
               An student of life.
             </p>
@@ -291,7 +291,7 @@ export default function Home() {
             <h2 style={{
               margin: '0 0 1.5rem',
               fontSize: '1.5rem',
-              color: 'white',
+              color: '#1a1a1a',
               fontWeight: '600',
               display: 'flex',
               alignItems: 'center'
@@ -316,10 +316,10 @@ export default function Home() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: 'rgba(255, 255, 255, 0.2)',
+                  background: 'rgba(0, 0, 0, 0.15)',
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
                   transition: 'width 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
                   flexShrink: 0,
                   cursor: 'pointer'
@@ -327,7 +327,7 @@ export default function Home() {
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.width = '95px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
                   const text = e.currentTarget.querySelector('div');
                   if (text) {
                     (text as HTMLElement).style.display = 'block';
@@ -336,7 +336,7 @@ export default function Home() {
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.width = '49px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
                   const text = e.currentTarget.querySelector('div');
                   if (text) {
                     (text as HTMLElement).style.display = 'none';
@@ -366,10 +366,10 @@ export default function Home() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: 'rgba(255, 255, 255, 0.2)',
+                  background: 'rgba(0, 0, 0, 0.15)',
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
                   transition: 'width 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
                   flexShrink: 0,
                   cursor: 'pointer'
@@ -377,7 +377,7 @@ export default function Home() {
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.width = '110px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
                   const text = e.currentTarget.querySelector('div');
                   if (text) {
                     (text as HTMLElement).style.display = 'block';
@@ -386,7 +386,7 @@ export default function Home() {
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.width = '49px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
                   const text = e.currentTarget.querySelector('div');
                   if (text) {
                     (text as HTMLElement).style.display = 'none';
@@ -416,10 +416,10 @@ export default function Home() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: 'rgba(255, 255, 255, 0.2)',
+                  background: 'rgba(0, 0, 0, 0.15)',
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
                   transition: 'width 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
                   flexShrink: 0,
                   cursor: 'pointer'
@@ -427,7 +427,7 @@ export default function Home() {
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.width = '90px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
                   const text = e.currentTarget.querySelector('div');
                   if (text) {
                     (text as HTMLElement).style.display = 'block';
@@ -436,7 +436,7 @@ export default function Home() {
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.width = '49px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
                   const text = e.currentTarget.querySelector('div');
                   if (text) {
                     (text as HTMLElement).style.display = 'none';
@@ -465,7 +465,7 @@ export default function Home() {
             <h2 style={{
               margin: '0 0 1rem',
               fontSize: '1.5rem',
-              color: 'white',
+              color: '#1a1a1a',
               fontWeight: '600',
               display: 'flex',
               alignItems: 'center'
@@ -490,10 +490,10 @@ export default function Home() {
                 style={{
                   margin: '7px',
                   display: 'flex',
-                  background: 'rgba(255, 255, 255, 0.2)',
+                  background: 'rgba(0, 0, 0, 0.15)',
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
                   borderRadius: '8px',
                   padding: '15px',
                   height: '100px',
@@ -505,7 +505,7 @@ export default function Home() {
                 onMouseEnter={(e) => {
                   try {
                     (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
                     const title = e.currentTarget.querySelector('div div:first-child');
                     if (title) {
                       (title as HTMLElement).style.fontSize = '18px';
@@ -517,7 +517,7 @@ export default function Home() {
                 onMouseLeave={(e) => {
                   try {
                     (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
                     const title = e.currentTarget.querySelector('div div:first-child');
                     if (title) {
                       (title as HTMLElement).style.fontSize = '16px';
@@ -534,7 +534,7 @@ export default function Home() {
                 }}>
                   <div style={{
                     fontSize: '16px',
-                    color: 'white',
+                    color: '#1a1a1a',
                     fontWeight: '500',
                     marginBottom: '15px',
                     transition: 'font-size 0.4s ease'
@@ -543,7 +543,7 @@ export default function Home() {
                   </div>
                   <div style={{
                     fontSize: '12px',
-                    color: 'rgba(255, 255, 255, 0.8)'
+                    color: 'rgba(0, 0, 0, 0.8)'
                   }}>
                     Daily Records
                   </div>
@@ -575,10 +575,10 @@ export default function Home() {
                 style={{
                   margin: '7px',
                   display: 'flex',
-                  background: 'rgba(255, 255, 255, 0.2)',
+                  background: 'rgba(0, 0, 0, 0.15)',
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
                   borderRadius: '8px',
                   padding: '15px',
                   height: '100px',
@@ -590,7 +590,7 @@ export default function Home() {
                 onMouseEnter={(e) => {
                   try {
                     (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
                     const title = e.currentTarget.querySelector('div div:first-child');
                     if (title) {
                       (title as HTMLElement).style.fontSize = '18px';
@@ -602,7 +602,7 @@ export default function Home() {
                 onMouseLeave={(e) => {
                   try {
                     (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
                     const title = e.currentTarget.querySelector('div div:first-child');
                     if (title) {
                       (title as HTMLElement).style.fontSize = '16px';
@@ -619,7 +619,7 @@ export default function Home() {
                 }}>
                   <div style={{
                     fontSize: '16px',
-                    color: 'white',
+                    color: '#1a1a1a',
                     fontWeight: '500',
                     marginBottom: '15px',
                     transition: 'font-size 0.4s ease'
@@ -628,7 +628,7 @@ export default function Home() {
                   </div>
                   <div style={{
                     fontSize: '12px',
-                    color: 'rgba(255, 255, 255, 0.8)'
+                    color: 'rgba(0, 0, 0, 0.8)'
                   }}>
                     Photo Collection
                   </div>
@@ -658,7 +658,7 @@ export default function Home() {
               <h2 style={{
                 margin: '0 0 1rem',
                 fontSize: '1.5rem',
-                color: 'white',
+                color: '#1a1a1a',
                 fontWeight: '600',
                 display: 'flex',
                 alignItems: 'center'
