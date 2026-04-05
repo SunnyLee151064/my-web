@@ -8,34 +8,33 @@ export async function GET(request: Request) {
     const search = searchParams.get('search') || '';
     const notebookId = searchParams.get('notebook_id');
 
-    let query = `
-      SELECT p.id, p.title, p.slug, p.notebook_id, p.created_at, n.name as notebook_name
-      FROM posts p
-      LEFT JOIN notebooks n ON p.notebook_id = n.id
-    `;
-
-    const conditions = [];
-    const params: any[] = [];
-
     if (search) {
-      conditions.push(`p.title ILIKE $${params.length + 1}`);
-      params.push(`%${search}%`);
+      const posts = await sql`
+        SELECT p.id, p.title, p.slug, p.notebook_id, p.created_at, n.name as notebook_name
+        FROM posts p
+        LEFT JOIN notebooks n ON p.notebook_id = n.id
+        WHERE p.title ILIKE ${`%${search}%`}
+        ORDER BY p.created_at DESC
+      `;
+      return NextResponse.json({ success: true, posts });
+    } else if (notebookId) {
+      const posts = await sql`
+        SELECT p.id, p.title, p.slug, p.notebook_id, p.created_at, n.name as notebook_name
+        FROM posts p
+        LEFT JOIN notebooks n ON p.notebook_id = n.id
+        WHERE p.notebook_id = ${parseInt(notebookId)}
+        ORDER BY p.created_at DESC
+      `;
+      return NextResponse.json({ success: true, posts });
+    } else {
+      const posts = await sql`
+        SELECT p.id, p.title, p.slug, p.notebook_id, p.created_at, n.name as notebook_name
+        FROM posts p
+        LEFT JOIN notebooks n ON p.notebook_id = n.id
+        ORDER BY p.created_at DESC
+      `;
+      return NextResponse.json({ success: true, posts });
     }
-
-    if (notebookId) {
-      conditions.push(`p.notebook_id = $${params.length + 1}`);
-      params.push(parseInt(notebookId));
-    }
-
-    if (conditions.length > 0) {
-      query += ' WHERE ' + conditions.join(' AND ');
-    }
-
-    query += ' ORDER BY p.created_at DESC';
-
-    const posts = await sql(query, ...params);
-
-    return NextResponse.json({ success: true, posts });
   } catch (error) {
     console.error('GET posts error:', error);
     return NextResponse.json(
