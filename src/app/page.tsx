@@ -48,6 +48,24 @@ export default function Home() {
     router.push('/admin/blog');
   };
 
+  const [showWechatModal, setShowWechatModal] = useState(false);
+
+  const handleGithubClick = () => {
+    window.open('https://github.com/SunnyLee151064', '_blank');
+  };
+
+  const handleGmailClick = () => {
+    window.location.href = 'mailto:sunnylee980219@gmail.com';
+  };
+
+  const handleWechatClick = () => {
+    setShowWechatModal(true);
+  };
+
+  const closeWechatModal = () => {
+    setShowWechatModal(false);
+  };
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -324,6 +342,7 @@ export default function Home() {
                   flexShrink: 0,
                   cursor: 'pointer'
                 }}
+                onClick={handleGithubClick}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.width = '95px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
@@ -374,6 +393,7 @@ export default function Home() {
                   flexShrink: 0,
                   cursor: 'pointer'
                 }}
+                onClick={handleGmailClick}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.width = '110px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
@@ -424,6 +444,7 @@ export default function Home() {
                   flexShrink: 0,
                   cursor: 'pointer'
                 }}
+                onClick={handleWechatClick}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.width = '90px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
@@ -770,9 +791,63 @@ export default function Home() {
                 </button>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
+
+      {/* 微信二维码模态框 */}
+      {showWechatModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.8)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }} onClick={closeWechatModal}>
+          <div style={{
+            width: '300px',
+            height: '300px',
+            background: 'black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: '8px',
+            position: 'relative'
+          }} onClick={(e) => e.stopPropagation()}>
+            <div style={{
+              color: 'white',
+              fontSize: '1.2rem',
+              textAlign: 'center'
+            }}>
+              WeChat QR Code
+              <div style={{ marginTop: '20px', fontSize: '0.8rem' }}>
+                (This is a placeholder for WeChat QR code)
+              </div>
+            </div>
+            <button style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              background: 'white',
+              border: 'none',
+              borderRadius: '50%',
+              width: '30px',
+              height: '30px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer'
+            }} onClick={closeWechatModal}>
+              ×
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
