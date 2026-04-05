@@ -118,40 +118,33 @@ export default function Home() {
         }}>
           {/* 头像区域 - 暂时用纯黑背景 */}
           <div style={{
-            width: '120px',
-            height: '120px',
+            width: '100px',
+            height: '100px',
             background: '#000',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '1.5rem'
           }} />
 
-          {/* 个人信息卡片 */}
-          <div style={{
-            width: '100%',
-            background: '#f8f9fa',
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            padding: '1.5rem',
-            marginBottom: '2rem'
-          }}>
+          {/* 个人信息 */}
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <h1 style={{
-              margin: '0 0 1rem',
-              fontSize: '1.3rem',
+              margin: '0 0 0.5rem',
+              fontSize: '1.2rem',
               color: '#333',
               fontWeight: '600'
             }}>
               SunnyLee
             </h1>
             <p style={{
-              margin: '0 0 0.5rem',
-              fontSize: '0.85rem',
+              margin: '0 0 0.25rem',
+              fontSize: '0.8rem',
               color: '#666'
             }}>
               Shanghai-China
             </p>
             <p style={{
               margin: '0',
-              fontSize: '0.85rem',
+              fontSize: '0.8rem',
               color: '#666'
             }}>
               Company: Huawei
@@ -159,17 +152,24 @@ export default function Home() {
           </div>
 
           {user && (
-            <div style={{ marginBottom: '2rem' }}>
+            <div>
               <button
                 onClick={handleLogout}
                 style={{
-                  padding: '0.5rem 1.5rem',
+                  padding: '0.5rem 1rem',
                   background: 'transparent',
                   color: '#666',
                   border: '1px solid #e0e0e0',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  fontSize: '0.8rem'
+                  fontSize: '0.8rem',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = '#f0f0f0';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'transparent';
                 }}
               >
                 Logout
