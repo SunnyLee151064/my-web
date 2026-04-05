@@ -303,6 +303,7 @@ export default function BlogPage() {
           <button
             onClick={() => {
               setSelectedNotebook(null);
+              setSearch('');
               setLoading(true);
               fetchPosts();
             }}
@@ -324,6 +325,7 @@ export default function BlogPage() {
               key={notebook.id}
               onClick={() => {
                 setSelectedNotebook(notebook.id);
+                setSearch('');
                 setLoading(true);
                 fetchPosts();
               }}
