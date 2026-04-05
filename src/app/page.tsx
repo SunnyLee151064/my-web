@@ -315,7 +315,7 @@ export default function Home() {
                 }}
                 onClick={handleGmailClick}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.width = '110px';
+                  (e.currentTarget as HTMLElement).style.width = '80px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
                   const text = e.currentTarget.querySelector('div');
@@ -344,7 +344,7 @@ export default function Home() {
                   fontSize: '0.8rem',
                   color: 'white'
                 }}>
-                  Google Mail
+                  Mail
                 </div>
               </div>
               <div 
