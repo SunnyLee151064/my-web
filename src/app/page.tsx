@@ -414,6 +414,36 @@ export default function Home() {
               </button>
             </div>
           )}
+
+          {/* 公告栏目 */}
+          <div style={{
+            width: '100%',
+            background: 'rgba(0, 0, 0, 0.15)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0, 0, 0, 0.25)',
+            borderRadius: '13px',
+            padding: '1.5rem',
+            textAlign: 'center',
+            marginBottom: '1.5rem'
+          }}>
+            <h2 style={{
+              margin: '0 0 0.5rem',
+              fontSize: '1rem',
+              color: 'white',
+              fontWeight: '600'
+            }}>
+              📢 公告
+            </h2>
+            <p style={{
+              margin: 0,
+              fontSize: '0.9rem',
+              color: 'rgba(255, 255, 255, 0.8)',
+              lineHeight: '1.5'
+            }}>
+              欢迎来到我的网站，请查看timeline以获取最新内容更新
+            </p>
+          </div>
         </div>
 
         {/* 右侧内容区域 */}
@@ -916,54 +946,6 @@ export default function Home() {
                       color: 'white'
                     }}>
                       创建/编辑/删除
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => router.push('/admin/note-books')}
-                  style={{
-                    margin: '0',
-                    display: 'flex',
-                    background: 'rgba(252, 228, 236, 0.3)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(248, 187, 208, 0.5)',
-                    borderRadius: '8px',
-                    padding: '15px',
-                    height: '100px',
-                    width: 'calc(33.333% - 0.67rem)',
-                    transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(252, 228, 236, 0.4)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(252, 228, 236, 0.3)';
-                  }}
-                >
-                  <div style={{
-                    transition: 'width 0.4s ease',
-                    height: '100%',
-                    width: '100%'
-                  }}>
-                    <div style={{
-                      fontSize: '16px',
-                      color: 'white',
-                      fontWeight: '500',
-                      marginBottom: '15px',
-                      transition: 'font-size 0.4s ease'
-                    }}>
-                      管理笔记集合
-                    </div>
-                    <div style={{
-                      fontSize: '12px',
-                      color: 'white'
-                    }}>
-                      创建/删除
                     </div>
                   </div>
                 </button>
