@@ -4,8 +4,7 @@ import { put } from '@vercel/blob';
 
 export async function GET() {
   try {
-    const db = sql();
-    const photos = await db`
+    const photos = await sql`
       SELECT id, url, blob_id, description, created_at FROM photos
       ORDER BY created_at DESC
     `;
@@ -39,8 +38,7 @@ export async function POST(request: Request) {
     });
 
     // 保存到数据库
-    const db = sql();
-    const result = await db`
+    const result = await sql`
       INSERT INTO photos (url, blob_id, description)
       VALUES (${blob.url}, ${blob.pathname}, ${description || null})
       RETURNING id, url, created_at

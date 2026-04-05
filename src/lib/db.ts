@@ -1,19 +1,15 @@
 import { neon } from '@neondatabase/serverless';
-import { cache } from 'react';
 
 // 获取数据库连接
 const url = process.env.POSTGRES_URL;
 
 // 创建 sql 函数（每个请求调用时创建新的连接）
-function getSql() {
+export function sql() {
   if (!url) {
     throw new Error('POSTGRES_URL is not configured');
   }
   return neon(url);
 }
-
-// 缓存的查询函数（每个请求使用）
-export const sql = cache(() => getSql());
 
 // 初始化数据库表
 export async function initDatabase() {

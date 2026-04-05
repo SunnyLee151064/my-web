@@ -3,8 +3,7 @@ import { sql } from '@/lib/db';
 
 export async function GET() {
   try {
-    const db = sql();
-    const posts = await db`
+    const posts = await sql`
       SELECT id, title, slug, created_at FROM posts
       ORDER BY created_at DESC
     `;
@@ -30,8 +29,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = sql();
-    const result = await db`
+    const result = await sql`
       INSERT INTO posts (title, content, slug)
       VALUES (${title}, ${content}, ${slug})
       RETURNING id, title, slug, created_at

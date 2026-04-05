@@ -7,8 +7,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const db = sql();
-    const posts = await db`
+    const posts = await sql`
       SELECT id, title, content, slug FROM posts WHERE id = ${id}
     `;
 
@@ -43,8 +42,7 @@ export async function PUT(
       );
     }
 
-    const db = sql();
-    const result = await db`
+    const result = await sql`
       UPDATE posts
       SET title = ${title}, content = ${content}, updated_at = CURRENT_TIMESTAMP
       WHERE id = ${id}
@@ -66,8 +64,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const db = sql();
-    await db`DELETE FROM posts WHERE id = ${id}`;
+    await sql`DELETE FROM posts WHERE id = ${id}`;
 
     return NextResponse.json({ success: true });
   } catch (error) {

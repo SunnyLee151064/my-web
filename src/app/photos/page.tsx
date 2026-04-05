@@ -6,8 +6,7 @@ export const dynamic = 'force-dynamic';
 
 async function getPhotos() {
   try {
-    const db = sql();
-    const photos = await db`
+    const photos = await sql`
       SELECT id, url, description, created_at FROM photos
       ORDER BY created_at DESC
     `;
