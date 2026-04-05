@@ -71,9 +71,10 @@ export default function BlogPage() {
     }
   };
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    await fetchPosts();
   };
 
   const getRandomColor = (index: number) => {
@@ -306,10 +307,11 @@ export default function BlogPage() {
         {/* 笔记本列表 */}
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
           <button
-            onClick={() => {
+            onClick={async () => {
               setSelectedNotebook(null);
               setSearch('');
               setLoading(true);
+              await fetchPosts();
             }}
             style={{
               padding: '0.5rem 1rem',
@@ -327,10 +329,11 @@ export default function BlogPage() {
           {notebooks.map((notebook) => (
             <button
               key={notebook.id}
-              onClick={() => {
+              onClick={async () => {
                 setSelectedNotebook(notebook.id);
                 setSearch('');
                 setLoading(true);
+                await fetchPosts();
               }}
               style={{
                 padding: '0.5rem 1rem',
