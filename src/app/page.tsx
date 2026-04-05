@@ -340,10 +340,11 @@ export default function Home() {
             width: '90%',
             aspectRatio: '1/1',
             borderRadius: '50%',
-            marginBottom: '1.5rem',
+            marginBottom: '1rem',
             position: 'relative',
             overflow: 'hidden',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            flexShrink: 0
           }}
           onDoubleClick={() => {
             if (user) {
@@ -430,15 +431,21 @@ export default function Home() {
             <div style={{
               borderTop: '1px solid rgba(255, 255, 255, 0.15)',
               paddingTop: '1rem',
-              textAlign: 'center'
+              textAlign: 'left'
             }}>
               <h3 style={{
                 margin: '0 0 1rem',
                 fontSize: '1rem',
                 color: 'white',
-                fontWeight: '600'
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center'
               }}>
-                CONTACT
+                <svg viewBox="0 0 1024 1024" style={{ width: '18px', height: '18px', fill: 'white', marginRight: '0.5rem' }}>
+                  <path d="M512 236.288c-135.168 0-244.736 96.768-277.504 227.072-3.072 12.288-12.288 21.504-24.576 21.504h-61.44c-15.36 0-27.648-12.288-27.648-27.648 0-251.904 204.8-455.68 455.68-455.68s455.68 203.776 455.68 455.68c0 15.36-12.288 27.648-27.648 27.648h-61.44c-12.288 0-21.504-9.216-24.576-21.504C756.736 333.056 647.168 236.288 512 236.288z" />
+                  <path d="M512 471.04c-33.792 0-61.44 27.648-61.44 61.44v184.32c0 33.792 27.648 61.44 61.44 61.44s61.44-27.648 61.44-61.44V532.48c0-33.792-27.648-61.44-61.44-61.44z" />
+                </svg>
+                Contact
               </h3>
               <div style={{
                 display: 'flex',

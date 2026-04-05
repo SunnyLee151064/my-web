@@ -230,36 +230,67 @@ export default function AdminPhotosPage() {
       }} />
 
       {/* 返回按钮 */}
-      <button
-        onClick={() => router.push('/')}
-        style={{
-          position: 'absolute',
-          top: '1.5rem',
-          left: '1.5rem',
-          padding: '0.5rem 1rem',
-          background: 'rgba(0, 0, 0, 0.15)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          border: '1px solid rgba(0, 0, 0, 0.25)',
-          borderRadius: '7px',
-          cursor: 'pointer',
-          fontWeight: '500',
-          color: 'white',
-          fontSize: '0.9rem',
-          transition: 'all 0.3s ease',
-          zIndex: 10
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-        }}
-      >
-        ← Back
-      </button>
+      <div style={{
+        position: 'absolute',
+        top: '1.5rem',
+        left: '1.5rem',
+        display: 'flex',
+        gap: '0.75rem',
+        zIndex: 10
+      }}>
+        <button
+          onClick={() => router.push('/admin')}
+          style={{
+            padding: '0.5rem 1rem',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0, 0, 0, 0.25)',
+            borderRadius: '7px',
+            cursor: 'pointer',
+            fontWeight: '500',
+            color: 'white',
+            fontSize: '0.9rem',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+            (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+            (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+          }}
+        >
+          ← Admin
+        </button>
+        <button
+          onClick={() => router.push('/')}
+          style={{
+            padding: '0.5rem 1rem',
+            background: 'rgba(0, 0, 0, 0.15)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0, 0, 0, 0.25)',
+            borderRadius: '7px',
+            cursor: 'pointer',
+            fontWeight: '500',
+            color: 'white',
+            fontSize: '0.9rem',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+            (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+            (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+          }}
+        >
+          Home
+        </button>
+      </div>
 
       {/* 图片查看弹窗 */}
       {showPhotoModal && selectedPhoto && (
