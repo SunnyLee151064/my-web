@@ -531,38 +531,6 @@ export default function Home() {
                   style={{ width: '22px', height: '22px' }}
                 />
               </div>
-              <div 
-                style={{
-                  width: '49px',
-                  height: '43px',
-                  boxSizing: 'border-box',
-                  borderRadius: '7px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'rgba(0, 0, 0, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.25)',
-                  transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
-                  flexShrink: 0,
-                  cursor: 'pointer'
-                }}
-                onClick={() => setShowGuestbookModal(true)}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                }}
-              >
-                <svg viewBox="0 0 1024 1024" style={{ width: '22px', height: '22px', fill: 'white' }}>
-                  <path d="M736 128c70.692 0 128 57.308 128 128v384c0 70.692-57.308 128-128 128H425.387L256 896l1.707-126.293C166.271 750.078 128 690.809 128 640V256c0-70.692 57.308-128 128-128h480m0-64H256C172.16 64 104 132.16 104 216v384c0 45.112 19.704 85.568 51.2 114.592V864l187.072-62.357C381.88 807.688 417.848 816 456 816h280c83.84 0 152-68.16 152-152V216c0-83.84-68.16-152-152-152z" />
-                  <path d="M384 384h256v64H384zM384 512h160v64H384z" />
-                </svg>
-              </div>
             </div>
           </div>
 
@@ -578,7 +546,7 @@ export default function Home() {
             borderRadius: '13px',
             padding: '1.5rem',
             textAlign: 'center',
-            marginBottom: '1.5rem'
+            marginBottom: '1rem'
           }}>
             <h2 style={{
               margin: '0 0 0.5rem',
@@ -596,6 +564,68 @@ export default function Home() {
             }}>
               欢迎来到我的网站，请查看timeline以获取最新内容更新
             </p>
+          </div>
+
+          {/* 留言板入口按钮 */}
+          <div 
+            style={{
+              width: '100%',
+              background: 'rgba(0, 0, 0, 0.15)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: '1px solid rgba(0, 0, 0, 0.25)',
+              borderRadius: '13px',
+              padding: '1.25rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              marginBottom: '1.5rem'
+            }}
+            onClick={() => setShowGuestbookModal(true)}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+              (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+              (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+            }}
+          >
+            <img 
+              src="/board.png" 
+              alt="Guestbook" 
+              style={{ 
+                width: '40px', 
+                height: '40px',
+                objectFit: 'cover',
+                borderRadius: '8px'
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div style={{
+                fontSize: '1rem',
+                color: 'white',
+                fontWeight: '600',
+                marginBottom: '0.25rem'
+              }}>
+                访客留言板
+              </div>
+              <div style={{
+                fontSize: '0.85rem',
+                color: 'rgba(255, 255, 255, 0.7)'
+              }}>
+                留下你的足迹和想法
+              </div>
+            </div>
+            <svg viewBox="0 0 1024 1024" style={{ 
+              width: '20px', 
+              height: '20px', 
+              fill: 'rgba(255, 255, 255, 0.6)' 
+            }}>
+              <path d="M761.9 528.9L498.5 265.2c-3.2-3.2-8.4-3.2-11.6 0l-45.3 45.3c-3.2 3.2-3.2 8.4 0 11.6l201.2 201.2-201.2 201.2c-3.2 3.2-3.2 8.4 0 11.6l45.3 45.3c3.2 3.2 8.4 3.2 11.6 0l263.4-263.6c3.2-3.3 3.2-8.5 0-11.7z" />
+            </svg>
           </div>
         </div>
 
