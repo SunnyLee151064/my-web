@@ -274,38 +274,7 @@ export default function AdminPhotosPage() {
           }}>Manage Photos</span>
         </h1>
 
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-          <Link
-            href="/admin/photos/upload"
-            style={{
-              display: 'inline-block',
-              padding: '0.75rem 1.5rem',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              color: 'white',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: '600',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            + Upload Photo
-          </Link>
-          <button
-            onClick={handleCreateAlbum}
-            style={{
-              padding: '0.75rem 1.5rem',
-              background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-              color: 'white',
-              borderRadius: '8px',
-              border: 'none',
-              cursor: 'pointer',
-              fontWeight: '600',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            + Create Album
-          </button>
-        </div>
+
 
         {/* 图集管理 */}
         <div style={{ marginBottom: '3rem' }}>
@@ -479,6 +448,50 @@ export default function AdminPhotosPage() {
             </div>
           ))
         )}
+      </div>
+
+      {/* 右下角按钮 */}
+      <div style={{
+        position: 'fixed',
+        bottom: '2rem',
+        right: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        zIndex: 10
+      }}>
+        <Link
+          href="/admin/photos/upload"
+          style={{
+            display: 'inline-block',
+            padding: '0.75rem 1.5rem',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: 'white',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontWeight: '600',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+          }}
+        >
+          + Upload Photo
+        </Link>
+        <button
+          onClick={handleCreateAlbum}
+          style={{
+            padding: '0.75rem 1.5rem',
+            background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            color: 'white',
+            borderRadius: '8px',
+            border: 'none',
+            cursor: 'pointer',
+            fontWeight: '600',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+          }}
+        >
+          + Create Album
+        </button>
       </div>
 
       {/* 图集编辑模态框 */}

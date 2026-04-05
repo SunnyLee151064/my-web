@@ -178,39 +178,6 @@ export default function AdminBlogPage() {
             WebkitTextFillColor: 'transparent'
           }}>Manage Blog</span>
         </h1>
-
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-          <Link
-            href="/admin/blog/new"
-            style={{
-              display: 'inline-block',
-              padding: '0.75rem 1.5rem',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              color: 'white',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: '600',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            + New Post
-          </Link>
-          <Link
-            href="/admin/notebooks"
-            style={{
-              display: 'inline-block',
-              padding: '0.75rem 1.5rem',
-              background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-              color: 'white',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: '600',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            📚 Notebooks
-          </Link>
-        </div>
       </div>
 
       {/* 博客列表 */}
@@ -305,6 +272,50 @@ export default function AdminBlogPage() {
             </div>
           ))
         )}
+      </div>
+
+      {/* 右下角按钮 */}
+      <div style={{
+        position: 'fixed',
+        bottom: '2rem',
+        right: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        zIndex: 10
+      }}>
+        <Link
+          href="/admin/blog/new"
+          style={{
+            display: 'inline-block',
+            padding: '0.75rem 1.5rem',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: 'white',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontWeight: '600',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+          }}
+        >
+          + New Post
+        </Link>
+        <Link
+          href="/admin/notebooks"
+          style={{
+            display: 'inline-block',
+            padding: '0.75rem 1.5rem',
+            background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            color: 'white',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontWeight: '600',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+          }}
+        >
+          📚 Notebooks
+        </Link>
       </div>
     </div>
   );
