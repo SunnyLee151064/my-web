@@ -911,29 +911,6 @@ export default function Home() {
                         position: 'relative',
                         minWidth: '150px'
                       }}>
-                        {/* 悬浮提示 */}
-                        <div style={{
-                          position: 'fixed',
-                          top: '0',
-                          left: '0',
-                          background: 'rgba(0, 0, 0, 0.15)',
-                          backdropFilter: 'blur(10px)',
-                          WebkitBackdropFilter: 'blur(10px)',
-                          border: '1px solid rgba(0, 0, 0, 0.25)',
-                          color: 'white',
-                          padding: '10px 14px',
-                          borderRadius: '8px',
-                          fontSize: '0.8rem',
-                          whiteSpace: 'nowrap',
-                          zIndex: 9999,
-                          opacity: 0,
-                          visibility: 'hidden',
-                          transition: 'opacity 0.2s ease, visibility 0.2s ease',
-                          pointerEvents: 'none'
-                        }} className="tooltip" id={`tooltip-${item.id}`}>
-                          {getTooltipText(item)}
-                        </div>
-
                         {/* 节点 */}
                         <div 
                           style={{
@@ -950,26 +927,44 @@ export default function Home() {
                           }}
                           onClick={handleClick}
                           onMouseEnter={(e) => {
-                            const tooltip = document.getElementById(`tooltip-${item.id}`);
-                            if (tooltip) {
-                              tooltip.style.opacity = '1';
-                              tooltip.style.visibility = 'visible';
-                            }
+                            const tooltip = document.createElement('div');
+                            tooltip.id = `tooltip-${item.id}`;
+                            tooltip.style.cssText = `
+                              position: fixed;
+                              background: rgba(0, 0, 0, 0.15);
+                              backdrop-filter: blur(10px);
+                              -webkit-backdrop-filter: blur(10px);
+                              border: 1px solid rgba(0, 0, 0, 0.25);
+                              color: white;
+                              padding: 10px 14px;
+                              border-radius: 8px;
+                              font-size: 0.8rem;
+                              white-space: nowrap;
+                              z-index: 9999;
+                              pointer-events: none;
+                            `;
+                            tooltip.textContent = getTooltipText(item);
+                            document.body.appendChild(tooltip);
+                            
+                            const updatePosition = (event: MouseEvent) => {
+                              tooltip.style.left = `${event.clientX + 10}px`;
+                              tooltip.style.top = `${event.clientY - 40}px`;
+                            };
+                            
+                            updatePosition(e);
+                            e.currentTarget.addEventListener('mousemove', updatePosition as EventListener);
+                            (e.currentTarget as any).tooltipUpdate = updatePosition;
+                            
                             e.currentTarget.style.transform = 'translateY(-50%) scale(1.3)';
                             e.currentTarget.style.boxShadow = `0 0 10px ${getNodeColor(item.action, item.type)}`;
-                          }}
-                          onMouseMove={(e) => {
-                            const tooltip = document.getElementById(`tooltip-${item.id}`);
-                            if (tooltip) {
-                              tooltip.style.left = `${e.clientX + 10}px`;
-                              tooltip.style.top = `${e.clientY - 40}px`;
-                            }
                           }}
                           onMouseLeave={(e) => {
                             const tooltip = document.getElementById(`tooltip-${item.id}`);
                             if (tooltip) {
-                              tooltip.style.opacity = '0';
-                              tooltip.style.visibility = 'hidden';
+                              tooltip.remove();
+                            }
+                            if ((e.currentTarget as any).tooltipUpdate) {
+                              e.currentTarget.removeEventListener('mousemove', (e.currentTarget as any).tooltipUpdate);
                             }
                             e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
                             e.currentTarget.style.boxShadow = 'none';
