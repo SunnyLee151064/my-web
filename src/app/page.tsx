@@ -477,7 +477,7 @@ export default function Home() {
           </div>
 
           {/* Site 部分 */}
-          <div style={{ marginBottom: '2rem' }}>
+          <div style={{ marginBottom: '2rem', width: '85%' }}>
             <h2 style={{
               margin: '0 0 1rem',
               fontSize: '1.5rem',
@@ -493,6 +493,7 @@ export default function Home() {
             </h2>
             <div style={{
               display: 'flex',
+              justifyContent: 'space-between',
               flexWrap: 'wrap',
               gap: '1rem'
             }}>
@@ -504,7 +505,7 @@ export default function Home() {
                   router.push('/blog');
                 }}
                 style={{
-                  margin: '7px',
+                  margin: '0',
                   display: 'flex',
                   background: 'rgba(0, 0, 0, 0.15)',
                   backdropFilter: 'blur(10px)',
@@ -513,7 +514,7 @@ export default function Home() {
                   borderRadius: '8px',
                   padding: '15px',
                   height: '100px',
-                  width: 'calc(25% - 15px)',
+                  width: 'calc(33.333% - 0.67rem)',
                   transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
                   cursor: 'pointer',
                   zIndex: 10
@@ -589,7 +590,7 @@ export default function Home() {
                   router.push('/photos');
                 }}
                 style={{
-                  margin: '7px',
+                  margin: '0',
                   display: 'flex',
                   background: 'rgba(0, 0, 0, 0.15)',
                   backdropFilter: 'blur(10px)',
@@ -598,7 +599,7 @@ export default function Home() {
                   borderRadius: '8px',
                   padding: '15px',
                   height: '100px',
-                  width: 'calc(25% - 15px)',
+                  width: 'calc(33.333% - 0.67rem)',
                   transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
                   cursor: 'pointer',
                   zIndex: 10
@@ -674,7 +675,7 @@ export default function Home() {
                   router.push('/notes');
                 }}
                 style={{
-                  margin: '7px',
+                  margin: '0',
                   display: 'flex',
                   background: 'rgba(0, 0, 0, 0.15)',
                   backdropFilter: 'blur(10px)',
@@ -683,7 +684,7 @@ export default function Home() {
                   borderRadius: '8px',
                   padding: '15px',
                   height: '100px',
-                  width: 'calc(25% - 15px)',
+                  width: 'calc(33.333% - 0.67rem)',
                   transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
                   cursor: 'pointer',
                   zIndex: 10
