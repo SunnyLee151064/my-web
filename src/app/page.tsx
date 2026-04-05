@@ -197,12 +197,7 @@ export default function Home() {
               fontSize: '1.2rem',
               fontWeight: '600'
             }}>
-              <span style={{ 
-                fontFamily: 'Arial, sans-serif', 
-                background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>SunnyLee</span>
+              <span className="gradientText">SunnyLee</span>
             </h1>
             <p style={{
               margin: '0 0 0.25rem',
@@ -390,13 +385,7 @@ export default function Home() {
             color: '#1a1a1a',
             fontWeight: '600'
           }}>
-            Hello I'm <span style={{ 
-              fontFamily: 'Arial, sans-serif', 
-              background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '3.5rem'
-            }}>SunnyLee</span>
+            Hello I'm <span className="gradientText" style={{ fontSize: '3.5rem' }}>SunnyLee</span>
           </h2>
           <p style={{
             margin: '0 0 0.5rem',
