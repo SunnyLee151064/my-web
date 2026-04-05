@@ -18,7 +18,10 @@ const MusicContext = createContext<MusicContextType | undefined>(undefined);
 
 export function MusicProvider({ children }: { children: ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    // 初始化时随机选择一首
+    return Math.floor(Math.random() * musicFiles.length);
+  });
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // 随机选择下一首歌曲
@@ -52,6 +55,12 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   // 当一首歌播放完时，自动播放下一首
   const handleSongEnd = () => {
     playRandomSong();
+    // 自动播放下一首
+    setTimeout(() => {
+      if (audioRef.current && isPlaying) {
+        audioRef.current.play();
+      }
+    }, 100);
   };
 
   return (
