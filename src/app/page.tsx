@@ -69,7 +69,7 @@ export default function Home() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/boat.jpg')`,
+      backgroundImage: `url('/boatalone.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -226,104 +226,30 @@ export default function Home() {
             </p>
           </div>
 
-          {user && (
-            <div>
-              <button
-                onClick={handleLogout}
-                style={{
-                  padding: '0.5rem 1rem',
-                  background: 'rgba(0, 0, 0, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.25)',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '0.8rem',
-                  color: '#1a1a1a',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                }}
-              >
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* 右侧内容区域 */}
-        <div style={{
-          flex: '1',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '2rem 0',
-          minHeight: '100vh'
-        }}>
-          {/* 招呼语和个人介绍 */}
-          <div style={{ marginBottom: '3rem' }}>
-            <h2 style={{
-            margin: '0 0 1rem',
-            fontSize: '3rem',
-            color: '#1a1a1a',
-            fontWeight: '600'
+          {/* 联系按钮 */}
+          <div style={{
+            width: '100%',
+            background: 'rgba(0, 0, 0, 0.15)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0, 0, 0, 0.25)',
+            borderRadius: '13px',
+            padding: '1.5rem',
+            marginBottom: '1.5rem'
           }}>
-            Hello I'm <span style={{ 
-              fontFamily: 'Arial, sans-serif', 
-              background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '3.5rem'
-            }}>SunnyLee</span>
-          </h2>
-          <p style={{
-            margin: '0 0 0.5rem',
-            fontSize: '1.2rem',
-            color: 'rgba(0, 0, 0, 0.8)'
-          }}>
-            An AI-Infra developer.
-          </p>
-          <p style={{
-            margin: '0',
-            fontSize: '1.2rem',
-            color: 'rgba(0, 0, 0, 0.8)'
-          }}>
-            A student of life.
-          </p>
-          </div>
-
-          {/* 贪吃蛇动画 */}
-          <div style={{ marginBottom: '2rem', width: '85%' }}>
-            <img
-              src="/snake-Light.svg"
-              alt="Snake"
-              style={{ width: '100%', height: 'auto' }}
-            />
-          </div>
-
-          {/* 社交媒体卡片 */}
-          <div style={{ marginBottom: '2rem' }}>
-            <h2 style={{
-              margin: '0 0 1.5rem',
-              fontSize: '1.5rem',
+            <h3 style={{
+              margin: '0 0 1rem',
+              fontSize: '1rem',
               color: '#1a1a1a',
               fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center'
+              textAlign: 'center'
             }}>
-              <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '8px', width: '26px', height: '26px', fill: 'white' }}>
-                <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z"/>
-              </svg>
               CONTACT
-            </h2>
+            </h3>
             <div style={{
               display: 'flex',
               gap: '1rem',
-              paddingBottom: '1rem',
-              marginLeft: '7px'
+              justifyContent: 'center'
             }}>
               <div 
                 style={{
@@ -479,6 +405,95 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {user && (
+            <div>
+              <button
+                onClick={handleLogout}
+                style={{
+                  padding: '0.5rem 1rem',
+                  background: 'rgba(0, 0, 0, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                  color: '#1a1a1a',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* 右侧内容区域 */}
+        <div style={{
+          flex: '1',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '2rem 0',
+          minHeight: '100vh'
+        }}>
+          {/* 招呼语和个人介绍 */}
+          <div style={{ marginBottom: '3rem' }}>
+            <h2 style={{
+            margin: '0 0 1rem',
+            fontSize: '3rem',
+            color: '#1a1a1a',
+            fontWeight: '600'
+          }}>
+            Hello I'm <span style={{ 
+              fontFamily: 'Arial, sans-serif', 
+              background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: '3.5rem'
+            }}>SunnyLee</span>
+          </h2>
+          <p style={{
+            margin: '0 0 0.5rem',
+            fontSize: '1.2rem',
+            color: 'rgba(0, 0, 0, 0.8)'
+          }}>
+            An AI-Infra developer.
+          </p>
+          <p style={{
+            margin: '0',
+            fontSize: '1.2rem',
+            color: 'rgba(0, 0, 0, 0.8)'
+          }}>
+            A student of life.
+          </p>
+          </div>
+
+          {/* 贪吃蛇动画 */}
+          <div style={{
+            marginBottom: '2rem', 
+            width: '85%',
+            background: 'rgba(0, 0, 0, 0.15)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0, 0, 0, 0.25)',
+            borderRadius: '13px',
+            padding: '1.5rem',
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <img
+              src="/snake-Light.svg"
+              alt="Snake"
+              style={{ width: '100%', height: 'auto' }}
+            />
           </div>
 
           {/* Site 部分 */}
@@ -815,65 +830,72 @@ export default function Home() {
               border: '1px solid rgba(0, 0, 0, 0.25)',
               borderRadius: '13px',
               padding: '1.5rem',
-              position: 'relative'
+              position: 'relative',
+              overflowX: 'auto'
             }}>
-              {/* 时间轴中心线 */}
               <div style={{
-                position: 'absolute',
-                left: '20px',
-                top: '0',
-                bottom: '0',
-                width: '2px',
-                background: 'linear-gradient(to bottom, #ff6b6b, #4ecdc4)'
-              }} />
-              
-              {/* 时间轴节点 */}
-              {[
-                { time: '2024-04-06 15:30', action: '添加了新博客', type: 'blog' },
-                { time: '2024-04-06 14:15', action: '删除了旧图片', type: 'photo' },
-                { time: '2024-04-06 11:20', action: '修改了博客内容', type: 'blog' },
-                { time: '2024-04-05 16:45', action: '上传了新图片', type: 'photo' },
-                { time: '2024-04-05 10:30', action: '创建了新笔记本', type: 'notebook' }
-              ].map((item, index) => (
-                <div key={index} style={{
-                  display: 'flex',
-                  marginBottom: '1.5rem',
-                  position: 'relative'
-                }}>
-                  {/* 节点 */}
-                  <div style={{
-                    width: '12px',
-                    height: '12px',
-                    borderRadius: '50%',
-                    background: item.type === 'blog' ? '#ff6b6b' : item.type === 'photo' ? '#4ecdc4' : '#45b7d1',
-                    position: 'absolute',
-                    left: '14px',
-                    top: '6px',
-                    zIndex: 1
-                  }} />
-                  
-                  {/* 内容 */}
-                  <div style={{
-                    marginLeft: '40px',
-                    flex: 1
+                display: 'flex',
+                minWidth: 'fit-content',
+                position: 'relative'
+              }}>
+                {/* 时间轴中心线 */}
+                <div style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '0',
+                  right: '0',
+                  height: '2px',
+                  background: 'linear-gradient(to right, #ff6b6b, #4ecdc4)',
+                  transform: 'translateY(-50%)'
+                }} />
+                
+                {/* 时间轴节点 */}
+                {[
+                  { time: '2024-04-06 15:30', action: '添加了新博客', type: 'blog' },
+                  { time: '2024-04-06 14:15', action: '删除了旧图片', type: 'photo' },
+                  { time: '2024-04-06 11:20', action: '修改了博客内容', type: 'blog' },
+                  { time: '2024-04-05 16:45', action: '上传了新图片', type: 'photo' },
+                  { time: '2024-04-05 10:30', action: '创建了新笔记本', type: 'notebook' }
+                ].map((item, index) => (
+                  <div key={index} style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    marginRight: '2rem',
+                    position: 'relative',
+                    minWidth: '150px'
                   }}>
+                    {/* 节点 */}
                     <div style={{
-                      fontSize: '0.9rem',
-                      color: 'rgba(0, 0, 0, 0.8)',
-                      marginBottom: '0.25rem'
-                    }}>
-                      {item.time}
-                    </div>
+                      width: '12px',
+                      height: '12px',
+                      borderRadius: '50%',
+                      background: item.type === 'blog' ? '#ff6b6b' : item.type === 'photo' ? '#4ecdc4' : '#45b7d1',
+                      zIndex: 1,
+                      marginBottom: '0.5rem'
+                    }} />
+                    
+                    {/* 内容 */}
                     <div style={{
-                      fontSize: '1rem',
-                      color: '#1a1a1a',
-                      fontWeight: '500'
+                      textAlign: 'center',
+                      fontSize: '0.8rem'
                     }}>
-                      {item.action}
+                      <div style={{
+                        color: 'rgba(0, 0, 0, 0.8)',
+                        marginBottom: '0.25rem'
+                      }}>
+                        {item.time}
+                      </div>
+                      <div style={{
+                        color: '#1a1a1a',
+                        fontWeight: '500'
+                      }}>
+                        {item.action}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>

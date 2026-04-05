@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     }
 
     // 如果没有指定笔记本，使用默认笔记本
-    const targetNotebook = notebook_id || 1;
+    const targetNotebook = notebook_id ? parseInt(notebook_id) : 1;
 
     const result = await sql`
       INSERT INTO posts (title, content, slug, notebook_id)
