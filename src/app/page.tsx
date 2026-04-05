@@ -244,43 +244,25 @@ export default function Home() {
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
                   border: '1px solid rgba(0, 0, 0, 0.25)',
-                  transition: 'width 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
+                  transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
                   flexShrink: 0,
                   cursor: 'pointer'
                 }}
                 onClick={handleGithubClick}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.width = '95px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                  const text = e.currentTarget.querySelector('div');
-                  if (text) {
-                    (text as HTMLElement).style.display = 'block';
-                  }
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.width = '49px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                  const text = e.currentTarget.querySelector('div');
-                  if (text) {
-                    (text as HTMLElement).style.display = 'none';
-                  }
                 }}
               >
                 <img 
                   src="/github.png" 
                   alt="GitHub" 
-                  style={{ width: '22px', height: '22px', marginRight: '3px' }}
+                  style={{ width: '22px', height: '22px' }}
                 />
-                <div style={{
-                  whiteSpace: 'nowrap',
-                  display: 'none',
-                  fontSize: '0.8rem',
-                  color: 'white'
-                }}>
-                  GitHub
-                </div>
               </div>
               <div 
                 style={{
@@ -295,43 +277,25 @@ export default function Home() {
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
                   border: '1px solid rgba(0, 0, 0, 0.25)',
-                  transition: 'width 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
+                  transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
                   flexShrink: 0,
                   cursor: 'pointer'
                 }}
                 onClick={handleGmailClick}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.width = '80px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                  const text = e.currentTarget.querySelector('div');
-                  if (text) {
-                    (text as HTMLElement).style.display = 'block';
-                  }
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.width = '49px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                  const text = e.currentTarget.querySelector('div');
-                  if (text) {
-                    (text as HTMLElement).style.display = 'none';
-                  }
                 }}
               >
                 <img 
                   src="/gmail.png" 
                   alt="Gmail" 
-                  style={{ width: '22px', height: '22px', marginRight: '3px' }}
+                  style={{ width: '22px', height: '22px' }}
                 />
-                <div style={{
-                  whiteSpace: 'nowrap',
-                  display: 'none',
-                  fontSize: '0.8rem',
-                  color: 'white'
-                }}>
-                  Mail
-                </div>
               </div>
               <div 
                 style={{
@@ -346,43 +310,25 @@ export default function Home() {
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
                   border: '1px solid rgba(0, 0, 0, 0.25)',
-                  transition: 'width 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
+                  transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
                   flexShrink: 0,
                   cursor: 'pointer'
                 }}
                 onClick={handleWechatClick}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.width = '90px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                  const text = e.currentTarget.querySelector('div');
-                  if (text) {
-                    (text as HTMLElement).style.display = 'block';
-                  }
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.width = '49px';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                  const text = e.currentTarget.querySelector('div');
-                  if (text) {
-                    (text as HTMLElement).style.display = 'none';
-                  }
                 }}
               >
                 <img 
                   src="/wechat.png" 
                   alt="WeChat" 
-                  style={{ width: '22px', height: '22px', marginRight: '3px' }}
+                  style={{ width: '22px', height: '22px' }}
                 />
-                <div style={{
-                  whiteSpace: 'nowrap',
-                  display: 'none',
-                  fontSize: '0.8rem',
-                  color: 'white'
-                }}>
-                  WeChat
-                </div>
               </div>
             </div>
           </div>
