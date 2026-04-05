@@ -189,30 +189,42 @@ export default function Home() {
             border: '1px solid rgba(0, 0, 0, 0.25)',
             borderRadius: '13px',
             padding: '1.5rem',
-            textAlign: 'center',
+            textAlign: 'left',
             marginBottom: '1.5rem'
           }}>
             <h1 style={{
-              margin: '0 0 0.5rem',
+              margin: '0 0 1rem',
               fontSize: '1.2rem',
-              fontWeight: '600'
+              fontWeight: '600',
+              textAlign: 'center'
             }}>
               <span className="gradientText">SunnyLee</span>
             </h1>
-            <p style={{
-              margin: '0 0 0.25rem',
-              fontSize: '0.8rem',
-              color: 'white'
-            }}>
-              Shanghai-China
-            </p>
-            <p style={{
-              margin: '0',
-              fontSize: '0.8rem',
-              color: 'white'
-            }}>
-              Company: Huawei
-            </p>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <svg viewBox="0 0 1024 1024" style={{ width: '16px', height: '16px', fill: 'white', marginRight: '0.5rem', flexShrink: 0 }}>
+                <path d="M512 249.976471c-99.388235 0-180.705882 81.317647-180.705882 180.705882s81.317647 180.705882 180.705882 180.705882 180.705882-81.317647 180.705882-180.705882-81.317647-180.705882-180.705882-180.705882z m0 301.17647c-66.258824 0-120.470588-54.211765-120.470588-120.470588s54.211765-120.470588 120.470588-120.470588 120.470588 54.211765 120.470588 120.470588-54.211765 120.470588-120.470588 120.470588z" />
+                <path d="M512 39.152941c-216.847059 0-391.529412 174.682353-391.529412 391.529412 0 349.364706 391.529412 572.235294 391.529412 572.235294s391.529412-222.870588 391.529412-572.235294c0-216.847059-174.682353-391.529412-391.529412-391.529412z m0 891.482353C424.658824 873.411765 180.705882 686.682353 180.705882 430.682353c0-183.717647 147.576471-331.294118 331.294118-331.294118s331.294118 147.576471 331.294118 331.294118c0 256-243.952941 442.729412-331.294118 499.952941z" />
+              </svg>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'white' }}>
+                Location: Shanghai, China
+              </p>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <svg viewBox="0 0 1024 1024" style={{ width: '16px', height: '16px', fill: 'white', marginRight: '0.5rem', flexShrink: 0 }}>
+                <path d="M729.6 234.666667H294.4V157.866667a51.2 51.2 0 0 1 51.2-51.2h332.8a51.2 51.2 0 0 1 51.2 51.2v76.8z m179.2 51.2a51.2 51.2 0 0 1 51.2 51.2v512a51.2 51.2 0 0 1-51.2 51.2H115.2a51.2 51.2 0 0 1-51.2-51.2v-512a51.2 51.2 0 0 1 51.2-51.2h793.557333z m-768 172.032c0 16.384 13.312 29.696 29.696 29.696h683.008a29.696 29.696 0 1 0 0-59.392H170.410667a29.696 29.696 0 0 0-29.696 29.696z m252.416 118.784c0 16.384 13.312 29.696 29.696 29.696h178.176a29.696 29.696 0 1 0 0-59.392H422.912a29.738667 29.738667 0 0 0-29.696 29.696z" />
+              </svg>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'white' }}>
+                School: Zhejiang University
+              </p>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <svg viewBox="0 0 1024 1024" style={{ width: '16px', height: '16px', fill: 'white', marginRight: '0.5rem', flexShrink: 0 }}>
+                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372zm-64-300c0-17.7 14.3-32 32-32h64c17.7 0 32 14.3 32 32v144c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32V584zm96-312c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80z" />
+              </svg>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'white' }}>
+                Job: AI Infra Developer
+              </p>
+            </div>
           </div>
 
           {/* 联系按钮 */}
@@ -387,20 +399,6 @@ export default function Home() {
           }}>
             Hello I'm <span className="gradientText" style={{ fontSize: '3.5rem' }}>SunnyLee</span>
           </h2>
-          <p style={{
-            margin: '0 0 0.5rem',
-            fontSize: '1.2rem',
-            color: 'rgba(0, 0, 0, 0.8)'
-          }}>
-            An AI-Infra developer.
-          </p>
-          <p style={{
-            margin: '0',
-            fontSize: '1.2rem',
-            color: 'rgba(0, 0, 0, 0.8)'
-          }}>
-            A student of life.
-          </p>
           </div>
 
           {/* 贪吃蛇动画 */}
