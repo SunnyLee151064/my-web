@@ -191,6 +191,15 @@ export default function LoginPage() {
             {isRegister ? "Login" : "Register"}
           </button>
         </p>
+
+        <p style={{ marginTop: '1rem', textAlign: 'center' }}>
+          <a
+            href="/"
+            style={{ color: '#667eea', textDecoration: 'underline' }}
+          >
+            Back to Home
+          </a>
+        </p>
       </div>
     </div>
   );

@@ -158,7 +158,7 @@ export default function WelcomePage() {
           <button
             onClick={() => {
               localStorage.removeItem('user');
-              router.push('/login');
+              router.push('/');
             }}
             style={{
               padding: '0.75rem 2rem',
