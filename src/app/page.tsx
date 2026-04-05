@@ -269,7 +269,7 @@ export default function Home() {
 
           {/* 社交媒体卡片 */}
           <div style={{ marginBottom: '5rem' }}>
-            <h3 style={{
+            <h2 style={{
               margin: '0 0 1rem',
               fontSize: '1.5rem',
               color: 'white',
@@ -280,8 +280,8 @@ export default function Home() {
               <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '8px', width: '26px', height: '26px', fill: 'white' }}>
                 <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z"/>
               </svg>
-              Contact
-            </h3>
+              CONTACT
+            </h2>
             <div style={{
               display: 'flex',
               gap: '1rem',
@@ -462,7 +462,9 @@ export default function Home() {
               gap: '1rem'
             }}>
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
                   console.log('Navigating to /blog');
                   router.push('/blog');
                 }}
@@ -479,7 +481,7 @@ export default function Home() {
                   width: 'calc(25% - 15px)',
                   transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
                   cursor: 'pointer',
-                  zIndex: 1
+                  zIndex: 10
                 }}
                 onMouseEnter={(e) => {
                   try {
@@ -545,7 +547,9 @@ export default function Home() {
               </button>
 
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
                   console.log('Navigating to /photos');
                   router.push('/photos');
                 }}
@@ -562,7 +566,7 @@ export default function Home() {
                   width: 'calc(25% - 15px)',
                   transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
                   cursor: 'pointer',
-                  zIndex: 1
+                  zIndex: 10
                 }}
                 onMouseEnter={(e) => {
                   try {
