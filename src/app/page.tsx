@@ -791,7 +791,7 @@ export default function Home() {
                 </button>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -843,7 +843,7 @@ export default function Home() {
               alignItems: 'center',
               cursor: 'pointer'
             }} onClick={closeWechatModal}>
-              ×
+              x
             </button>
           </div>
         </div>
