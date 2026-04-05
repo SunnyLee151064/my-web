@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
@@ -9,7 +9,29 @@ export default function LoginPage() {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [adminExists, setAdminExists] = useState(false);
+  const [checking, setChecking] = useState(true);
   const router = useRouter();
+
+  // 检查是否已有管理员
+  useEffect(() => {
+    checkAdminExists();
+  }, []);
+
+  const checkAdminExists = async () => {
+    try {
+      const res = await fetch('/api/auth/check-admin');
+      const data = await res.json();
+      if (data.exists) {
+        setAdminExists(true);
+        setIsRegister(false);
+      }
+    } catch (err) {
+      console.error('Failed to check admin:', err);
+    } finally {
+      setChecking(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,13 +54,27 @@ export default function LoginPage() {
       }
 
       localStorage.setItem('user', JSON.stringify(data.user));
-      router.push('/admin/blog');
+      router.push('/');
     } catch (err) {
       setError('An error occurred');
     } finally {
       setLoading(false);
     }
   };
+
+  if (checking) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      }}>
+        <div style={{ color: 'white', fontSize: '1.2rem' }}>Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div style={{
@@ -78,7 +114,7 @@ export default function LoginPage() {
             color: '#333',
             fontWeight: '600'
           }}>
-            {isRegister ? "Register" : "Welcome"}
+            {isRegister ? "Register" : "Login"}
           </h1>
           <p style={{ margin: '0.5rem 0 0', color: '#666', fontSize: '0.9rem' }}>
             {isRegister ? "Create your admin account" : "Login to your site"}
@@ -175,22 +211,30 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p style={{ marginTop: '1.5rem', textAlign: 'center', color: '#666' }}>
-          {isRegister ? "Already have account?" : "No account?"}
-          <button
-            onClick={() => setIsRegister(!isRegister)}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#667eea',
-              cursor: 'pointer',
-              fontWeight: '600',
-              marginLeft: '0.25rem'
-            }}
-          >
-            {isRegister ? "Login" : "Register"}
-          </button>
-        </p>
+        {!adminExists && (
+          <p style={{ marginTop: '1.5rem', textAlign: 'center', color: '#666' }}>
+            {isRegister ? "Already have account?" : "No account?"}
+            <button
+              onClick={() => setIsRegister(!isRegister)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#667eea',
+                cursor: 'pointer',
+                fontWeight: '600',
+                marginLeft: '0.25rem'
+              }}
+            >
+              {isRegister ? "Login" : "Register"}
+            </button>
+          </p>
+        )}
+
+        {adminExists && (
+          <p style={{ marginTop: '1.5rem', textAlign: 'center', color: '#888', fontSize: '0.85rem' }}>
+            Admin already exists. Please login.
+          </p>
+        )}
 
         <p style={{ marginTop: '1rem', textAlign: 'center' }}>
           <button
