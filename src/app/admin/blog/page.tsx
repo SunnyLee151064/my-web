@@ -85,7 +85,7 @@ export default function AdminBlogPage() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/background.jpg')`,
+        backgroundImage: `url('/Rain.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -102,7 +102,7 @@ export default function AdminBlogPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/background.jpg')`,
+      backgroundImage: `url('/Rain.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',

@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/background.jpg')`,
+      backgroundImage: `url('/Rain.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',

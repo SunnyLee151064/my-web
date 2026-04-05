@@ -44,7 +44,7 @@ export default function BlogPage() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/background.jpg')`,
+        backgroundImage: `url('/Rain.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -61,7 +61,7 @@ export default function BlogPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/background.jpg')`,
+      backgroundImage: `url('/Rain.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
