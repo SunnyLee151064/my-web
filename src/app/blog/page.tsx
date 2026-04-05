@@ -30,8 +30,11 @@ export default function BlogPage() {
 
   useEffect(() => {
     fetchNotebooks();
-    fetchPosts();
   }, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [search, selectedNotebook]);
 
   const fetchNotebooks = async () => {
     try {
@@ -68,7 +71,6 @@ export default function BlogPage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    fetchPosts();
   };
 
   const getRandomColor = (index: number) => {
@@ -305,7 +307,6 @@ export default function BlogPage() {
               setSelectedNotebook(null);
               setSearch('');
               setLoading(true);
-              fetchPosts();
             }}
             style={{
               padding: '0.5rem 1rem',
@@ -327,7 +328,6 @@ export default function BlogPage() {
                 setSelectedNotebook(notebook.id);
                 setSearch('');
                 setLoading(true);
-                fetchPosts();
               }}
               style={{
                 padding: '0.5rem 1rem',
