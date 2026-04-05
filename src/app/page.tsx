@@ -386,6 +386,21 @@ export default function Home() {
             }}>
               <span className="gradientText">SunnyLee</span>
             </h1>
+            
+            <h3 style={{
+              margin: '0 0 1rem',
+              fontSize: '1rem',
+              color: 'white',
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              <svg viewBox="0 0 1024 1024" style={{ width: '18px', height: '18px', fill: 'white', marginRight: '0.5rem' }}>
+                <path d="M512 128c-212.096 0-384 171.904-384 384s171.904 384 384 384 384-171.904 384-384-171.904-384-384-384z m162.944 368.96l-182.72 182.72c-6.528 6.528-17.12 6.528-23.648 0l-182.72-182.72c-6.528-6.528-6.528-17.12 0-23.648s17.12-6.528 23.648 0l170.88 170.88 170.88-170.88c6.528-6.528 17.12-6.528 23.648 0s6.528 17.12 0 23.648z" />
+              </svg>
+              Information
+            </h3>
+
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
               <svg viewBox="0 0 1024 1024" style={{ width: '16px', height: '16px', fill: 'white', marginRight: '0.5rem', flexShrink: 0 }}>
                 <path d="M512 249.976471c-99.388235 0-180.705882 81.317647-180.705882 180.705882s81.317647 180.705882 180.705882 180.705882 180.705882-81.317647 180.705882-180.705882-81.317647-180.705882-180.705882-180.705882z m0 301.17647c-66.258824 0-120.470588-54.211765-120.470588-120.470588s54.211765-120.470588 120.470588-120.470588 120.470588 54.211765 120.470588 120.470588-54.211765 120.470588-120.470588 120.470588z" />
@@ -403,7 +418,7 @@ export default function Home() {
                 Zhejiang University
               </p>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.25rem' }}>
               <svg viewBox="0 0 1024 1024" style={{ width: '16px', height: '16px', fill: 'white', marginRight: '0.5rem', flexShrink: 0 }}>
                 <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372zm-64-300c0-17.7 14.3-32 32-32h64c17.7 0 32 14.3 32 32v144c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32V584zm96-312c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80z" />
               </svg>
@@ -411,125 +426,124 @@ export default function Home() {
                 AI Infra Developer
               </p>
             </div>
-          </div>
 
-          {/* 联系按钮 */}
-          <div style={{
-            width: '100%',
-            marginBottom: '1.5rem',
-            textAlign: 'center'
-          }}>
-            <h3 style={{
-              margin: '0 0 1rem',
-              fontSize: '1rem',
-              color: 'white',
-              fontWeight: '600'
-            }}>
-              CONTACT
-            </h3>
             <div style={{
-              display: 'flex',
-              gap: '1rem',
-              justifyContent: 'center'
+              borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+              paddingTop: '1rem',
+              textAlign: 'center'
             }}>
-              <div 
-                style={{
-                  width: '49px',
-                  height: '43px',
-                  boxSizing: 'border-box',
-                  borderRadius: '7px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'rgba(0, 0, 0, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.25)',
-                  transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
-                  flexShrink: 0,
-                  cursor: 'pointer'
-                }}
-                onClick={handleGithubClick}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                }}
-              >
-                <img 
-                  src="/github.png" 
-                  alt="GitHub" 
-                  style={{ width: '22px', height: '22px' }}
-                />
-              </div>
-              <div 
-                style={{
-                  width: '49px',
-                  height: '43px',
-                  boxSizing: 'border-box',
-                  borderRadius: '7px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'rgba(0, 0, 0, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.25)',
-                  transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
-                  flexShrink: 0,
-                  cursor: 'pointer'
-                }}
-                onClick={handleGmailClick}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                }}
-              >
-                <img 
-                  src="/gmail.png" 
-                  alt="Gmail" 
-                  style={{ width: '22px', height: '22px' }}
-                />
-              </div>
-              <div 
-                style={{
-                  width: '49px',
-                  height: '43px',
-                  boxSizing: 'border-box',
-                  borderRadius: '7px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'rgba(0, 0, 0, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.25)',
-                  transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
-                  flexShrink: 0,
-                  cursor: 'pointer'
-                }}
-                onClick={handleWechatClick}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                }}
-              >
-                <img 
-                  src="/wechat.png" 
-                  alt="WeChat" 
-                  style={{ width: '22px', height: '22px' }}
-                />
+              <h3 style={{
+                margin: '0 0 1rem',
+                fontSize: '1rem',
+                color: 'white',
+                fontWeight: '600'
+              }}>
+                CONTACT
+              </h3>
+              <div style={{
+                display: 'flex',
+                gap: '1rem',
+                justifyContent: 'center'
+              }}>
+                <div 
+                  style={{
+                    width: '49px',
+                    height: '43px',
+                    boxSizing: 'border-box',
+                    borderRadius: '7px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(0, 0, 0, 0.15)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(0, 0, 0, 0.25)',
+                    transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
+                    flexShrink: 0,
+                    cursor: 'pointer'
+                  }}
+                  onClick={handleGithubClick}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+                  }}
+                >
+                  <img 
+                    src="/github.png" 
+                    alt="GitHub" 
+                    style={{ width: '22px', height: '22px' }}
+                  />
+                </div>
+                <div 
+                  style={{
+                    width: '49px',
+                    height: '43px',
+                    boxSizing: 'border-box',
+                    borderRadius: '7px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(0, 0, 0, 0.15)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(0, 0, 0, 0.25)',
+                    transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
+                    flexShrink: 0,
+                    cursor: 'pointer'
+                  }}
+                  onClick={handleGmailClick}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+                  }}
+                >
+                  <img 
+                    src="/gmail.png" 
+                    alt="Gmail" 
+                    style={{ width: '22px', height: '22px' }}
+                  />
+                </div>
+                <div 
+                  style={{
+                    width: '49px',
+                    height: '43px',
+                    boxSizing: 'border-box',
+                    borderRadius: '7px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(0, 0, 0, 0.15)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(0, 0, 0, 0.25)',
+                    transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
+                    flexShrink: 0,
+                    cursor: 'pointer'
+                  }}
+                  onClick={handleWechatClick}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+                  }}
+                >
+                  <img 
+                    src="/wechat.png" 
+                    alt="WeChat" 
+                    style={{ width: '22px', height: '22px' }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -610,7 +624,7 @@ export default function Home() {
                 fontWeight: '600',
                 marginBottom: '0.25rem'
               }}>
-                访客留言板
+                留言板
               </div>
               <div style={{
                 fontSize: '0.85rem',
