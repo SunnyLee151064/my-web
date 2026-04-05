@@ -823,7 +823,7 @@ export default function Home() {
               WebkitBackdropFilter: 'blur(10px)',
               border: '1px solid rgba(0, 0, 0, 0.25)',
               borderRadius: '13px',
-              padding: '2.5rem 1.5rem',
+              padding: '1.5rem',
               position: 'relative',
               overflowX: 'auto'
             }}>
@@ -831,12 +831,12 @@ export default function Home() {
                 display: 'flex',
                 minWidth: 'fit-content',
                 position: 'relative',
-                height: '120px'
+                height: '100px'
               }}>
                 {/* 时间轴中心线 */}
                 <div style={{
                   position: 'absolute',
-                  top: '30%',
+                  top: '35%',
                   left: '0',
                   right: '0',
                   height: '2px',
@@ -867,7 +867,7 @@ export default function Home() {
                       background: item.type === 'blog' ? '#ff6b6b' : item.type === 'photo' ? '#4ecdc4' : '#45b7d1',
                       zIndex: 1,
                       position: 'absolute',
-                      top: '30%',
+                      top: '35%',
                       transform: 'translateY(-50%)'
                     }} />
                     
@@ -875,7 +875,7 @@ export default function Home() {
                     <div style={{
                       textAlign: 'center',
                       fontSize: '0.8rem',
-                      marginTop: '40px',
+                      marginTop: '45px',
                       padding: '0 0.5rem'
                     }}>
                       <div style={{
