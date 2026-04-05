@@ -842,10 +842,53 @@ export default function Home() {
 
                     const getActionText = (action: string, type: string) => {
                       const actionMap: Record<string, Record<string, string>> = {
-                        blog: { create: '添加了新博客', update: '修改了博客', delete: '删除了博客' },
-                        photo: { upload: '上传了新图片', delete: '删除了图片' }
+                        blog: { create: '新增blog', update: '修改blog', delete: '删除blog' },
+                        photo: { upload: '新增照片', delete: '删除照片' },
+                        notebook: { create: '新增笔记本', delete: '删除笔记本' },
+                        album: { create: '新增相册', delete: '删除相册' }
                       };
                       return actionMap[type]?.[action] || action;
+                    };
+
+                    const getNodeColor = (action: string, type: string) => {
+                      const colorMap: Record<string, Record<string, string>> = {
+                        blog: { create: '#4ECDC4', update: '#FFD166', delete: '#EF476F' },
+                        photo: { upload: '#06D6A0', delete: '#EF476F' },
+                        notebook: { create: '#118AB2', delete: '#EF476F' },
+                        album: { create: '#073B4C', delete: '#EF476F' }
+                      };
+                      return colorMap[type]?.[action] || '#45B7D1';
+                    };
+
+                    const getTooltipText = (activity: Activity) => {
+                      if (activity.type === 'blog') {
+                        if (activity.action === 'delete') {
+                          return `删除文章《${activity.item_title || '未命名'}》`;
+                        } else if (activity.action === 'create') {
+                          return `新增文章《${activity.item_title || '未命名'}》`;
+                        } else if (activity.action === 'update') {
+                          return `修改文章《${activity.item_title || '未命名'}》`;
+                        }
+                      } else if (activity.type === 'photo') {
+                        if (activity.action === 'upload') {
+                          return `上传图片：${activity.item_title || '新图片'}`;
+                        } else if (activity.action === 'delete') {
+                          return `删除图片：${activity.item_title || '图片'}`;
+                        }
+                      } else if (activity.type === 'notebook') {
+                        if (activity.action === 'create') {
+                          return `新增笔记本：${activity.item_title || '新笔记本'}`;
+                        } else if (activity.action === 'delete') {
+                          return `删除笔记本：${activity.item_title || '笔记本'}`;
+                        }
+                      } else if (activity.type === 'album') {
+                        if (activity.action === 'create') {
+                          return `新增相册：${activity.item_title || '新相册'}`;
+                        } else if (activity.action === 'delete') {
+                          return `删除相册：${activity.item_title || '相册'}`;
+                        }
+                      }
+                      return `${getActionText(activity.action, activity.type)}`;
                     };
 
                     const handleClick = () => {
@@ -868,30 +911,59 @@ export default function Home() {
                         position: 'relative',
                         minWidth: '150px'
                       }}>
+                        {/* 悬浮提示 */}
+                        <div style={{
+                          position: 'absolute',
+                          top: '-40px',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          background: 'rgba(0, 0, 0, 0.8)',
+                          color: 'white',
+                          padding: '8px 12px',
+                          borderRadius: '8px',
+                          fontSize: '0.75rem',
+                          whiteSpace: 'nowrap',
+                          zIndex: 10,
+                          opacity: 0,
+                          visibility: 'hidden',
+                          transition: 'opacity 0.2s ease, visibility 0.2s ease',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+                        }} className="tooltip">
+                          {getTooltipText(item)}
+                        </div>
+
                         {/* 节点 */}
                         <div 
                           style={{
                             width: '12px',
                             height: '12px',
                             borderRadius: '50%',
-                            background: item.type === 'blog' ? '#ff6b6b' : item.type === 'photo' ? '#4ecdc4' : '#45b7d1',
+                            background: getNodeColor(item.action, item.type),
                             zIndex: 1,
                             position: 'absolute',
                             top: '35%',
                             transform: 'translateY(-50%)',
                             cursor: isClickable ? 'pointer' : 'default',
-                            transition: 'transform 0.2s ease'
+                            transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                           }}
                           onClick={handleClick}
                           onMouseEnter={(e) => {
-                            if (isClickable) {
-                              e.currentTarget.style.transform = 'translateY(-50%) scale(1.3)';
+                            const tooltip = e.currentTarget.parentElement?.querySelector('.tooltip');
+                            if (tooltip) {
+                              (tooltip as HTMLElement).style.opacity = '1';
+                              (tooltip as HTMLElement).style.visibility = 'visible';
                             }
+                            e.currentTarget.style.transform = 'translateY(-50%) scale(1.3)';
+                            e.currentTarget.style.boxShadow = `0 0 10px ${getNodeColor(item.action, item.type)}`;
                           }}
                           onMouseLeave={(e) => {
-                            if (isClickable) {
-                              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                            const tooltip = e.currentTarget.parentElement?.querySelector('.tooltip');
+                            if (tooltip) {
+                              (tooltip as HTMLElement).style.opacity = '0';
+                              (tooltip as HTMLElement).style.visibility = 'hidden';
                             }
+                            e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                            e.currentTarget.style.boxShadow = 'none';
                           }}
                         />
                         
@@ -916,7 +988,7 @@ export default function Home() {
                             color: 'white',
                             fontWeight: '500'
                           }}>
-                            {item.item_title || getActionText(item.action, item.type)}
+                            {getActionText(item.action, item.type)}
                           </div>
                         </div>
                       </div>
