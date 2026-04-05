@@ -28,10 +28,13 @@ export default function AdminPhotosPage() {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
   const [showAlbumModal, setShowAlbumModal] = useState(false);
   const [editingAlbum, setEditingAlbum] = useState<Album | null>(null);
   const [albumName, setAlbumName] = useState('');
   const [isDefault, setIsDefault] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+  const [showPhotoModal, setShowPhotoModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -46,7 +49,6 @@ export default function AdminPhotosPage() {
           if (parsedUser.role !== 'admin') {
             router.push('/');
           } else {
-            fetchPhotos();
             fetchAlbums();
           }
         } else {
@@ -60,9 +62,14 @@ export default function AdminPhotosPage() {
     }
   }, [router]);
 
+  useEffect(() => {
+    fetchPhotos();
+  }, [selectedAlbum]);
+
   const fetchPhotos = async () => {
     try {
-      const res = await fetch('/api/photos');
+      const url = selectedAlbum ? `/api/photos?album_id=${selectedAlbum}` : '/api/photos';
+      const res = await fetch(url);
       const data = await res.json();
       if (data.success) {
         setPhotos(data.photos || []);
@@ -170,6 +177,9 @@ export default function AdminPhotosPage() {
 
       if (data.success) {
         await fetchAlbums();
+        if (selectedAlbum === id) {
+          setSelectedAlbum(null);
+        }
       } else {
         alert(data.error || 'Failed to delete album');
       }
@@ -227,11 +237,11 @@ export default function AdminPhotosPage() {
           top: '1.5rem',
           left: '1.5rem',
           padding: '0.5rem 1rem',
-          background: 'rgba(255, 255, 255, 0.2)',
+          background: 'rgba(0, 0, 0, 0.15)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '4px',
+          border: '1px solid rgba(0, 0, 0, 0.25)',
+          borderRadius: '7px',
           cursor: 'pointer',
           fontWeight: '500',
           color: 'white',
@@ -240,32 +250,154 @@ export default function AdminPhotosPage() {
           zIndex: 10
         }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+          (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
         }}
       >
         ← Back
       </button>
 
+      {/* 图片查看弹窗 */}
+      {showPhotoModal && selectedPhoto && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.8)',
+          backdropFilter: 'blur(5px)',
+          WebkitBackdropFilter: 'blur(5px)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 100
+        }} onClick={() => setShowPhotoModal(false)}>
+          <div style={{
+            maxWidth: '90%',
+            maxHeight: '90%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            position: 'relative',
+            zIndex: 101
+          }} onClick={(e) => e.stopPropagation()}>
+            {/* 关闭按钮 */}
+            <button
+              onClick={() => setShowPhotoModal(false)}
+              style={{
+                position: 'absolute',
+                top: '-40px',
+                right: '0',
+                width: '30px',
+                height: '30px',
+                background: 'rgba(0, 0, 0, 0.5)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '1.2rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                transition: 'all 0.3s ease',
+                zIndex: 102
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.7)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.5)';
+              }}
+            >
+              ×
+            </button>
+            
+            {/* 图片 */}
+            <div style={{
+              maxHeight: '80vh',
+              overflow: 'hidden',
+              borderRadius: '12px',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
+            }}>
+              <img
+                src={selectedPhoto.url}
+                alt={selectedPhoto.description || 'Photo'}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  maxHeight: '80vh',
+                  objectFit: 'contain'
+                }}
+              />
+            </div>
+            
+            {/* 图片描述 */}
+            {selectedPhoto.description && (
+              <div style={{
+                marginTop: '1rem',
+                padding: '1rem 1.5rem',
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                maxWidth: '80%',
+                textAlign: 'center'
+              }}>
+                <h3 style={{
+                  margin: '0 0 0.5rem',
+                  fontSize: '1.1rem',
+                  color: 'white',
+                  fontWeight: '600'
+                }}>
+                  图片描述
+                </h3>
+                <p style={{
+                  margin: '0 0 0.5rem',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  fontSize: '1rem'
+                }}>
+                  {selectedPhoto.description}
+                </p>
+                <p style={{
+                  margin: 0,
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  fontSize: '0.9rem'
+                }}>
+                  {new Date(selectedPhoto.created_at).toLocaleString()}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* 标题 */}
       <div style={{
         maxWidth: '1200px',
-        margin: '0 auto 2rem',
+        margin: '0 auto 3rem',
         paddingTop: '2rem'
       }}>
         <h1 style={{
-          fontSize: '2rem',
+          fontSize: '2.5rem',
           color: 'white',
           fontWeight: '600',
           display: 'flex',
           alignItems: 'center',
-          margin: '0 0 1.5rem'
+          margin: 0
         }}>
-          <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '12px', width: '32px', height: '32px', fill: 'white' }}>
-            <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z" />
-          </svg>
+          <img 
+            src="/photos.png" 
+            alt="Photos" 
+            style={{ marginRight: '12px', width: '36px', height: '36px' }}
+          />
           <span style={{
             fontFamily: 'cursive',
             background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
@@ -273,100 +405,49 @@ export default function AdminPhotosPage() {
             WebkitTextFillColor: 'transparent'
           }}>Manage Photos</span>
         </h1>
-
-
-
-        {/* 图集管理 */}
-        <div style={{ marginBottom: '3rem' }}>
-          <h2 style={{
-            fontSize: '1.5rem',
-            color: 'white',
-            fontWeight: '600',
-            margin: '0 0 1rem'
-          }}>
-            Manage Albums
-          </h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-            gap: '1rem'
-          }}>
-            {albums.map((album) => (
-              <div
-                key={album.id}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '12px',
-                  padding: '1.5rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '1rem'
-                }}
-              >
-                <div>
-                  <h3 style={{
-                    margin: '0 0 0.5rem',
-                    fontSize: '1.1rem',
-                    color: 'white',
-                    fontWeight: '600'
-                  }}>
-                    {album.name}
-                    {album.is_default && (
-                      <span style={{
-                        marginLeft: '0.5rem',
-                        fontSize: '0.8rem',
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        background: 'rgba(255, 255, 255, 0.2)',
-                        padding: '0.2rem 0.5rem',
-                        borderRadius: '4px'
-                      }}>
-                        Default
-                      </span>
-                    )}
-                  </h3>
-                </div>
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: 'auto' }}>
-                  <button
-                    onClick={() => handleEditAlbum(album)}
-                    style={{
-                      flex: 1,
-                      padding: '0.5rem',
-                      background: 'rgba(102, 126, 234, 0.8)',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '0.9rem',
-                      transition: 'all 0.3s ease'
-                    }}
-                  >
-                    Edit
-                  </button>
-                  {!album.is_default && (
-                    <button
-                      onClick={() => handleDeleteAlbum(album.id)}
-                      style={{
-                        flex: 1,
-                        padding: '0.5rem',
-                        background: 'rgba(255, 68, 68, 0.8)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontSize: '0.9rem',
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      Delete
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+        <p style={{ color: 'rgba(255, 255, 255, 0.7)', marginTop: '0.5rem', fontSize: '1rem' }}>
+          管理照片和相册
+        </p>
+        
+        {/* 图集选择器 */}
+        <div style={{ marginTop: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+          <button
+            onClick={() => setSelectedAlbum(null)}
+            style={{
+              padding: '0.5rem 1rem',
+              background: selectedAlbum === null ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              color: 'white',
+              fontSize: '0.9rem',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            所有照片
+          </button>
+          {albums.map((album) => (
+            <button
+              key={album.id}
+              onClick={() => setSelectedAlbum(album.id)}
+              style={{
+                padding: '0.5rem 1rem',
+                background: selectedAlbum === album.id ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '0.9rem',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              {album.name} {album.is_default && '(默认)'}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -375,20 +456,11 @@ export default function AdminPhotosPage() {
         maxWidth: '1200px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
         gap: '1.5rem'
       }}>
         {photos.length === 0 ? (
-          <div style={{
-            background: 'rgba(255, 255, 255, 0.15)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            borderRadius: '12px',
-            padding: '2rem',
-            textAlign: 'center',
-            color: 'rgba(255, 255, 255, 0.7)',
-            gridColumn: '1 / -1'
-          }}>
+          <div style={{ color: 'rgba(255, 255, 255, 0.7)', gridColumn: '1 / -1', textAlign: 'center', padding: '3rem' }}>
             No photos yet
           </div>
         ) : (
@@ -396,18 +468,33 @@ export default function AdminPhotosPage() {
             <div
               key={photo.id}
               style={{
-                background: 'rgba(255, 255, 255, 0.15)',
+                background: 'rgba(0, 0, 0, 0.15)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(0, 0, 0, 0.25)',
                 borderRadius: '12px',
                 overflow: 'hidden',
+                cursor: 'pointer',
                 transition: 'all 0.3s ease'
+              }}
+              onClick={() => {
+                setSelectedPhoto(photo);
+                setShowPhotoModal(true);
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0, 0, 0, 0.25)';
               }}
             >
               <div style={{
                 width: '100%',
-                height: '150px',
+                height: '200px',
                 overflow: 'hidden'
               }}>
                 <img
@@ -416,34 +503,51 @@ export default function AdminPhotosPage() {
                   style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'cover'
+                    objectFit: 'cover',
+                    transition: 'transform 0.3s ease'
                   }}
                 />
               </div>
               <div style={{
-                padding: '1rem'
+                padding: '1rem',
+                borderTop: '1px solid rgba(255, 255, 255, 0.1)'
               }}>
                 {photo.description && (
-                  <p style={{ margin: '0 0 0.75rem', fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.8)' }}>
+                  <p style={{
+                    margin: '0 0 0.75rem',
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    fontSize: '0.9rem'
+                  }}>
                     {photo.description}
                   </p>
                 )}
-                <button
-                  onClick={() => handleDelete(photo.id)}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    background: 'rgba(255, 68, 68, 0.8)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  Delete
-                </button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <p style={{
+                    margin: 0,
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    fontSize: '0.8rem'
+                  }}>
+                    {new Date(photo.created_at).toLocaleDateString()}
+                  </p>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(photo.id);
+                    }}
+                    style={{
+                      padding: '0.4rem 0.8rem',
+                      background: 'rgba(255, 68, 68, 0.8)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '0.8rem',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))
@@ -456,14 +560,12 @@ export default function AdminPhotosPage() {
         bottom: '2rem',
         right: '2rem',
         display: 'flex',
-        flexDirection: 'column',
         gap: '1rem',
         zIndex: 10
       }}>
         <Link
           href="/admin/photos/upload"
           style={{
-            display: 'inline-block',
             padding: '0.75rem 1.5rem',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             color: 'white',
@@ -490,7 +592,7 @@ export default function AdminPhotosPage() {
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
           }}
         >
-          + Create Album
+          + New Album
         </button>
       </div>
 
