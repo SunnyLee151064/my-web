@@ -3,31 +3,49 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 
+interface User {
+  id: number;
+  username: string;
+  role: string;
+}
+
 export default function EditBlogPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
 
   useEffect(() => {
-    if (!id) return;
-
-    fetch(`/api/blog/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.post) {
-          setTitle(data.post.title);
-          setContent(data.post.content);
-        }
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      router.push('/login');
+    } else {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      if (parsedUser.role !== 'admin') {
+        router.push('/');
+      } else if (id) {
+        fetch(`/api/blog/${id}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.post) {
+              setTitle(data.post.title);
+              setContent(data.post.content);
+            }
+            setFetching(false);
+          })
+          .catch(() => {
+            setFetching(false);
+          });
+      } else {
         setFetching(false);
-      })
-      .catch(() => {
-        setFetching(false);
-      });
-  }, [id]);
+      }
+    }
+  }, [id, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,7 +122,7 @@ export default function EditBlogPage() {
           />
         </div>
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
           <button
             type="submit"
             disabled={loading}
@@ -134,6 +152,15 @@ export default function EditBlogPage() {
           >
             Cancel
           </button>
+        </div>
+
+        <div style={{ marginTop: '2rem' }}>
+          <a
+            href="/"
+            style={{ color: '#0066cc', textDecoration: 'underline' }}
+          >
+            Back to Home
+          </a>
         </div>
       </form>
     </div>

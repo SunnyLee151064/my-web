@@ -32,7 +32,7 @@ export default function LoginPage() {
       }
 
       localStorage.setItem('user', JSON.stringify(data.user));
-      router.push('/welcome');
+      router.push('/admin/blog');
     } catch (err) {
       setError('An error occurred');
     } finally {

@@ -4,6 +4,12 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+interface User {
+  id: number;
+  username: string;
+  role: string;
+}
+
 interface Post {
   id: number;
   title: string;
@@ -14,11 +20,23 @@ interface Post {
 export default function AdminBlogPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      router.push('/login');
+    } else {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      if (parsedUser.role !== 'admin') {
+        router.push('/');
+      } else {
+        fetchPosts();
+      }
+    }
+  }, [router]);
 
   const fetchPosts = async () => {
     try {

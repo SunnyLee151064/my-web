@@ -1,14 +1,34 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+
+interface User {
+  id: number;
+  username: string;
+  role: string;
+}
 
 export default function UploadPhotoPage() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      router.push('/login');
+    } else {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      if (parsedUser.role !== 'admin') {
+        router.push('/');
+      }
+    }
+  }, [router]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
@@ -92,7 +112,7 @@ export default function UploadPhotoPage() {
           />
         </div>
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
           <button
             type="submit"
             disabled={loading || !file}
@@ -122,6 +142,15 @@ export default function UploadPhotoPage() {
           >
             取消
           </button>
+        </div>
+
+        <div style={{ marginTop: '2rem' }}>
+          <a
+            href="/"
+            style={{ color: '#0066cc', textDecoration: 'underline' }}
+          >
+            返回主页
+          </a>
         </div>
       </form>
     </div>

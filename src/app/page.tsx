@@ -49,7 +49,7 @@ export default function Home() {
       <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem' }}>
         {user ? (
           <button
-            onClick={() => router.push('/welcome')}
+            onClick={() => router.push('/admin/blog')}
             style={{
               padding: '0.5rem 1rem',
               background: 'white',

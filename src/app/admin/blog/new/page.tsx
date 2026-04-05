@@ -1,13 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+
+interface User {
+  id: number;
+  username: string;
+  role: string;
+}
 
 export default function NewBlogPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      router.push('/login');
+    } else {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      if (parsedUser.role !== 'admin') {
+        router.push('/');
+      }
+    }
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,7 +102,7 @@ export default function NewBlogPage() {
           />
         </div>
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
           <button
             type="submit"
             disabled={loading}
@@ -112,6 +132,15 @@ export default function NewBlogPage() {
           >
             Cancel
           </button>
+        </div>
+
+        <div style={{ marginTop: '2rem' }}>
+          <a
+            href="/"
+            style={{ color: '#0066cc', textDecoration: 'underline' }}
+          >
+            Back to Home
+          </a>
         </div>
       </form>
     </div>

@@ -4,6 +4,12 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+interface User {
+  id: number;
+  username: string;
+  role: string;
+}
+
 interface Photo {
   id: number;
   url: string;
@@ -14,11 +20,23 @@ interface Photo {
 export default function AdminPhotosPage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    fetchPhotos();
-  }, []);
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      router.push('/login');
+    } else {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      if (parsedUser.role !== 'admin') {
+        router.push('/');
+      } else {
+        fetchPhotos();
+      }
+    }
+  }, [router]);
 
   const fetchPhotos = async () => {
     try {
