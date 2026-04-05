@@ -1,15 +1,21 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 
+// 根据 ID 或 slug 获取文章
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
-    const posts = await sql`
-      SELECT id, title, content, slug FROM posts WHERE id = ${id}
-    `;
+    // 判断是 id 还是 slug
+    const isNumeric = /^\d+$/.test(id);
+    let posts;
+    if (isNumeric) {
+      posts = await sql`SELECT id, title, content, slug, created_at FROM posts WHERE id = ${parseInt(id)}`;
+    } else {
+      posts = await sql`SELECT id, title, content, slug, created_at FROM posts WHERE slug = ${id}`;
+    }
 
     if (posts.length === 0) {
       return NextResponse.json(
