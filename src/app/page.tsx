@@ -195,10 +195,14 @@ export default function Home() {
             <h1 style={{
               margin: '0 0 0.5rem',
               fontSize: '1.2rem',
-              color: 'white',
               fontWeight: '600'
             }}>
-              SunnyLee
+              <span style={{ 
+                fontFamily: 'Arial, sans-serif', 
+                background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}>SunnyLee</span>
             </h1>
             <p style={{
               margin: '0 0 0.25rem',
