@@ -1199,7 +1199,7 @@ export default function Home() {
 
       {/* 背景音乐 */}
       <audio
-        src="/back.flac"
+        src="/back.mp3"
         loop
         ref={(audio) => {
           if (audio) {
