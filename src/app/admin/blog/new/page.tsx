@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
 
 interface User {
   id: number;
@@ -9,9 +10,17 @@ interface User {
   role: string;
 }
 
+interface Notebook {
+  id: number;
+  name: string;
+  is_default: boolean;
+}
+
 export default function NewBlogPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [notebookId, setNotebookId] = useState<number>(1);
+  const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
@@ -27,6 +36,8 @@ export default function NewBlogPage() {
           setUser(parsedUser);
           if (parsedUser.role !== 'admin') {
             router.push('/');
+          } else {
+            fetchNotebooks();
           }
         } else {
           localStorage.removeItem('user');
@@ -38,6 +49,23 @@ export default function NewBlogPage() {
       }
     }
   }, [router]);
+
+  const fetchNotebooks = async () => {
+    try {
+      const res = await fetch('/api/notebooks');
+      const data = await res.json();
+      if (data.success) {
+        setNotebooks(data.notebooks || []);
+        // 设置默认笔记本
+        const defaultNotebook = data.notebooks.find((n: Notebook) => n.is_default);
+        if (defaultNotebook) {
+          setNotebookId(defaultNotebook.id);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch notebooks:', err);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +82,7 @@ export default function NewBlogPage() {
       const res = await fetch('/api/blog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, content, slug }),
+        body: JSON.stringify({ title, content, slug, notebook_id: notebookId }),
       });
 
       const data = await res.json();
@@ -102,23 +130,22 @@ export default function NewBlogPage() {
           top: '1.5rem',
           left: '1.5rem',
           padding: '0.5rem 1rem',
-          background: 'rgba(255, 255, 255, 0.2)',
+          background: 'rgba(0, 0, 0, 0.15)',
           backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
+          border: '1px solid rgba(0, 0, 0, 0.25)',
           borderRadius: '4px',
           cursor: 'pointer',
           fontWeight: '500',
-          color: 'white',
+          color: '#1a1a1a',
           fontSize: '0.9rem',
           transition: 'all 0.3s ease',
           zIndex: 10
         }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
         }}
       >
         ← Back
@@ -126,84 +153,139 @@ export default function NewBlogPage() {
 
       {/* 表单内容 */}
       <div style={{
-        maxWidth: '800px',
+        maxWidth: '1200px',
         margin: '0 auto',
         paddingTop: '4rem'
       }}>
         <div style={{
-          background: 'rgba(255, 255, 255, 0.15)',
+          background: 'rgba(255, 255, 255, 0.25)',
           backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
+          border: '1px solid rgba(0, 0, 0, 0.15)',
           borderRadius: '16px',
-          padding: '2.5rem'
+          padding: '2rem'
         }}>
           <h1 style={{
             fontSize: '1.8rem',
-            color: 'white',
+            color: '#1a1a1a',
             fontWeight: '600',
-            margin: '0 0 2rem'
+            margin: '0 0 1.5rem'
           }}>
             New Post
           </h1>
 
           <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: '1.5rem' }}>
-              <label style={{
-                display: 'block',
-                marginBottom: '0.5rem',
-                color: 'rgba(255, 255, 255, 0.9)',
-                fontWeight: '500'
-              }}>
-                Title
-              </label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '0.875rem 1rem',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  color: 'white',
-                  outline: 'none',
-                  boxSizing: 'border-box'
-                }}
-                required
-              />
+            {/* 标题和笔记本选择 */}
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
+              <div style={{ flex: 2 }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '0.5rem',
+                  color: 'rgba(0, 0, 0, 0.8)',
+                  fontWeight: '500'
+                }}>
+                  Title
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '0.875rem 1rem',
+                    background: 'rgba(255, 255, 255, 0.3)',
+                    border: '1px solid rgba(0, 0, 0, 0.2)',
+                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    color: '#1a1a1a',
+                    outline: 'none',
+                    boxSizing: 'border-box'
+                  }}
+                  required
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '0.5rem',
+                  color: 'rgba(0, 0, 0, 0.8)',
+                  fontWeight: '500'
+                }}>
+                  Notebook
+                </label>
+                <select
+                  value={notebookId}
+                  onChange={(e) => setNotebookId(parseInt(e.target.value))}
+                  style={{
+                    width: '100%',
+                    padding: '0.875rem 1rem',
+                    background: 'rgba(255, 255, 255, 0.3)',
+                    border: '1px solid rgba(0, 0, 0, 0.2)',
+                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    color: '#1a1a1a',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {notebooks.map((notebook) => (
+                    <option key={notebook.id} value={notebook.id}>
+                      {notebook.name} {notebook.is_default ? '(Default)' : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
+            {/* 编辑器和预览 */}
             <div style={{ marginBottom: '1.5rem' }}>
               <label style={{
                 display: 'block',
                 marginBottom: '0.5rem',
-                color: 'rgba(255, 255, 255, 0.9)',
+                color: 'rgba(0, 0, 0, 0.8)',
                 fontWeight: '500'
               }}>
                 Content (Markdown supported)
               </label>
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                rows={15}
-                style={{
-                  width: '100%',
-                  padding: '0.875rem 1rem',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  color: 'white',
-                  fontFamily: 'monospace',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                  resize: 'vertical'
-                }}
-                required
-              />
+              <div style={{ display: 'flex', gap: '1rem', height: '400px' }}>
+                {/* 编辑器 */}
+                <div style={{ flex: 1 }}>
+                  <textarea
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    placeholder="Write your content in Markdown..."
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      padding: '1rem',
+                      background: 'rgba(255, 255, 255, 0.3)',
+                      border: '1px solid rgba(0, 0, 0, 0.2)',
+                      borderRadius: '8px 0 0 8px',
+                      fontSize: '1rem',
+                      color: '#1a1a1a',
+                      fontFamily: 'monospace',
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                      resize: 'none'
+                    }}
+                    required
+                  />
+                </div>
+                {/* 预览 */}
+                <div style={{
+                  flex: 1,
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  border: '1px solid rgba(0, 0, 0, 0.2)',
+                  borderRadius: '0 8px 8px 0',
+                  padding: '1rem',
+                  overflow: 'auto'
+                }}>
+                  <h3 style={{ margin: '0 0 1rem', color: 'rgba(0, 0, 0, 0.6)', fontSize: '0.9rem' }}>Preview</h3>
+                  <div style={{ color: '#1a1a1a', lineHeight: '1.6' }}>
+                    <ReactMarkdown>{content || '*No content yet*'}</ReactMarkdown>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
@@ -229,9 +311,9 @@ export default function NewBlogPage() {
                 onClick={() => router.push('/admin/blog')}
                 style={{
                   padding: '0.75rem 1.5rem',
-                  background: 'rgba(255, 255, 255, 0.2)',
-                  color: 'white',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  background: 'rgba(0, 0, 0, 0.1)',
+                  color: '#1a1a1a',
+                  border: '1px solid rgba(0, 0, 0, 0.2)',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   fontSize: '1rem'

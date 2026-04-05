@@ -3,26 +3,56 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+interface Notebook {
+  id: number;
+  name: string;
+  is_default: boolean;
+  created_at: string;
+}
+
 interface Post {
   id: number;
   title: string;
   slug: string;
-  content: string;
+  notebook_id: number;
+  notebook_name: string;
   created_at: string;
 }
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [selectedNotebook, setSelectedNotebook] = useState<number | null>(null);
   const router = useRouter();
 
   useEffect(() => {
+    fetchNotebooks();
     fetchPosts();
   }, []);
 
+  const fetchNotebooks = async () => {
+    try {
+      const res = await fetch('/api/notebooks');
+      const data = await res.json();
+      if (data.success) {
+        setNotebooks(data.notebooks || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch notebooks:', err);
+    }
+  };
+
   const fetchPosts = async () => {
     try {
-      const res = await fetch('/api/blog');
+      let url = '/api/blog';
+      const params: string[] = [];
+      if (search) params.push(`search=${encodeURIComponent(search)}`);
+      if (selectedNotebook) params.push(`notebook_id=${selectedNotebook}`);
+      if (params.length > 0) url += '?' + params.join('&');
+
+      const res = await fetch(url);
       const data = await res.json();
       if (data.success) {
         setPosts(data.posts || []);
@@ -34,7 +64,12 @@ export default function BlogPage() {
     }
   };
 
-  // 生成随机颜色
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    fetchPosts();
+  };
+
   const getRandomColor = (index: number) => {
     const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dfe6e9'];
     return colors[index % colors.length];
@@ -53,7 +88,7 @@ export default function BlogPage() {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <div style={{ color: 'white', fontSize: '1.2rem' }}>Loading...</div>
+        <div style={{ color: '#1a1a1a', fontSize: '1.2rem' }}>Loading...</div>
       </div>
     );
   }
@@ -89,44 +124,44 @@ export default function BlogPage() {
           top: '1.5rem',
           left: '1.5rem',
           padding: '0.5rem 1rem',
-          background: 'rgba(255, 255, 255, 0.2)',
+          background: 'rgba(0, 0, 0, 0.15)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
+          border: '1px solid rgba(0, 0, 0, 0.25)',
           borderRadius: '4px',
           cursor: 'pointer',
           fontWeight: '500',
-          color: 'white',
+          color: '#1a1a1a',
           fontSize: '0.9rem',
           transition: 'all 0.3s ease',
           zIndex: 10
         }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
         }}
       >
         ← Back
       </button>
 
-      {/* 标题 */}
+      {/* 标题和搜索 */}
       <div style={{
         maxWidth: '900px',
-        margin: '0 auto 3rem',
+        margin: '0 auto 2rem',
         paddingTop: '2rem'
       }}>
         <h1 style={{
           fontSize: '2.5rem',
-          color: 'white',
+          color: '#1a1a1a',
           fontWeight: '600',
           display: 'flex',
           alignItems: 'center',
-          margin: 0
+          margin: '0 0 1.5rem'
         }}>
-          <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '12px', width: '36px', height: '36px', fill: 'white' }}>
-            <path d="M395.765333 586.570667h-171.733333c-22.421333 0-37.888-22.442667-29.909333-43.381334L364.768 95.274667A32 32 0 0 1 394.666667 74.666667h287.957333c22.72 0 38.208 23.018667 29.632 44.064l-99.36 243.882666h187.050667c27.509333 0 42.186667 32.426667 24.042666 53.098667l-458.602666 522.56c-22.293333 25.408-63.626667 3.392-54.976-29.28l85.354666-322.421333zM416.714667 138.666667L270.453333 522.581333h166.869334a32 32 0 0 1 30.933333 40.181334l-61.130667 230.954666 322.176-367.114666H565.312c-22.72 0-38.208-23.018667-29.632-44.064l99.36-243.882667H416.714667z" />
+          <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '12px', width: '36px', height: '36px', fill: '#1a1a1a' }}>
+            <path d="M395.765333 586.570667h-171.733333c-22.421333 0-37.888-22.442667-29.909333-43.381334L364.768 95.274667A32 32 0 0 1 394.666667 74.666667h287.957333c22.72 0 38.208 23.018667 29.632 44.064l-99.36 243.882666h187.050667c27.509333 0 42.186667 32.426667 24.042666 53.098667l-458.602666 522.56c-22.293333 25.408-63.626667 3.392-54.976-29.28l85.354666-322.421333z" />
           </svg>
           <span style={{
             fontFamily: 'cursive',
@@ -135,9 +170,87 @@ export default function BlogPage() {
             WebkitTextFillColor: 'transparent'
           }}>Blog</span>
         </h1>
-        <p style={{ color: 'rgba(255, 255, 255, 0.7)', marginTop: '0.5rem', fontSize: '1rem' }}>
-          记录日常所学所得
-        </p>
+
+        {/* 搜索框 */}
+        <form onSubmit={handleSearch} style={{ marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search blogs..."
+              style={{
+                flex: 1,
+                padding: '0.75rem 1rem',
+                background: 'rgba(255, 255, 255, 0.3)',
+                border: '1px solid rgba(0, 0, 0, 0.2)',
+                borderRadius: '8px',
+                fontSize: '1rem',
+                color: '#1a1a1a',
+                outline: 'none'
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                padding: '0.75rem 1.5rem',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontWeight: '600'
+              }}
+            >
+              Search
+            </button>
+          </div>
+        </form>
+
+        {/* 笔记本列表 */}
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+          <button
+            onClick={() => {
+              setSelectedNotebook(null);
+              setLoading(true);
+              fetchPosts();
+            }}
+            style={{
+              padding: '0.5rem 1rem',
+              background: selectedNotebook === null ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
+              color: 'white',
+              border: '1px solid rgba(0, 0, 0, 0.2)',
+              borderRadius: '20px',
+              cursor: 'pointer',
+              fontSize: '0.9rem',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            All
+          </button>
+          {notebooks.map((notebook) => (
+            <button
+              key={notebook.id}
+              onClick={() => {
+                setSelectedNotebook(notebook.id);
+                setLoading(true);
+                fetchPosts();
+              }}
+              style={{
+                padding: '0.5rem 1rem',
+                background: selectedNotebook === notebook.id ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
+                color: 'white',
+                border: '1px solid rgba(0, 0, 0, 0.2)',
+                borderRadius: '20px',
+                cursor: 'pointer',
+                fontSize: '0.9rem',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              {notebook.name}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* 博客列表 */}
@@ -149,8 +262,8 @@ export default function BlogPage() {
         gap: '1.5rem'
       }}>
         {posts.length === 0 ? (
-          <div style={{ color: 'rgba(255, 255, 255, 0.7)', gridColumn: '1 / -1', textAlign: 'center', padding: '3rem' }}>
-            No posts yet. Write one!
+          <div style={{ color: 'rgba(0, 0, 0, 0.7)', gridColumn: '1 / -1', textAlign: 'center', padding: '3rem' }}>
+            No posts found
           </div>
         ) : (
           posts.map((post, index) => (
@@ -158,10 +271,10 @@ export default function BlogPage() {
               key={post.id}
               onClick={() => router.push(`/blog/${post.slug}`)}
               style={{
-                background: 'rgba(255, 255, 255, 0.15)',
+                background: 'rgba(255, 255, 255, 0.25)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(0, 0, 0, 0.15)',
                 borderRadius: '12px',
                 padding: '1.5rem',
                 cursor: 'pointer',
@@ -172,31 +285,38 @@ export default function BlogPage() {
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)';
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.25)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.35)';
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.15)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.25)';
               }}
             >
               <div style={{ flex: 1 }}>
                 <h2 style={{
                   margin: '0 0 0.5rem',
                   fontSize: '1.2rem',
-                  color: 'white',
+                  color: '#1a1a1a',
                   fontWeight: '600'
                 }}>
                   {post.title}
                 </h2>
                 <p style={{
-                  margin: 0,
-                  color: 'rgba(255, 255, 255, 0.6)',
+                  margin: '0 0 0.25rem',
+                  color: 'rgba(0, 0, 0, 0.6)',
                   fontSize: '0.85rem'
                 }}>
                   {new Date(post.created_at).toLocaleDateString()}
                 </p>
+                {post.notebook_name && (
+                  <p style={{
+                    margin: 0,
+                    color: 'rgba(0, 0, 0, 0.5)',
+                    fontSize: '0.8rem'
+                  }}>
+                    📁 {post.notebook_name}
+                  </p>
+                )}
               </div>
               <div style={{
                 width: '50px',
@@ -210,7 +330,7 @@ export default function BlogPage() {
                 marginLeft: '1rem'
               }}>
                 <svg viewBox="0 0 1024 1024" style={{ width: '24px', height: '24px', fill: 'white' }}>
-                  <path d="M395.765333 586.570667h-171.733333c-22.421333 0-37.888-22.442667-29.909333-43.381334L364.768 95.274667A32 32 0 0 1 394.666667 74.666667h287.957333c22.72 0 38.208 23.018667 29.632 44.064l-99.36 243.882666h187.050667c27.509333 0 42.186667 32.426667 24.042666 53.098667l-458.602666 522.56c-22.293333 25.408-63.626667 3.392-54.976-29.28l85.354666-322.421333zM416.714667 138.666667L270.453333 522.581333h166.869334a32 32 0 0 1 30.933333 40.181334l-61.130667 230.954666 322.176-367.114666H565.312c-22.72 0-38.208-23.018667-29.632-44.064l99.36-243.882667H416.714667z" />
+                  <path d="M395.765333 586.570667h-171.733333c-22.421333 0-37.888-22.442667-29.909333-43.381334L364.768 95.274667A32 32 0 0 1 394.666667 74.666667h287.957333c22.72 0 38.208 23.018667 29.632 44.064l-99.36 243.882666h187.050667c27.509333 0 42.186667 32.426667 24.042666 53.098667l-458.602666 522.56c-22.293333 25.408-63.626667 3.392-54.976-29.28l85.354666-322.421333z" />
                 </svg>
               </div>
             </div>

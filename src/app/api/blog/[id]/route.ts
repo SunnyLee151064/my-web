@@ -8,13 +8,12 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    // 判断是 id 还是 slug
     const isNumeric = /^\d+$/.test(id);
     let posts;
     if (isNumeric) {
-      posts = await sql`SELECT id, title, content, slug, created_at FROM posts WHERE id = ${parseInt(id)}`;
+      posts = await sql`SELECT p.id, p.title, p.content, p.slug, p.notebook_id, p.created_at, n.name as notebook_name FROM posts p LEFT JOIN notebooks n ON p.notebook_id = n.id WHERE p.id = ${parseInt(id)}`;
     } else {
-      posts = await sql`SELECT id, title, content, slug, created_at FROM posts WHERE slug = ${id}`;
+      posts = await sql`SELECT p.id, p.title, p.content, p.slug, p.notebook_id, p.created_at, n.name as notebook_name FROM posts p LEFT JOIN notebooks n ON p.notebook_id = n.id WHERE p.slug = ${id}`;
     }
 
     if (posts.length === 0) {
@@ -39,7 +38,7 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const { title, content } = await request.json();
+    const { title, content, notebook_id } = await request.json();
 
     if (!title || !content) {
       return NextResponse.json(
@@ -48,11 +47,13 @@ export async function PUT(
       );
     }
 
+    const targetNotebook = notebook_id || 1;
+
     const result = await sql`
       UPDATE posts
-      SET title = ${title}, content = ${content}, updated_at = CURRENT_TIMESTAMP
+      SET title = ${title}, content = ${content}, notebook_id = ${targetNotebook}, updated_at = CURRENT_TIMESTAMP
       WHERE id = ${id}
-      RETURNING id, title, slug
+      RETURNING id, title, slug, notebook_id
     `;
 
     return NextResponse.json({ success: true, post: result[0] });

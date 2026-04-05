@@ -1,12 +1,39 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 
-export async function GET() {
+// 获取博客列表 - 支持搜索和笔记本筛选
+export async function GET(request: Request) {
   try {
-    const posts = await sql`
-      SELECT id, title, slug, created_at FROM posts
-      ORDER BY created_at DESC
+    const { searchParams } = new URL(request.url);
+    const search = searchParams.get('search') || '';
+    const notebookId = searchParams.get('notebook_id');
+
+    let query = `
+      SELECT p.id, p.title, p.slug, p.notebook_id, p.created_at, n.name as notebook_name
+      FROM posts p
+      LEFT JOIN notebooks n ON p.notebook_id = n.id
     `;
+
+    const conditions = [];
+    const params: any[] = [];
+
+    if (search) {
+      conditions.push(`p.title ILIKE $${params.length + 1}`);
+      params.push(`%${search}%`);
+    }
+
+    if (notebookId) {
+      conditions.push(`p.notebook_id = $${params.length + 1}`);
+      params.push(parseInt(notebookId));
+    }
+
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+
+    query += ' ORDER BY p.created_at DESC';
+
+    const posts = await sql(query, ...params);
 
     return NextResponse.json({ success: true, posts });
   } catch (error) {
@@ -18,9 +45,10 @@ export async function GET() {
   }
 }
 
+// 创建博客
 export async function POST(request: Request) {
   try {
-    const { title, content, slug } = await request.json();
+    const { title, content, slug, notebook_id } = await request.json();
 
     if (!title || !content || !slug) {
       return NextResponse.json(
@@ -29,10 +57,13 @@ export async function POST(request: Request) {
       );
     }
 
+    // 如果没有指定笔记本，使用默认笔记本
+    const targetNotebook = notebook_id || 1;
+
     const result = await sql`
-      INSERT INTO posts (title, content, slug)
-      VALUES (${title}, ${content}, ${slug})
-      RETURNING id, title, slug, created_at
+      INSERT INTO posts (title, content, slug, notebook_id)
+      VALUES (${title}, ${content}, ${slug}, ${targetNotebook})
+      RETURNING id, title, slug, notebook_id, created_at
     `;
 
     return NextResponse.json({ success: true, post: result[0] });
