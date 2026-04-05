@@ -49,11 +49,19 @@ export async function initDatabase() {
       title VARCHAR(255) NOT NULL,
       content TEXT NOT NULL,
       slug VARCHAR(255) UNIQUE NOT NULL,
-      notebook_id INTEGER DEFAULT 1,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (notebook_id) REFERENCES notebooks(id)
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
+  `;
+
+  // 添加 notebook_id 列（如果不存在）
+  await sql`
+    ALTER TABLE posts ADD COLUMN IF NOT EXISTS notebook_id INTEGER DEFAULT 1
+  `;
+
+  // 添加外键约束（如果不存在）
+  await sql`
+    ALTER TABLE posts ADD CONSTRAINT IF NOT EXISTS posts_notebook_id_fkey FOREIGN KEY (notebook_id) REFERENCES notebooks(id)
   `;
 
   // 创建 photos 表
