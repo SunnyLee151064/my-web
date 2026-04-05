@@ -149,7 +149,7 @@ export default function Home() {
           top: 0,
           padding: '2rem 1rem'
         }}>
-          {/* 头像区域 - 双击登录 */}
+          {/* 头像区域 - 双击登录/登出 */}
           <div style={{
             width: '90%',
             aspectRatio: '1/1',
@@ -160,7 +160,11 @@ export default function Home() {
             cursor: 'pointer'
           }}
           onDoubleClick={() => {
-            if (!user) {
+            if (user) {
+              // 已登录用户双击登出
+              handleLogout();
+            } else {
+              // 未登录用户双击登录
               router.push('/login');
             }
           }}>
@@ -333,33 +337,7 @@ export default function Home() {
             </div>
           </div>
 
-          {user && (
-            <div>
-              <button
-                onClick={handleLogout}
-                style={{
-                  padding: '0.5rem 1rem',
-                  background: 'rgba(0, 0, 0, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.25)',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '0.8rem',
-                  color: '#1a1a1a',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                }}
-              >
-                Logout
-              </button>
-            </div>
-          )}
+
 
           {/* 公告栏目 */}
           <div style={{
