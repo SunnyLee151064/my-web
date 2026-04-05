@@ -140,18 +140,48 @@ export default function PhotosPage() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 0, 0, 0.15)',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
+            position: 'relative',
+            zIndex: 101
           }} onClick={(e) => e.stopPropagation()}>
+            {/* 关闭按钮 */}
+            <button
+              onClick={() => setShowPhotoModal(false)}
+              style={{
+                position: 'absolute',
+                top: '-40px',
+                right: '0',
+                width: '30px',
+                height: '30px',
+                background: 'rgba(0, 0, 0, 0.5)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '1.2rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                transition: 'all 0.3s ease',
+                zIndex: 102
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.7)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.5)';
+              }}
+            >
+              ×
+            </button>
+            
+            {/* 图片 */}
             <div style={{
-              width: '100%',
-              maxHeight: '70vh',
-              overflow: 'hidden'
+              maxHeight: '80vh',
+              overflow: 'hidden',
+              borderRadius: '12px',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
             }}>
               <img
                 src={selectedPhoto.url}
@@ -159,71 +189,49 @@ export default function PhotosPage() {
                 style={{
                   width: '100%',
                   height: 'auto',
-                  maxHeight: '70vh',
+                  maxHeight: '80vh',
                   objectFit: 'contain'
                 }}
               />
             </div>
+            
+            {/* 图片描述 */}
             {selectedPhoto.description && (
               <div style={{
-                padding: '1.5rem',
-                width: '100%',
-                borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+                marginTop: '1rem',
+                padding: '1rem 1.5rem',
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                maxWidth: '80%',
+                textAlign: 'center'
               }}>
                 <h3 style={{
                   margin: '0 0 0.5rem',
-                  fontSize: '1.2rem',
-                  color: '#1a1a1a',
+                  fontSize: '1.1rem',
+                  color: 'white',
                   fontWeight: '600'
                 }}>
                   图片描述
                 </h3>
                 <p style={{
                   margin: '0 0 0.5rem',
-                  color: 'rgba(0, 0, 0, 0.8)',
+                  color: 'rgba(255, 255, 255, 0.8)',
                   fontSize: '1rem'
                 }}>
                   {selectedPhoto.description}
                 </p>
                 <p style={{
                   margin: 0,
-                  color: 'rgba(0, 0, 0, 0.5)',
+                  color: 'rgba(255, 255, 255, 0.5)',
                   fontSize: '0.9rem'
                 }}>
                   {new Date(selectedPhoto.created_at).toLocaleString()}
                 </p>
               </div>
             )}
-            <div style={{
-              padding: '1rem',
-              width: '100%',
-              textAlign: 'center',
-              borderTop: '1px solid rgba(0, 0, 0, 0.1)'
-            }}>
-              <button
-                onClick={() => setShowPhotoModal(false)}
-                style={{
-                  padding: '0.5rem 1.5rem',
-                  background: 'rgba(0, 0, 0, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.25)',
-                  borderRadius: '7px',
-                  cursor: 'pointer',
-                  color: '#1a1a1a',
-                  fontSize: '0.9rem',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-                }}
-              >
-                关闭
-              </button>
-            </div>
           </div>
         </div>
       )}
