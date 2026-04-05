@@ -110,29 +110,41 @@ export default function Home() {
             marginBottom: '1.5rem'
           }} />
 
-          {/* 个人信息 */}
-          <div style={{ textAlign: 'center' }}>
+          {/* 个人信息卡片 */}
+          <div style={{
+            width: '100%',
+            background: '#f8f9fa',
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            padding: '1.5rem',
+            marginBottom: '2rem'
+          }}>
             <h1 style={{
-              margin: '0 0 0.5rem',
-              fontSize: '1.5rem',
+              margin: '0 0 1rem',
+              fontSize: '1.3rem',
               color: '#333',
               fontWeight: '600'
             }}>
-              sunnyLee
+              SunnyLee
             </h1>
-            {user && (
-              <p style={{
-                margin: '0',
-                color: '#666',
-                fontSize: '0.9rem'
-              }}>
-                {user.role === 'admin' ? 'Admin' : 'User'}
-              </p>
-            )}
+            <p style={{
+              margin: '0 0 0.5rem',
+              fontSize: '0.85rem',
+              color: '#666'
+            }}>
+              Shanghai-China
+            </p>
+            <p style={{
+              margin: '0',
+              fontSize: '0.85rem',
+              color: '#666'
+            }}>
+              Company: Huawei
+            </p>
           </div>
 
           {user && (
-            <div style={{ marginTop: '2rem' }}>
+            <div style={{ marginBottom: '2rem' }}>
               <button
                 onClick={handleLogout}
                 style={{
@@ -157,6 +169,116 @@ export default function Home() {
           display: 'flex',
           flexDirection: 'column'
         }}>
+          {/* 招呼语和个人介绍 */}
+          <div style={{ marginBottom: '3rem' }}>
+            <h2 style={{
+              margin: '0 0 1rem',
+              fontSize: '1.8rem',
+              color: '#333',
+              fontWeight: '600'
+            }}>
+              Hey there！
+            </h2>
+            <p style={{
+              margin: '0 0 0.5rem',
+              fontSize: '1rem',
+              color: '#666'
+            }}>
+              AI Infra Developer.
+            </p>
+            <p style={{
+              margin: '0',
+              fontSize: '1rem',
+              color: '#666'
+            }}>
+              Love and peace.
+            </p>
+          </div>
+
+          {/* 社交媒体卡片 */}
+          <div style={{ marginBottom: '3rem' }}>
+            <h3 style={{
+              margin: '0 0 1rem',
+              fontSize: '1rem',
+              color: '#333',
+              fontWeight: '600'
+            }}>
+              Contact
+            </h3>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+              gap: '1rem'
+            }}>
+              <div style={{
+                padding: '1rem',
+                background: '#f8f9fa',
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                textAlign: 'center',
+                cursor: 'pointer'
+              }}>
+                <div style={{
+                  fontSize: '1.5rem',
+                  marginBottom: '0.5rem'
+                }}>
+                  🐱
+                </div>
+                <div style={{
+                  fontSize: '0.85rem',
+                  color: '#333',
+                  fontWeight: '500'
+                }}>
+                  GitHub
+                </div>
+              </div>
+              <div style={{
+                padding: '1rem',
+                background: '#f8f9fa',
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                textAlign: 'center',
+                cursor: 'pointer'
+              }}>
+                <div style={{
+                  fontSize: '1.5rem',
+                  marginBottom: '0.5rem'
+                }}>
+                  📧
+                </div>
+                <div style={{
+                  fontSize: '0.85rem',
+                  color: '#333',
+                  fontWeight: '500'
+                }}>
+                  Mail
+                </div>
+              </div>
+              <div style={{
+                padding: '1rem',
+                background: '#f8f9fa',
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                textAlign: 'center',
+                cursor: 'pointer'
+              }}>
+                <div style={{
+                  fontSize: '1.5rem',
+                  marginBottom: '0.5rem'
+                }}>
+                  💬
+                </div>
+                <div style={{
+                  fontSize: '0.85rem',
+                  color: '#333',
+                  fontWeight: '500'
+                }}>
+                  WeChat
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Site 部分 */}
           <div style={{ marginBottom: '2rem' }}>
             <h2 style={{
