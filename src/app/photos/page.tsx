@@ -1,23 +1,44 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { sql } from '@/lib/db';
 
-// 强制动态渲染
-export const dynamic = 'force-dynamic';
-
-async function getPhotos() {
-  try {
-    const photos = await sql`
-      SELECT id, url, description, created_at FROM photos
-      ORDER BY created_at DESC
-    `;
-    return photos;
-  } catch {
-    return [];
-  }
+interface Photo {
+  id: number;
+  url: string;
+  description: string | null;
+  created_at: string;
 }
 
-export default async function PhotosPage() {
-  const photos = await getPhotos();
+export default function PhotosPage() {
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  const fetchPhotos = async () => {
+    try {
+      const res = await fetch('/api/photos');
+      const data = await res.json();
+      if (data.success) {
+        setPhotos(data.photos || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch photos:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>

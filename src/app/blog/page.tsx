@@ -1,23 +1,44 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { sql } from '@/lib/db';
 
-// 强制动态渲染，每次请求时重新获取数据
-export const dynamic = 'force-dynamic';
-
-async function getPosts() {
-  try {
-    const posts = await sql`
-      SELECT id, title, slug, created_at FROM posts
-      ORDER BY created_at DESC
-    `;
-    return posts;
-  } catch {
-    return [];
-  }
+interface Post {
+  id: number;
+  title: string;
+  slug: string;
+  created_at: string;
 }
 
-export default async function BlogPage() {
-  const posts = await getPosts();
+export default function BlogPage() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const res = await fetch('/api/blog');
+      const data = await res.json();
+      if (data.success) {
+        setPosts(data.posts || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch posts:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
