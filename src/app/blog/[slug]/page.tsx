@@ -214,19 +214,27 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
                 ),
                 code({ node, inline, className, children, ...props }: any) {
                   const match = /language-(\w+)/.exec(className || '');
-                  return !inline && match ? (
-                    <div style={{ margin: '1rem 0', borderRadius: '8px', overflow: 'hidden' }}>
-                      <SyntaxHighlighter
-                        style={vscDarkPlus}
-                        language={match[1]}
-                        PreTag="div"
-                        customStyle={{ margin: 0 }}
-                        {...props}
-                      >
-                        {String(children).replace(/\n$/, '')}
-                      </SyntaxHighlighter>
-                    </div>
-                  ) : (
+                  
+                  // 如果是块级代码
+                  if (!inline) {
+                    const language = match ? match[1] : 'text';
+                    return (
+                      <div style={{ margin: '1rem 0', borderRadius: '8px', overflow: 'hidden' }}>
+                        <SyntaxHighlighter
+                          style={vscDarkPlus}
+                          language={language}
+                          PreTag="div"
+                          customStyle={{ margin: 0 }}
+                          {...props}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
+                      </div>
+                    );
+                  }
+                  
+                  // 如果是行内代码
+                  return (
                     <code className={className} style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.9rem' }} {...props}>
                       {children}
                     </code>

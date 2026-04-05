@@ -266,12 +266,57 @@ export default function EditBlogPage() {
               }}>
                 Content (Markdown supported)
               </label>
+              
+              {/* 快捷按钮 */}
+              <div style={{ marginBottom: '0.5rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const codeBlock = '\n```javascript\n// 在这里写JavaScript代码\n```\n';
+                    setContent(content + codeBlock);
+                  }}
+                  style={{
+                    padding: '0.25rem 0.5rem',
+                    background: 'rgba(102, 126, 234, 0.8)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '0.8rem'
+                  }}
+                >
+                  + JS Code
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const codeBlock = '\n```python\n# 在这里写Python代码\n```\n';
+                    setContent(content + codeBlock);
+                  }}
+                  style={{
+                    padding: '0.25rem 0.5rem',
+                    background: 'rgba(102, 126, 234, 0.8)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '0.8rem'
+                  }}
+                >
+                  + Python Code
+                </button>
+                <span style={{ fontSize: '0.8rem', color: 'rgba(0, 0, 0, 0.6)', alignSelf: 'center' }}>
+                  使用 ```language 来添加代码块
+                </span>
+              </div>
+              
               <div style={{ display: 'flex', gap: '1rem', height: '400px' }}>
                 {/* 编辑器 */}
                 <div style={{ flex: 1 }}>
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
+                    placeholder="Write your content in Markdown...&#10;&#10;代码块示例:&#10;```javascript&#10;function hello() {&#10;  console.log('Hello World!');&#10;}&#10;```"
                     style={{
                       width: '100%',
                       height: '100%',
@@ -284,7 +329,8 @@ export default function EditBlogPage() {
                       fontFamily: 'monospace',
                       outline: 'none',
                       boxSizing: 'border-box',
-                      resize: 'none'
+                      resize: 'none',
+                      lineHeight: '1.5'
                     }}
                     required
                   />
@@ -304,19 +350,27 @@ export default function EditBlogPage() {
                       components={{
                         code({ node, inline, className, children, ...props }: any) {
                           const match = /language-(\w+)/.exec(className || '');
-                          return !inline && match ? (
-                            <div style={{ margin: '1rem 0', borderRadius: '8px', overflow: 'hidden' }}>
-                              <SyntaxHighlighter
-                                style={vscDarkPlus}
-                                language={match[1]}
-                                PreTag="div"
-                                customStyle={{ margin: 0 }}
-                                {...props}
-                              >
-                                {String(children).replace(/\n$/, '')}
-                              </SyntaxHighlighter>
-                            </div>
-                          ) : (
+                          
+                          // 如果是块级代码
+                          if (!inline) {
+                            const language = match ? match[1] : 'text';
+                            return (
+                              <div style={{ margin: '1rem 0', borderRadius: '8px', overflow: 'hidden' }}>
+                                <SyntaxHighlighter
+                                  style={vscDarkPlus}
+                                  language={language}
+                                  PreTag="div"
+                                  customStyle={{ margin: 0 }}
+                                  {...props}
+                                >
+                                  {String(children).replace(/\n$/, '')}
+                                </SyntaxHighlighter>
+                              </div>
+                            );
+                          }
+                          
+                          // 如果是行内代码
+                          return (
                             <code className={className} style={{ background: 'rgba(0, 0, 0, 0.1)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.9rem' }} {...props}>
                               {children}
                             </code>
