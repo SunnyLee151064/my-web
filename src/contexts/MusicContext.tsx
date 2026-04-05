@@ -5,9 +5,8 @@ import { createContext, useContext, useState, useRef, useEffect, ReactNode } fro
 // 音乐文件列表 - 在这里添加你的音乐文件
 const musicFiles = [
   '/back.mp3',
-  // 在这里添加更多音乐文件，例如：
-  // '/music2.mp3',
-  // '/music3.mp3',
+  '/back1.mp3',
+  '/back2.mp3',
 ];
 
 interface MusicContextType {
