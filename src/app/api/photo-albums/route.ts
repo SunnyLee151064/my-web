@@ -20,7 +20,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { name, isDefault } = await request.json();
+    const body = await request.json();
+    console.log('Create album request body:', body);
+    const { name, isDefault } = body;
 
     if (!name) {
       return NextResponse.json(
@@ -31,20 +33,23 @@ export async function POST(request: Request) {
 
     // 如果设置为默认图集，先将其他图集设置为非默认
     if (isDefault === true) {
+      console.log('Setting other albums to non-default');
       await sql`UPDATE photo_albums SET is_default = FALSE`;
     }
 
+    console.log('Inserting new album:', { name, isDefault: isDefault === true });
     const result = await sql`
       INSERT INTO photo_albums (name, is_default)
       VALUES (${name}, ${isDefault === true})
       RETURNING id, name, is_default, created_at
     `;
 
+    console.log('Create album result:', result);
     return NextResponse.json({ success: true, album: result[0] });
   } catch (error) {
     console.error('Create album error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to create album' },
+      { success: false, error: 'Failed to create album: ' + (error instanceof Error ? error.message : String(error)) },
       { status: 500 }
     );
   }
