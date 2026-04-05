@@ -155,12 +155,30 @@ export default function UploadPhotoPage() {
         </div>
 
         <div style={{ marginTop: '2rem' }}>
-          <a
-            href="/"
-            style={{ color: '#0066cc', textDecoration: 'underline' }}
+          <button
+            onClick={() => router.push('/')}
+            style={{
+              background: 'transparent',
+              border: '1px solid #0066cc',
+              color: '#0066cc',
+              padding: '0.5rem 1rem',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '0.9rem',
+              fontWeight: '500',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = '#0066cc';
+              (e.currentTarget as HTMLElement).style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'transparent';
+              (e.currentTarget as HTMLElement).style.color = '#0066cc';
+            }}
           >
             返回主页
-          </a>
+          </button>
         </div>
       </form>
     </div>

@@ -193,12 +193,30 @@ export default function LoginPage() {
         </p>
 
         <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-          <a
-            href="/"
-            style={{ color: '#667eea', textDecoration: 'underline' }}
+          <button
+            onClick={() => router.push('/')}
+            style={{
+              background: 'transparent',
+              border: '1px solid #667eea',
+              color: '#667eea',
+              padding: '0.5rem 1rem',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '0.9rem',
+              fontWeight: '500',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = '#667eea';
+              (e.currentTarget as HTMLElement).style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'transparent';
+              (e.currentTarget as HTMLElement).style.color = '#667eea';
+            }}
           >
             Back to Home
-          </a>
+          </button>
         </p>
       </div>
     </div>

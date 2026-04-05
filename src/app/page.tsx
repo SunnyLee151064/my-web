@@ -225,14 +225,29 @@ export default function Home() {
               gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
               gap: '1rem'
             }}>
-              <div style={{
-                padding: '1rem',
-                background: '#f8f9fa',
-                border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                textAlign: 'center',
-                cursor: 'pointer'
-              }}>
+              <div 
+                style={{
+                  padding: '1rem',
+                  background: '#f8f9fa',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '6px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  if (text) {
+                    (text as HTMLElement).style.opacity = '1';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  if (text) {
+                    (text as HTMLElement).style.opacity = '0';
+                  }
+                }}
+              >
                 <div style={{
                   fontSize: '1.5rem',
                   marginBottom: '0.5rem'
@@ -242,19 +257,36 @@ export default function Home() {
                 <div style={{
                   fontSize: '0.85rem',
                   color: '#333',
-                  fontWeight: '500'
+                  fontWeight: '500',
+                  opacity: 0,
+                  transition: 'opacity 0.3s ease'
                 }}>
                   GitHub
                 </div>
               </div>
-              <div style={{
-                padding: '1rem',
-                background: '#f8f9fa',
-                border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                textAlign: 'center',
-                cursor: 'pointer'
-              }}>
+              <div 
+                style={{
+                  padding: '1rem',
+                  background: '#f8f9fa',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '6px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  if (text) {
+                    (text as HTMLElement).style.opacity = '1';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  if (text) {
+                    (text as HTMLElement).style.opacity = '0';
+                  }
+                }}
+              >
                 <div style={{
                   fontSize: '1.5rem',
                   marginBottom: '0.5rem'
@@ -264,19 +296,36 @@ export default function Home() {
                 <div style={{
                   fontSize: '0.85rem',
                   color: '#333',
-                  fontWeight: '500'
+                  fontWeight: '500',
+                  opacity: 0,
+                  transition: 'opacity 0.3s ease'
                 }}>
-                  Mail
+                  Google Mail
                 </div>
               </div>
-              <div style={{
-                padding: '1rem',
-                background: '#f8f9fa',
-                border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                textAlign: 'center',
-                cursor: 'pointer'
-              }}>
+              <div 
+                style={{
+                  padding: '1rem',
+                  background: '#f8f9fa',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '6px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  if (text) {
+                    (text as HTMLElement).style.opacity = '1';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  if (text) {
+                    (text as HTMLElement).style.opacity = '0';
+                  }
+                }}
+              >
                 <div style={{
                   fontSize: '1.5rem',
                   marginBottom: '0.5rem'
@@ -286,7 +335,9 @@ export default function Home() {
                 <div style={{
                   fontSize: '0.85rem',
                   color: '#333',
-                  fontWeight: '500'
+                  fontWeight: '500',
+                  opacity: 0,
+                  transition: 'opacity 0.3s ease'
                 }}>
                   WeChat
                 </div>
@@ -317,20 +368,29 @@ export default function Home() {
                   border: '1px solid #e0e0e0',
                   borderRadius: '6px',
                   cursor: 'pointer',
-                  textAlign: 'left'
+                  textAlign: 'left',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
                 }}
               >
                 <div style={{
                   fontSize: '0.9rem',
                   color: '#333',
                   fontWeight: '500',
-                  marginBottom: '0.25rem'
+                  marginBottom: '0.25rem',
+                  transition: 'all 0.3s ease'
                 }}>
                   博客
                 </div>
                 <div style={{
                   fontSize: '0.8rem',
-                  color: '#666'
+                  color: '#666',
+                  transition: 'all 0.3s ease'
                 }}>
                   记录日常
                 </div>
@@ -344,20 +404,29 @@ export default function Home() {
                   border: '1px solid #e0e0e0',
                   borderRadius: '6px',
                   cursor: 'pointer',
-                  textAlign: 'left'
+                  textAlign: 'left',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
                 }}
               >
                 <div style={{
                   fontSize: '0.9rem',
                   color: '#333',
                   fontWeight: '500',
-                  marginBottom: '0.25rem'
+                  marginBottom: '0.25rem',
+                  transition: 'all 0.3s ease'
                 }}>
                   图片
                 </div>
                 <div style={{
                   fontSize: '0.8rem',
-                  color: '#666'
+                  color: '#666',
+                  transition: 'all 0.3s ease'
                 }}>
                   图片集合
                 </div>
@@ -389,20 +458,29 @@ export default function Home() {
                     border: '1px solid #bbdefb',
                     borderRadius: '6px',
                     cursor: 'pointer',
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
                   }}
                 >
                   <div style={{
                     fontSize: '0.9rem',
                     color: '#1976d2',
                     fontWeight: '500',
-                    marginBottom: '0.25rem'
+                    marginBottom: '0.25rem',
+                    transition: 'all 0.3s ease'
                   }}>
                     管理博客
                   </div>
                   <div style={{
                     fontSize: '0.8rem',
-                    color: '#64b5f6'
+                    color: '#64b5f6',
+                    transition: 'all 0.3s ease'
                   }}>
                     创建/编辑/删除
                   </div>
@@ -416,20 +494,29 @@ export default function Home() {
                     border: '1px solid #c8e6c9',
                     borderRadius: '6px',
                     cursor: 'pointer',
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
                   }}
                 >
                   <div style={{
                     fontSize: '0.9rem',
                     color: '#388e3c',
                     fontWeight: '500',
-                    marginBottom: '0.25rem'
+                    marginBottom: '0.25rem',
+                    transition: 'all 0.3s ease'
                   }}>
                     管理图片
                   </div>
                   <div style={{
                     fontSize: '0.8rem',
-                    color: '#81c784'
+                    color: '#81c784',
+                    transition: 'all 0.3s ease'
                   }}>
                     上传/删除
                   </div>
