@@ -217,5 +217,44 @@ export async function initDatabase() {
     console.log('Activities table already exists');
   }
 
+  // 创建 visitor_counts 表（访客计数表）
+  try {
+    await sql`
+      CREATE TABLE visitor_counts (
+        id SERIAL PRIMARY KEY,
+        count INTEGER DEFAULT 0,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+  } catch (error) {
+    // 表已存在，忽略错误
+    console.log('Visitor counts table already exists');
+  }
+
+  // 初始化访客计数
+  try {
+    const existingCount = await sql`SELECT id FROM visitor_counts`;
+    if (existingCount.length === 0) {
+      await sql`INSERT INTO visitor_counts (count) VALUES (0)`;
+    }
+  } catch (error) {
+    console.error('Error initializing visitor count:', error);
+  }
+
+  // 创建 guestbook 表（留言板表）
+  try {
+    await sql`
+      CREATE TABLE guestbook (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+  } catch (error) {
+    // 表已存在，忽略错误
+    console.log('Guestbook table already exists');
+  }
+
   console.log('Database tables created successfully');
 }

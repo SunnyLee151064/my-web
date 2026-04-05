@@ -21,6 +21,13 @@ interface User {
   role: string;
 }
 
+interface GuestbookMessage {
+  id: number;
+  name: string;
+  message: string;
+  created_at: string;
+}
+
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -31,6 +38,12 @@ export default function Home() {
     x: 0,
     y: 0
   });
+  const [visitorCount, setVisitorCount] = useState<number>(0);
+  const [guestbookMessages, setGuestbookMessages] = useState<GuestbookMessage[]>([]);
+  const [guestbookLoading, setGuestbookLoading] = useState(true);
+  const [newMessageName, setNewMessageName] = useState('');
+  const [newMessageContent, setNewMessageContent] = useState('');
+  const [submittingMessage, setSubmittingMessage] = useState(false);
   const router = useRouter();
   const { isPlaying, currentIndex, togglePlay, playNext, totalSongs } = useMusic();
 
@@ -48,8 +61,82 @@ export default function Home() {
     }
   };
 
+  const loadVisitorCount = async () => {
+    try {
+      const res = await fetch('/api/visitor-count');
+      const data = await res.json();
+      if (data.success) {
+        setVisitorCount(data.count);
+      }
+    } catch (error) {
+      console.error('Failed to load visitor count:', error);
+    }
+  };
+
+  const incrementVisitorCount = async () => {
+    try {
+      const res = await fetch('/api/visitor-count', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setVisitorCount(data.count);
+      }
+    } catch (error) {
+      console.error('Failed to increment visitor count:', error);
+    }
+  };
+
+  const loadGuestbook = async () => {
+    try {
+      const res = await fetch('/api/guestbook');
+      const data = await res.json();
+      if (data.success) {
+        setGuestbookMessages(data.messages);
+      }
+    } catch (error) {
+      console.error('Failed to load guestbook:', error);
+    } finally {
+      setGuestbookLoading(false);
+    }
+  };
+
+  const submitGuestbookMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newMessageName.trim() || !newMessageContent.trim()) return;
+    
+    setSubmittingMessage(true);
+    try {
+      const res = await fetch('/api/guestbook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: newMessageName.trim(),
+          message: newMessageContent.trim()
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setGuestbookMessages(prev => [data.message, ...prev]);
+        setNewMessageName('');
+        setNewMessageContent('');
+      }
+    } catch (error) {
+      console.error('Failed to submit message:', error);
+    } finally {
+      setSubmittingMessage(false);
+    }
+  };
+
   useEffect(() => {
     loadActivities();
+    loadVisitorCount();
+    loadGuestbook();
+    
+    // 只在用户首次访问时增加计数（使用 sessionStorage 防止同一会话重复计数）
+    const hasVisited = sessionStorage.getItem('hasVisited');
+    if (!hasVisited) {
+      incrementVisitorCount();
+      sessionStorage.setItem('hasVisited', 'true');
+    }
   }, []);
 
   useEffect(() => {
@@ -1190,6 +1277,208 @@ export default function Home() {
                     );
                   })}
                 </div>
+              )}
+            </div>
+          </div>
+
+          {/* 访客计数器 */}
+          <div style={{
+            marginBottom: '2rem',
+            width: '85%',
+            background: 'rgba(0, 0, 0, 0.15)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0, 0, 0, 0.25)',
+            borderRadius: '13px',
+            padding: '1.5rem',
+            textAlign: 'center'
+          }}>
+            <h2 style={{
+              margin: '0 0 0.5rem',
+              fontSize: '1.2rem',
+              color: 'white',
+              fontWeight: '600'
+            }}>
+              👋 访客计数
+            </h2>
+            <div style={{
+              fontSize: '3rem',
+              color: 'white',
+              fontWeight: '700',
+              background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
+              {visitorCount.toLocaleString()}
+            </div>
+            <p style={{
+              margin: '0.5rem 0 0',
+              fontSize: '0.8rem',
+              color: 'rgba(255, 255, 255, 0.7)'
+            }}>
+              感谢您的访问！
+            </p>
+          </div>
+
+          {/* 留言板 */}
+          <div style={{
+            marginBottom: '2rem',
+            width: '85%'
+          }}>
+            <h2 style={{
+              margin: '0 0 1rem',
+              fontSize: '1.5rem',
+              color: 'white',
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              <svg viewBox="0 0 1024 1024" style={{ width: '26px', height: '26px', fill: 'white', marginRight: '8px' }}>
+                <path d="M736 128c70.692 0 128 57.308 128 128v384c0 70.692-57.308 128-128 128H425.387L256 896l1.707-126.293C166.271 750.078 128 690.809 128 640V256c0-70.692 57.308-128 128-128h480m0-64H256C172.16 64 104 132.16 104 216v384c0 45.112 19.704 85.568 51.2 114.592V864l187.072-62.357C381.88 807.688 417.848 816 456 816h280c83.84 0 152-68.16 152-152V216c0-83.84-68.16-152-152-152z" />
+                <path d="M384 384h256v64H384zM384 512h160v64H384z" />
+              </svg>
+              留言板
+            </h2>
+
+            {/* 发表留言表单 */}
+            <div style={{
+              background: 'rgba(0, 0, 0, 0.15)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: '1px solid rgba(0, 0, 0, 0.25)',
+              borderRadius: '13px',
+              padding: '1.5rem',
+              marginBottom: '1rem'
+            }}>
+              <form onSubmit={submitGuestbookMessage} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <input
+                  type="text"
+                  placeholder="你的名字"
+                  value={newMessageName}
+                  onChange={(e) => setNewMessageName(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    color: 'white',
+                    fontSize: '0.9rem',
+                    outline: 'none'
+                  }}
+                  maxLength={255}
+                />
+                <textarea
+                  placeholder="写下你的留言..."
+                  value={newMessageContent}
+                  onChange={(e) => setNewMessageContent(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    color: 'white',
+                    fontSize: '0.9rem',
+                    outline: 'none',
+                    minHeight: '80px',
+                    resize: 'vertical'
+                  }}
+                  maxLength={1000}
+                />
+                <button
+                  type="submit"
+                  disabled={submittingMessage || !newMessageName.trim() || !newMessageContent.trim()}
+                  style={{
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '8px',
+                    border: 'none',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                    fontSize: '0.9rem',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    opacity: (submittingMessage || !newMessageName.trim() || !newMessageContent.trim()) ? 0.5 : 1
+                  }}
+                >
+                  {submittingMessage ? '发送中...' : '发表留言'}
+                </button>
+              </form>
+            </div>
+
+            {/* 留言列表 */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem'
+            }}>
+              {guestbookLoading ? (
+                <div style={{
+                  background: 'rgba(0, 0, 0, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
+                  borderRadius: '13px',
+                  padding: '1.5rem',
+                  textAlign: 'center',
+                  color: 'white'
+                }}>
+                  加载留言中...
+                </div>
+              ) : guestbookMessages.length === 0 ? (
+                <div style={{
+                  background: 'rgba(0, 0, 0, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
+                  borderRadius: '13px',
+                  padding: '1.5rem',
+                  textAlign: 'center',
+                  color: 'white'
+                }}>
+                  还没有留言，来成为第一个留言的人吧！
+                </div>
+              ) : (
+                guestbookMessages.map((msg) => (
+                  <div key={msg.id} style={{
+                    background: 'rgba(0, 0, 0, 0.15)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(0, 0, 0, 0.25)',
+                    borderRadius: '13px',
+                    padding: '1rem 1.25rem'
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginBottom: '0.5rem'
+                    }}>
+                      <span style={{
+                        fontWeight: '600',
+                        color: 'white',
+                        fontSize: '0.95rem'
+                      }}>
+                        {msg.name}
+                      </span>
+                      <span style={{
+                        fontSize: '0.75rem',
+                        color: 'rgba(255, 255, 255, 0.6)'
+                      }}>
+                        {new Date(msg.created_at).toLocaleString('zh-CN')}
+                      </span>
+                    </div>
+                    <p style={{
+                      margin: 0,
+                      fontSize: '0.9rem',
+                      color: 'white',
+                      lineHeight: '1.6'
+                    }}>
+                      {msg.message}
+                    </p>
+                  </div>
+                ))
               )}
             </div>
           </div>
