@@ -30,13 +30,13 @@ export async function POST(request: Request) {
     }
 
     // 如果设置为默认图集，先将其他图集设置为非默认
-    if (isDefault) {
+    if (isDefault === true) {
       await sql`UPDATE photo_albums SET is_default = FALSE`;
     }
 
     const result = await sql`
       INSERT INTO photo_albums (name, is_default)
-      VALUES (${name}, ${isDefault || false})
+      VALUES (${name}, ${isDefault === true})
       RETURNING id, name, is_default, created_at
     `;
 
@@ -62,13 +62,13 @@ export async function PUT(request: Request) {
     }
 
     // 如果设置为默认图集，先将其他图集设置为非默认
-    if (isDefault) {
+    if (isDefault === true) {
       await sql`UPDATE photo_albums SET is_default = FALSE`;
     }
 
     const result = await sql`
       UPDATE photo_albums
-      SET name = ${name}, is_default = ${isDefault || false}
+      SET name = ${name}, is_default = ${isDefault === true}
       WHERE id = ${id}
       RETURNING id, name, is_default, created_at
     `;
