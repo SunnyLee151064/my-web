@@ -253,12 +253,20 @@ export default function Home() {
               AI Infra Developer.
             </p>
             <p style={{
-              margin: '0',
+              margin: '0 0 1.5rem',
               fontSize: '1.2rem',
               color: 'rgba(255, 255, 255, 0.8)'
             }}>
               Love and peace.
             </p>
+            {/* 音波图 */}
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <img 
+                src="/wave.gif" 
+                alt="Sound Wave" 
+                style={{ width: '200px', height: '200px' }}
+              />
+            </div>
           </div>
 
           {/* 社交媒体卡片 */}
@@ -469,10 +477,18 @@ export default function Home() {
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  const title = e.currentTarget.querySelector('div div:first-child');
+                  if (title) {
+                    (title as HTMLElement).style.fontSize = '18px';
+                  }
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  const title = e.currentTarget.querySelector('div div:first-child');
+                  if (title) {
+                    (title as HTMLElement).style.fontSize = '16px';
+                  }
                 }}
               >
                 <div style={{
@@ -506,7 +522,7 @@ export default function Home() {
                   height: '100%'
                 }}>
                   <img 
-                    src="/github.png" 
+                    src="/blogs.png" 
                     alt="Blog" 
                     style={{ width: '39px', height: '39px', transition: 'transform 0.4s ease' }}
                   />
@@ -532,10 +548,18 @@ export default function Home() {
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  const title = e.currentTarget.querySelector('div div:first-child');
+                  if (title) {
+                    (title as HTMLElement).style.fontSize = '18px';
+                  }
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
                   (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  const title = e.currentTarget.querySelector('div div:first-child');
+                  if (title) {
+                    (title as HTMLElement).style.fontSize = '16px';
+                  }
                 }}
               >
                 <div style={{
@@ -569,7 +593,7 @@ export default function Home() {
                   height: '100%'
                 }}>
                   <img 
-                    src="/wechat.png" 
+                    src="/photos.png" 
                     alt="Photos" 
                     style={{ width: '39px', height: '39px', transition: 'transform 0.4s ease' }}
                   />
