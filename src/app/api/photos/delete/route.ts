@@ -15,7 +15,7 @@ export async function DELETE(request: Request) {
     }
 
     // 获取照片信息
-    const photos = await sql(`SELECT blob_id FROM photos WHERE id = ${id}`);
+    const photos = await sql`SELECT blob_id FROM photos WHERE id = ${id}`;
 
     if (photos.length > 0 && photos[0].blob_id) {
       // 删除 Blob
@@ -27,7 +27,7 @@ export async function DELETE(request: Request) {
     }
 
     // 删除数据库记录
-    await sql(`DELETE FROM photos WHERE id = ${id}`);
+    await sql`DELETE FROM photos WHERE id = ${id}`;
 
     return NextResponse.json({ success: true });
   } catch (error) {

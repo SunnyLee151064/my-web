@@ -4,13 +4,13 @@ import { neon } from '@neondatabase/serverless';
 const url = process.env.POSTGRES_URL;
 
 // 创建 sql 函数，在实际调用时才创建数据库连接
-export function sql(...args: any[]) {
+export const sql = (...args: Parameters<ReturnType<typeof neon>>) => {
   if (!url) {
     throw new Error('POSTGRES_URL is not configured');
   }
   const db = neon(url);
   return db(...args);
-}
+};
 
 // 初始化数据库表
 export async function initDatabase() {
@@ -19,7 +19,7 @@ export async function initDatabase() {
   }
 
   // 创建 users 表
-  await sql(`
+  await sql`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       username VARCHAR(255) UNIQUE NOT NULL,
@@ -27,10 +27,10 @@ export async function initDatabase() {
       role VARCHAR(50) DEFAULT 'user',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
-  `);
+  `;
 
   // 创建 posts 表
-  await sql(`
+  await sql`
     CREATE TABLE IF NOT EXISTS posts (
       id SERIAL PRIMARY KEY,
       title VARCHAR(255) NOT NULL,
@@ -39,10 +39,10 @@ export async function initDatabase() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
-  `);
+  `;
 
   // 创建 photos 表
-  await sql(`
+  await sql`
     CREATE TABLE IF NOT EXISTS photos (
       id SERIAL PRIMARY KEY,
       url TEXT NOT NULL,
@@ -50,7 +50,7 @@ export async function initDatabase() {
       description TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
-  `);
+  `;
 
   console.log('Database tables created successfully');
 }

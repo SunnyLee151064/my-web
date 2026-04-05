@@ -14,9 +14,9 @@ export async function POST(request: Request) {
     }
 
     // 检查是否已存在管理员
-    const existingAdmin = await sql(`
+    const existingAdmin = await sql`
       SELECT id FROM users WHERE role = 'admin'
-    `);
+    `;
 
     if (existingAdmin.length > 0) {
       return NextResponse.json(
@@ -29,11 +29,11 @@ export async function POST(request: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // 创建管理员
-    const result = await sql(`
+    const result = await sql`
       INSERT INTO users (username, password, role)
       VALUES (${username}, ${hashedPassword}, 'admin')
       RETURNING id, username, role
-    `);
+    `;
 
     return NextResponse.json({
       success: true,

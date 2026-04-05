@@ -4,10 +4,10 @@ import { put } from '@vercel/blob';
 
 export async function GET() {
   try {
-    const photos = await sql(`
+    const photos = await sql`
       SELECT id, url, blob_id, description, created_at FROM photos
       ORDER BY created_at DESC
-    `);
+    `;
 
     return NextResponse.json({ success: true, photos });
   } catch (error) {
@@ -38,11 +38,11 @@ export async function POST(request: Request) {
     });
 
     // 保存到数据库
-    const result = await sql(`
+    const result = await sql`
       INSERT INTO photos (url, blob_id, description)
       VALUES (${blob.url}, ${blob.pathname}, ${description || null})
       RETURNING id, url, created_at
-    `);
+    `;
 
     return NextResponse.json({ success: true, photo: result[0] });
   } catch (error) {
