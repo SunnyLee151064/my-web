@@ -239,38 +239,36 @@ export default function Home() {
           <div style={{ marginBottom: '3rem' }}>
             <h2 style={{
               margin: '0 0 1rem',
-              fontSize: '3rem',
+              fontSize: '2.5rem',
               color: 'white',
               fontWeight: '600'
             }}>
-              Hey there！
+              Hello I'm <span style={{ 
+                fontFamily: 'cursive', 
+                background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: '3rem'
+              }}>SunnyLee</span>
             </h2>
             <p style={{
               margin: '0 0 0.5rem',
-              fontSize: '1.2rem',
+              fontSize: '1rem',
               color: 'rgba(255, 255, 255, 0.8)'
             }}>
-              AI Infra Developer.
+              An AI-Infra developer.
             </p>
             <p style={{
-              margin: '0 0 1.5rem',
-              fontSize: '1.2rem',
+              margin: '0',
+              fontSize: '1rem',
               color: 'rgba(255, 255, 255, 0.8)'
             }}>
-              Love and peace.
+              An student of life.
             </p>
-            {/* 音波图 */}
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <img 
-                src="/wave.gif" 
-                alt="Sound Wave" 
-                style={{ width: '200px', height: '200px' }}
-              />
-            </div>
           </div>
 
           {/* 社交媒体卡片 */}
-          <div style={{ marginBottom: '3rem' }}>
+          <div style={{ marginBottom: '4rem' }}>
             <h3 style={{
               margin: '0 0 1rem',
               fontSize: '1.5rem',
@@ -451,7 +449,7 @@ export default function Home() {
               <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '8px', width: '26px', height: '26px', fill: 'white' }}>
                 <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z"/>
               </svg>
-              site
+              SITE
             </h2>
             <div style={{
               display: 'flex',
@@ -503,13 +501,13 @@ export default function Home() {
                     marginBottom: '15px',
                     transition: 'font-size 0.4s ease'
                   }}>
-                    博客
+                    Blog
                   </div>
                   <div style={{
                     fontSize: '12px',
                     color: 'rgba(255, 255, 255, 0.8)'
                   }}>
-                    记录日常
+                    Daily Records
                   </div>
                 </div>
                 <div style={{
@@ -574,13 +572,13 @@ export default function Home() {
                     marginBottom: '15px',
                     transition: 'font-size 0.4s ease'
                   }}>
-                    图片
+                    Photos
                   </div>
                   <div style={{
                     fontSize: '12px',
                     color: 'rgba(255, 255, 255, 0.8)'
                   }}>
-                    图片集合
+                    Photo Collection
                   </div>
                 </div>
                 <div style={{
