@@ -268,13 +268,18 @@ export default function Home() {
           </div>
 
           {/* 社交媒体卡片 */}
-          <div style={{ marginBottom: '4rem' }}>
+          <div style={{ marginBottom: '5rem' }}>
             <h3 style={{
               margin: '0 0 1rem',
               fontSize: '1.5rem',
               color: 'white',
-              fontWeight: '600'
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center'
             }}>
+              <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '8px', width: '26px', height: '26px', fill: 'white' }}>
+                <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z"/>
+              </svg>
               Contact
             </h3>
             <div style={{
@@ -457,7 +462,10 @@ export default function Home() {
               gap: '1rem'
             }}>
               <button
-                onClick={() => router.push('/blog')}
+                onClick={() => {
+                  console.log('Navigating to /blog');
+                  router.push('/blog');
+                }}
                 style={{
                   margin: '7px',
                   display: 'flex',
@@ -470,22 +478,31 @@ export default function Home() {
                   height: '100px',
                   width: 'calc(25% - 15px)',
                   transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  zIndex: 1
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
-                  const title = e.currentTarget.querySelector('div div:first-child');
-                  if (title) {
-                    (title as HTMLElement).style.fontSize = '18px';
+                  try {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                    const title = e.currentTarget.querySelector('div div:first-child');
+                    if (title) {
+                      (title as HTMLElement).style.fontSize = '18px';
+                    }
+                  } catch (error) {
+                    console.error('Error in mouse enter:', error);
                   }
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
-                  const title = e.currentTarget.querySelector('div div:first-child');
-                  if (title) {
-                    (title as HTMLElement).style.fontSize = '16px';
+                  try {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                    const title = e.currentTarget.querySelector('div div:first-child');
+                    if (title) {
+                      (title as HTMLElement).style.fontSize = '16px';
+                    }
+                  } catch (error) {
+                    console.error('Error in mouse leave:', error);
                   }
                 }}
               >
@@ -528,7 +545,10 @@ export default function Home() {
               </button>
 
               <button
-                onClick={() => router.push('/photos')}
+                onClick={() => {
+                  console.log('Navigating to /photos');
+                  router.push('/photos');
+                }}
                 style={{
                   margin: '7px',
                   display: 'flex',
@@ -541,22 +561,31 @@ export default function Home() {
                   height: '100px',
                   width: 'calc(25% - 15px)',
                   transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  zIndex: 1
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
-                  const title = e.currentTarget.querySelector('div div:first-child');
-                  if (title) {
-                    (title as HTMLElement).style.fontSize = '18px';
+                  try {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                    const title = e.currentTarget.querySelector('div div:first-child');
+                    if (title) {
+                      (title as HTMLElement).style.fontSize = '18px';
+                    }
+                  } catch (error) {
+                    console.error('Error in mouse enter:', error);
                   }
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
-                  const title = e.currentTarget.querySelector('div div:first-child');
-                  if (title) {
-                    (title as HTMLElement).style.fontSize = '16px';
+                  try {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                    const title = e.currentTarget.querySelector('div div:first-child');
+                    if (title) {
+                      (title as HTMLElement).style.fontSize = '16px';
+                    }
+                  } catch (error) {
+                    console.error('Error in mouse leave:', error);
                   }
                 }}
               >
