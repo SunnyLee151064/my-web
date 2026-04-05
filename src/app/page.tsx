@@ -831,18 +831,16 @@ export default function Home() {
                 display: 'flex',
                 minWidth: 'fit-content',
                 position: 'relative',
-                alignItems: 'center',
-                height: '80px'
+                height: '120px'
               }}>
                 {/* 时间轴中心线 */}
                 <div style={{
                   position: 'absolute',
-                  top: '50%',
+                  top: '30%',
                   left: '0',
                   right: '0',
                   height: '2px',
-                  background: 'linear-gradient(to right, #ff6b6b, #4ecdc4)',
-                  transform: 'translateY(-50%)'
+                  background: 'linear-gradient(to right, #ff6b6b, #4ecdc4)'
                 }} />
                 
                 {/* 时间轴节点 */}
@@ -869,7 +867,7 @@ export default function Home() {
                       background: item.type === 'blog' ? '#ff6b6b' : item.type === 'photo' ? '#4ecdc4' : '#45b7d1',
                       zIndex: 1,
                       position: 'absolute',
-                      top: '50%',
+                      top: '30%',
                       transform: 'translateY(-50%)'
                     }} />
                     
@@ -877,7 +875,7 @@ export default function Home() {
                     <div style={{
                       textAlign: 'center',
                       fontSize: '0.8rem',
-                      marginTop: '20px',
+                      marginTop: '40px',
                       padding: '0 0.5rem'
                     }}>
                       <div style={{
