@@ -8,8 +8,7 @@ export const dynamic = 'force-dynamic';
 
 async function getPost(slug: string) {
   try {
-    const db = sql();
-    const posts = await db`
+    const posts = await sql`
       SELECT id, title, content, created_at, updated_at FROM posts WHERE slug = ${slug}
     `;
     return posts[0] || null;
