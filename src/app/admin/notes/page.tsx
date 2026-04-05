@@ -26,9 +26,9 @@ interface Note {
   created_at: string;
 }
 
-export default function AdminNotePage() {
+export default function AdminNotesPage() {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [note_books, setNoteBooks] = useState<NoteBook[]>([]);
+  const [noteBooks, setNoteBooks] = useState<NoteBook[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [selectedNoteBook, setSelectedNoteBook] = useState<number | null>(null);
@@ -66,28 +66,25 @@ export default function AdminNotePage() {
 
   const fetchNoteBooks = async () => {
     try {
-      const res = await fetch('/api/note_books');
+      const res = await fetch('/api/note-books');
       const data = await res.json();
       if (data.success) {
-        setNoteBooks(data.note_books || []);
+        setNoteBooks(data.noteBooks || []);
       }
     } catch (err) {
-      console.error('Failed to fetch note_books:', err);
+      console.error('Failed to fetch note books:', err);
     }
   };
 
   const fetchNotes = async () => {
-    // 取消之前的请求
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
-    
-    // 创建新的AbortController
     abortControllerRef.current = new AbortController();
     
     try {
-      let url = '/api/note';
-      if (selectedNoteBook) url += `?note_book_id=${selectedNoteBook}`;
+      let url = '/api/notes';
+      if (selectedNoteBook) url += '?note_book_id=' + selectedNoteBook;
       
       const res = await fetch(url, {
         signal: abortControllerRef.current?.signal
@@ -99,7 +96,6 @@ export default function AdminNotePage() {
         setNotes([]);
       }
     } catch (err) {
-      // 忽略取消请求的错误
       if (err instanceof Error && err.name === 'AbortError') {
         return;
       }
@@ -114,7 +110,7 @@ export default function AdminNotePage() {
     if (!confirm('Are you sure you want to delete this note?')) return;
 
     try {
-      const res = await fetch(`/api/note/${id}`, {
+      const res = await fetch('/api/notes/' + id, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -138,7 +134,7 @@ export default function AdminNotePage() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/boatseas.jpg')`,
+        backgroundImage: 'url(\'/boatseas.jpg\')',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -155,14 +151,13 @@ export default function AdminNotePage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/boatseas.jpg')`,
+      backgroundImage: 'url(\'/boatseas.jpg\')',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
       padding: '2rem',
       position: 'relative'
     }}>
-      {/* 背景模糊层 */}
       <div style={{
         position: 'fixed',
         top: 0,
@@ -175,7 +170,6 @@ export default function AdminNotePage() {
         zIndex: -1
       }} />
 
-      {/* 返回按钮 */}
       <button
         onClick={() => router.push('/')}
         style={{
@@ -207,7 +201,6 @@ export default function AdminNotePage() {
         ← Back
       </button>
 
-      {/* 标题和笔记本列表 */}
       <div style={{
         maxWidth: '900px',
         margin: '0 auto 2rem',
@@ -223,7 +216,7 @@ export default function AdminNotePage() {
         }}>
           <img 
             src="/notes.png" 
-            alt="Note" 
+            alt="Notes" 
             style={{ marginRight: '12px', width: '36px', height: '36px' }}
           />
           <span style={{
@@ -231,10 +224,9 @@ export default function AdminNotePage() {
             background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
-          }}>Manage Note</span>
+          }}>Manage Notes</span>
         </h1>
 
-        {/* 笔记本列表 */}
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
           <button
             onClick={async () => {
@@ -255,17 +247,17 @@ export default function AdminNotePage() {
           >
             All
           </button>
-          {note_books.map((note_book) => (
+          {noteBooks.map((noteBook) => (
             <button
-              key={note_book.id}
+              key={noteBook.id}
               onClick={async () => {
-                setSelectedNoteBook(note_book.id);
+                setSelectedNoteBook(noteBook.id);
                 setLoading(true);
                 await fetchNotes();
               }}
               style={{
                 padding: '0.5rem 1rem',
-                background: selectedNoteBook === note_book.id ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
+                background: selectedNoteBook === noteBook.id ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
                 color: 'white',
                 border: '1px solid rgba(0, 0, 0, 0.2)',
                 borderRadius: '20px',
@@ -274,13 +266,12 @@ export default function AdminNotePage() {
                 transition: 'all 0.3s ease'
               }}
             >
-              {note_book.name}
+              {noteBook.name}
             </button>
           ))}
         </div>
       </div>
 
-      {/* 博客列表 */}
       <div style={{
         maxWidth: '900px',
         margin: '0 auto',
@@ -318,7 +309,7 @@ export default function AdminNotePage() {
               }}
             >
               <div style={{ flex: 1 }}>
-                <Link href={`/note/${note.slug}`} style={{ color: 'white', textDecoration: 'none' }}>
+                <Link href={'/notes/' + note.slug} style={{ color: 'white', textDecoration: 'none' }}>
                   <h2 style={{
                     margin: '0 0 0.5rem',
                     fontSize: '1.2rem',
@@ -348,7 +339,7 @@ export default function AdminNotePage() {
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginLeft: '1rem' }}>
                 <Link
-                  href={`/admin/note/edit/${note.id}`}
+                  href={'/admin/notes/edit/' + note.id}
                   style={{
                     padding: '0.5rem 1rem',
                     background: 'rgba(102, 126, 234, 0.8)',
@@ -384,7 +375,6 @@ export default function AdminNotePage() {
         )}
       </div>
 
-      {/* 右下角按钮 */}
       <div style={{
         position: 'fixed',
         bottom: '2rem',
@@ -394,7 +384,7 @@ export default function AdminNotePage() {
         zIndex: 10
       }}>
         <Link
-          href="/admin/note/new"
+          href="/admin/notes/new"
           style={{
             padding: '0.75rem 1.5rem',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -409,7 +399,7 @@ export default function AdminNotePage() {
           + New Note
         </Link>
         <Link
-          href="/admin/note_books"
+          href="/admin/note-books"
           style={{
             padding: '0.75rem 1.5rem',
             background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -421,7 +411,7 @@ export default function AdminNotePage() {
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
           }}
         >
-          + New NoteBook
+          + New Note Book
         </Link>
       </div>
     </div>
