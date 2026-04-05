@@ -444,21 +444,6 @@ export default function AdminNotesPage() {
         >
           + New Note Book
         </Link>
-        <Link
-          href="/admin/guestbook"
-          style={{
-            padding: '0.75rem 1.5rem',
-            background: 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)',
-            color: 'white',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            fontWeight: '600',
-            transition: 'all 0.3s ease',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
-          }}
-        >
-          📝 Guestbook
-        </Link>
       </div>
     </div>
   );
