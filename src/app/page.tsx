@@ -51,7 +51,9 @@ export default function Home() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#f5f5f5',
+      backgroundImage: `url('/background.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
       padding: '2rem',
       display: 'flex',
       justifyContent: 'center',
@@ -249,10 +251,13 @@ export default function Home() {
                 }}
               >
                 <div style={{
-                  fontSize: '1.5rem',
                   marginBottom: '0.5rem'
                 }}>
-                  🐱
+                  <img 
+                    src="/github.png" 
+                    alt="GitHub" 
+                    style={{ width: '40px', height: '40px' }}
+                  />
                 </div>
                 <div style={{
                   fontSize: '0.85rem',
@@ -288,10 +293,13 @@ export default function Home() {
                 }}
               >
                 <div style={{
-                  fontSize: '1.5rem',
                   marginBottom: '0.5rem'
                 }}>
-                  📧
+                  <img 
+                    src="/gmail.png" 
+                    alt="Gmail" 
+                    style={{ width: '40px', height: '40px' }}
+                  />
                 </div>
                 <div style={{
                   fontSize: '0.85rem',
@@ -327,10 +335,13 @@ export default function Home() {
                 }}
               >
                 <div style={{
-                  fontSize: '1.5rem',
                   marginBottom: '0.5rem'
                 }}>
-                  💬
+                  <img 
+                    src="/wechat.png" 
+                    alt="WeChat" 
+                    style={{ width: '40px', height: '40px' }}
+                  />
                 </div>
                 <div style={{
                   fontSize: '0.85rem',
