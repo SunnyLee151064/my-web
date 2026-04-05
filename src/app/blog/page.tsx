@@ -53,7 +53,7 @@ export default async function BlogPage() {
 
       <div style={{ marginTop: '2rem' }}>
         <Link
-          href="/welcome"
+          href="/"
           style={{ color: '#0066cc', textDecoration: 'underline' }}
         >
           Back to Home
