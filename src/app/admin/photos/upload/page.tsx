@@ -81,7 +81,7 @@ export default function UploadPhotoPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/Rain.jpg')`,
+      backgroundImage: `url('/Rain.png')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
