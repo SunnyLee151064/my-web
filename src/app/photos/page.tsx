@@ -208,14 +208,6 @@ export default function PhotosPage() {
                 maxWidth: '80%',
                 textAlign: 'center'
               }}>
-                <h3 style={{
-                  margin: '0 0 0.5rem',
-                  fontSize: '1.1rem',
-                  color: 'white',
-                  fontWeight: '600'
-                }}>
-                  图片描述
-                </h3>
                 <p style={{
                   margin: '0 0 0.5rem',
                   color: 'rgba(255, 255, 255, 0.8)',
