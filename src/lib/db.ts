@@ -117,8 +117,7 @@ export async function initDatabase() {
         url TEXT NOT NULL,
         blob_id VARCHAR(255),
         description TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        album_id INTEGER DEFAULT 1
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
   } catch (error) {
@@ -126,10 +125,20 @@ export async function initDatabase() {
     console.log('Photos table already exists');
   }
 
+  // 添加 album_id 列（如果不存在）
+  try {
+    await sql`
+      ALTER TABLE photos ADD COLUMN IF NOT EXISTS album_id INTEGER DEFAULT 1
+    `;
+  } catch (error) {
+    // 列已存在，忽略错误
+    console.log('Photos album_id column already exists');
+  }
+
   // 添加外键约束
   try {
     await sql`
-      ALTER TABLE photos ADD CONSTRAINT photos_album_id_fkey FOREIGN KEY (album_id) REFERENCES photo_albums(id)
+      ALTER TABLE photos ADD CONSTRAINT IF NOT EXISTS photos_album_id_fkey FOREIGN KEY (album_id) REFERENCES photo_albums(id)
     `;
   } catch (error) {
     // 约束已存在，忽略错误
