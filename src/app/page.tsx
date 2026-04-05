@@ -830,7 +830,9 @@ export default function Home() {
               <div style={{
                 display: 'flex',
                 minWidth: 'fit-content',
-                position: 'relative'
+                position: 'relative',
+                alignItems: 'center',
+                height: '80px'
               }}>
                 {/* 时间轴中心线 */}
                 <div style={{
@@ -866,14 +868,17 @@ export default function Home() {
                       borderRadius: '50%',
                       background: item.type === 'blog' ? '#ff6b6b' : item.type === 'photo' ? '#4ecdc4' : '#45b7d1',
                       zIndex: 1,
-                      marginBottom: '1rem'
+                      position: 'absolute',
+                      top: '50%',
+                      transform: 'translateY(-50%)'
                     }} />
                     
                     {/* 内容 */}
                     <div style={{
                       textAlign: 'center',
                       fontSize: '0.8rem',
-                      padding: '1rem 0'
+                      marginTop: '20px',
+                      padding: '0 0.5rem'
                     }}>
                       <div style={{
                         color: 'white',
