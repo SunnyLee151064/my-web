@@ -152,15 +152,25 @@ export default function Home() {
           top: 0,
           padding: '2rem 1rem'
         }}>
-          {/* 头像区域 - 暂时用纯黑背景 */}
+          {/* 头像区域 */}
           <div style={{
             width: '90%',
             aspectRatio: '1/1',
-            background: '#000',
             borderRadius: '50%',
             marginBottom: '1.5rem',
-            position: 'relative'
-          }} />
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <img
+              src="/boy.png"
+              alt="Avatar"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+            />
+          </div>
 
           {/* 个人信息 */}
           <div style={{
@@ -268,9 +278,9 @@ export default function Home() {
           </div>
 
           {/* 社交媒体卡片 */}
-          <div style={{ marginBottom: '5rem' }}>
+          <div style={{ marginBottom: '2rem' }}>
             <h2 style={{
-              margin: '0 0 1rem',
+              margin: '0 0 1.5rem',
               fontSize: '1.5rem',
               color: 'white',
               fontWeight: '600',
@@ -285,8 +295,8 @@ export default function Home() {
             <div style={{
               display: 'flex',
               gap: '1rem',
-              overflowX: 'auto',
-              paddingBottom: '1rem'
+              paddingBottom: '1rem',
+              marginLeft: '7px'
             }}>
               <div 
                 style={{
