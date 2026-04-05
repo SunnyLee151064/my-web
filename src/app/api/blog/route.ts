@@ -3,10 +3,10 @@ import { sql } from '@/lib/db';
 
 export async function GET() {
   try {
-    const posts = await sql`
+    const posts = await sql(`
       SELECT id, title, slug, created_at FROM posts
       ORDER BY created_at DESC
-    `;
+    `);
 
     return NextResponse.json({ success: true, posts });
   } catch (error) {
@@ -29,11 +29,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await sql`
+    const result = await sql(`
       INSERT INTO posts (title, content, slug)
       VALUES (${title}, ${content}, ${slug})
       RETURNING id, title, slug, created_at
-    `;
+    `);
 
     return NextResponse.json({ success: true, post: result[0] });
   } catch (error) {

@@ -7,9 +7,9 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const posts = await sql`
+    const posts = await sql(`
       SELECT id, title, content, slug FROM posts WHERE id = ${id}
-    `;
+    `);
 
     if (posts.length === 0) {
       return NextResponse.json(
@@ -42,12 +42,12 @@ export async function PUT(
       );
     }
 
-    const result = await sql`
+    const result = await sql(`
       UPDATE posts
       SET title = ${title}, content = ${content}, updated_at = CURRENT_TIMESTAMP
       WHERE id = ${id}
       RETURNING id, title, slug
-    `;
+    `);
 
     return NextResponse.json({ success: true, post: result[0] });
   } catch (error) {
@@ -64,7 +64,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    await sql`DELETE FROM posts WHERE id = ${id}`;
+    await sql(`DELETE FROM posts WHERE id = ${id}`);
 
     return NextResponse.json({ success: true });
   } catch (error) {

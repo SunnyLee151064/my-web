@@ -6,10 +6,10 @@ export const dynamic = 'force-dynamic';
 
 async function getPosts() {
   try {
-    const posts = await sql`
+    const posts = await sql(`
       SELECT id, title, slug, created_at FROM posts
       ORDER BY created_at DESC
-    `;
+    `);
     return posts;
   } catch {
     return [];
