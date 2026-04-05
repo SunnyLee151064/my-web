@@ -451,6 +451,15 @@ export default function Home() {
             </div>
           </div>
 
+          {/* 贪吃蛇动画 */}
+          <div style={{ marginBottom: '2rem', width: '85%' }}>
+            <img
+              src="/snake-Light.svg"
+              alt="Snake"
+              style={{ width: '100%', height: 'auto' }}
+            />
+          </div>
+
           {/* Site 部分 */}
           <div style={{ marginBottom: '2rem' }}>
             <h2 style={{
