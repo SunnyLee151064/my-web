@@ -44,6 +44,7 @@ export default function Home() {
   const [newMessageName, setNewMessageName] = useState('');
   const [newMessageContent, setNewMessageContent] = useState('');
   const [submittingMessage, setSubmittingMessage] = useState(false);
+  const [showGuestbookModal, setShowGuestbookModal] = useState(false);
   const router = useRouter();
   const { isPlaying, currentIndex, togglePlay, playNext, totalSongs } = useMusic();
 
@@ -529,6 +530,38 @@ export default function Home() {
                   alt="WeChat" 
                   style={{ width: '22px', height: '22px' }}
                 />
+              </div>
+              <div 
+                style={{
+                  width: '49px',
+                  height: '43px',
+                  boxSizing: 'border-box',
+                  borderRadius: '7px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(0, 0, 0, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(0, 0, 0, 0.25)',
+                  transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease',
+                  flexShrink: 0,
+                  cursor: 'pointer'
+                }}
+                onClick={() => setShowGuestbookModal(true)}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+                }}
+              >
+                <svg viewBox="0 0 1024 1024" style={{ width: '22px', height: '22px', fill: 'white' }}>
+                  <path d="M736 128c70.692 0 128 57.308 128 128v384c0 70.692-57.308 128-128 128H425.387L256 896l1.707-126.293C166.271 750.078 128 690.809 128 640V256c0-70.692 57.308-128 128-128h480m0-64H256C172.16 64 104 132.16 104 216v384c0 45.112 19.704 85.568 51.2 114.592V864l187.072-62.357C381.88 807.688 417.848 816 456 816h280c83.84 0 152-68.16 152-152V216c0-83.84-68.16-152-152-152z" />
+                  <path d="M384 384h256v64H384zM384 512h160v64H384z" />
+                </svg>
               </div>
             </div>
           </div>
@@ -1280,208 +1313,6 @@ export default function Home() {
               )}
             </div>
           </div>
-
-          {/* 访客计数器 */}
-          <div style={{
-            marginBottom: '2rem',
-            width: '85%',
-            background: 'rgba(0, 0, 0, 0.15)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 0, 0, 0.25)',
-            borderRadius: '13px',
-            padding: '1.5rem',
-            textAlign: 'center'
-          }}>
-            <h2 style={{
-              margin: '0 0 0.5rem',
-              fontSize: '1.2rem',
-              color: 'white',
-              fontWeight: '600'
-            }}>
-              👋 访客计数
-            </h2>
-            <div style={{
-              fontSize: '3rem',
-              color: 'white',
-              fontWeight: '700',
-              background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>
-              {visitorCount.toLocaleString()}
-            </div>
-            <p style={{
-              margin: '0.5rem 0 0',
-              fontSize: '0.8rem',
-              color: 'rgba(255, 255, 255, 0.7)'
-            }}>
-              感谢您的访问！
-            </p>
-          </div>
-
-          {/* 留言板 */}
-          <div style={{
-            marginBottom: '2rem',
-            width: '85%'
-          }}>
-            <h2 style={{
-              margin: '0 0 1rem',
-              fontSize: '1.5rem',
-              color: 'white',
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-              <svg viewBox="0 0 1024 1024" style={{ width: '26px', height: '26px', fill: 'white', marginRight: '8px' }}>
-                <path d="M736 128c70.692 0 128 57.308 128 128v384c0 70.692-57.308 128-128 128H425.387L256 896l1.707-126.293C166.271 750.078 128 690.809 128 640V256c0-70.692 57.308-128 128-128h480m0-64H256C172.16 64 104 132.16 104 216v384c0 45.112 19.704 85.568 51.2 114.592V864l187.072-62.357C381.88 807.688 417.848 816 456 816h280c83.84 0 152-68.16 152-152V216c0-83.84-68.16-152-152-152z" />
-                <path d="M384 384h256v64H384zM384 512h160v64H384z" />
-              </svg>
-              留言板
-            </h2>
-
-            {/* 发表留言表单 */}
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.15)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              border: '1px solid rgba(0, 0, 0, 0.25)',
-              borderRadius: '13px',
-              padding: '1.5rem',
-              marginBottom: '1rem'
-            }}>
-              <form onSubmit={submitGuestbookMessage} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <input
-                  type="text"
-                  placeholder="你的名字"
-                  value={newMessageName}
-                  onChange={(e) => setNewMessageName(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    color: 'white',
-                    fontSize: '0.9rem',
-                    outline: 'none'
-                  }}
-                  maxLength={255}
-                />
-                <textarea
-                  placeholder="写下你的留言..."
-                  value={newMessageContent}
-                  onChange={(e) => setNewMessageContent(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    color: 'white',
-                    fontSize: '0.9rem',
-                    outline: 'none',
-                    minHeight: '80px',
-                    resize: 'vertical'
-                  }}
-                  maxLength={1000}
-                />
-                <button
-                  type="submit"
-                  disabled={submittingMessage || !newMessageName.trim() || !newMessageContent.trim()}
-                  style={{
-                    padding: '0.75rem 1.5rem',
-                    borderRadius: '8px',
-                    border: 'none',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    color: 'white',
-                    fontSize: '0.9rem',
-                    fontWeight: '500',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    opacity: (submittingMessage || !newMessageName.trim() || !newMessageContent.trim()) ? 0.5 : 1
-                  }}
-                >
-                  {submittingMessage ? '发送中...' : '发表留言'}
-                </button>
-              </form>
-            </div>
-
-            {/* 留言列表 */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem'
-            }}>
-              {guestbookLoading ? (
-                <div style={{
-                  background: 'rgba(0, 0, 0, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.25)',
-                  borderRadius: '13px',
-                  padding: '1.5rem',
-                  textAlign: 'center',
-                  color: 'white'
-                }}>
-                  加载留言中...
-                </div>
-              ) : guestbookMessages.length === 0 ? (
-                <div style={{
-                  background: 'rgba(0, 0, 0, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.25)',
-                  borderRadius: '13px',
-                  padding: '1.5rem',
-                  textAlign: 'center',
-                  color: 'white'
-                }}>
-                  还没有留言，来成为第一个留言的人吧！
-                </div>
-              ) : (
-                guestbookMessages.map((msg) => (
-                  <div key={msg.id} style={{
-                    background: 'rgba(0, 0, 0, 0.15)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(0, 0, 0, 0.25)',
-                    borderRadius: '13px',
-                    padding: '1rem 1.25rem'
-                  }}>
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: '0.5rem'
-                    }}>
-                      <span style={{
-                        fontWeight: '600',
-                        color: 'white',
-                        fontSize: '0.95rem'
-                      }}>
-                        {msg.name}
-                      </span>
-                      <span style={{
-                        fontSize: '0.75rem',
-                        color: 'rgba(255, 255, 255, 0.6)'
-                      }}>
-                        {new Date(msg.created_at).toLocaleString('zh-CN')}
-                      </span>
-                    </div>
-                    <p style={{
-                      margin: 0,
-                      fontSize: '0.9rem',
-                      color: 'white',
-                      lineHeight: '1.6'
-                    }}>
-                      {msg.message}
-                    </p>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
         </div>
       </div>
 
@@ -1535,6 +1366,256 @@ export default function Home() {
             }} onClick={closeWechatModal}>
               x
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* 留言板模态框 */}
+      {showGuestbookModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.8)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000,
+          padding: '2rem'
+        }} onClick={() => setShowGuestbookModal(false)}>
+          <div style={{
+            width: '100%',
+            maxWidth: '600px',
+            maxHeight: '85vh',
+            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative'
+          }} onClick={(e) => e.stopPropagation()}>
+            {/* 模态框头部 */}
+            <div style={{
+              padding: '1.25rem 1.5rem',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <h2 style={{
+                margin: 0,
+                fontSize: '1.3rem',
+                color: 'white',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}>
+                <svg viewBox="0 0 1024 1024" style={{ width: '24px', height: '24px', fill: 'white' }}>
+                  <path d="M736 128c70.692 0 128 57.308 128 128v384c0 70.692-57.308 128-128 128H425.387L256 896l1.707-126.293C166.271 750.078 128 690.809 128 640V256c0-70.692 57.308-128 128-128h480m0-64H256C172.16 64 104 132.16 104 216v384c0 45.112 19.704 85.568 51.2 114.592V864l187.072-62.357C381.88 807.688 417.848 816 456 816h280c83.84 0 152-68.16 152-152V216c0-83.84-68.16-152-152-152z" />
+                  <path d="M384 384h256v64H384zM384 512h160v64H384z" />
+                </svg>
+                访客留言板
+              </h2>
+              <button style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                border: 'none',
+                borderRadius: '50%',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '1.2rem',
+                transition: 'all 0.3s ease'
+              }} 
+                onClick={() => setShowGuestbookModal(false)}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.25)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.15)';
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* 模态框内容 */}
+            <div style={{
+              padding: '1.5rem',
+              overflowY: 'auto',
+              flex: 1
+            }}>
+              {/* 访客计数器 */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                padding: '1.25rem',
+                textAlign: 'center',
+                marginBottom: '1.5rem'
+              }}>
+                <h3 style={{
+                  margin: '0 0 0.75rem',
+                  fontSize: '1rem',
+                  color: 'white',
+                  fontWeight: '500'
+                }}>
+                  👋 访客计数
+                </h3>
+                <div style={{
+                  fontSize: '2.5rem',
+                  color: 'white',
+                  fontWeight: '700',
+                  background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
+                  {visitorCount.toLocaleString()}
+                </div>
+                <p style={{
+                  margin: '0.5rem 0 0',
+                  fontSize: '0.85rem',
+                  color: 'rgba(255, 255, 255, 0.8)'
+                }}>
+                  感谢您的访问！
+                </p>
+              </div>
+
+              {/* 发表留言表单 */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                padding: '1.25rem',
+                marginBottom: '1.5rem'
+              }}>
+                <form onSubmit={submitGuestbookMessage} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <input
+                    type="text"
+                    placeholder="你的名字"
+                    value={newMessageName}
+                    onChange={(e) => setNewMessageName(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      background: 'rgba(255, 255, 255, 0.15)',
+                      color: 'white',
+                      fontSize: '0.9rem',
+                      outline: 'none'
+                    }}
+                    maxLength={255}
+                  />
+                  <textarea
+                    placeholder="写下你的留言..."
+                    value={newMessageContent}
+                    onChange={(e) => setNewMessageContent(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      background: 'rgba(255, 255, 255, 0.15)',
+                      color: 'white',
+                      fontSize: '0.9rem',
+                      outline: 'none',
+                      minHeight: '80px',
+                      resize: 'vertical'
+                    }}
+                    maxLength={1000}
+                  />
+                  <button
+                    type="submit"
+                    disabled={submittingMessage || !newMessageName.trim() || !newMessageContent.trim()}
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                      color: 'white',
+                      fontSize: '0.9rem',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      opacity: (submittingMessage || !newMessageName.trim() || !newMessageContent.trim()) ? 0.5 : 1
+                    }}
+                  >
+                    {submittingMessage ? '发送中...' : '发表留言'}
+                  </button>
+                </form>
+              </div>
+
+              {/* 留言列表 */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem'
+              }}>
+                {guestbookLoading ? (
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    borderRadius: '12px',
+                    padding: '1.5rem',
+                    textAlign: 'center',
+                    color: 'white'
+                  }}>
+                    加载留言中...
+                  </div>
+                ) : guestbookMessages.length === 0 ? (
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    borderRadius: '12px',
+                    padding: '1.5rem',
+                    textAlign: 'center',
+                    color: 'white'
+                  }}>
+                    还没有留言，来成为第一个留言的人吧！
+                  </div>
+                ) : (
+                  guestbookMessages.map((msg) => (
+                    <div key={msg.id} style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      borderRadius: '12px',
+                      padding: '1rem 1.25rem'
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '0.5rem'
+                      }}>
+                        <span style={{
+                          fontWeight: '600',
+                          color: 'white',
+                          fontSize: '0.95rem'
+                        }}>
+                          {msg.name}
+                        </span>
+                        <span style={{
+                          fontSize: '0.75rem',
+                          color: 'rgba(255, 255, 255, 0.7)'
+                        }}>
+                          {new Date(msg.created_at).toLocaleString('zh-CN')}
+                        </span>
+                      </div>
+                      <p style={{
+                        margin: 0,
+                        fontSize: '0.9rem',
+                        color: 'white',
+                        lineHeight: '1.6'
+                      }}>
+                        {msg.message}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
