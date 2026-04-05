@@ -87,7 +87,7 @@ export default function AdminBlogPage() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/Rain.png')`,
+        backgroundImage: `url('/boat.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -96,7 +96,7 @@ export default function AdminBlogPage() {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <div style={{ color: '#1a1a1a', fontSize: '1.2rem' }}>Loading...</div>
+        <div style={{ color: 'white', fontSize: '1.2rem' }}>Loading...</div>
       </div>
     );
   }
@@ -104,7 +104,7 @@ export default function AdminBlogPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/Rain.png')`,
+      backgroundImage: `url('/boat.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -132,22 +132,23 @@ export default function AdminBlogPage() {
           top: '1.5rem',
           left: '1.5rem',
           padding: '0.5rem 1rem',
-          background: 'rgba(0, 0, 0, 0.15)',
+          background: 'rgba(255, 255, 255, 0.2)',
           backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(0, 0, 0, 0.25)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '4px',
           cursor: 'pointer',
           fontWeight: '500',
-          color: '#1a1a1a',
+          color: 'white',
           fontSize: '0.9rem',
           transition: 'all 0.3s ease',
           zIndex: 10
         }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
         }}
       >
         ← Back
@@ -155,19 +156,19 @@ export default function AdminBlogPage() {
 
       {/* 标题 */}
       <div style={{
-        maxWidth: '800px',
+        maxWidth: '1200px',
         margin: '0 auto 2rem',
         paddingTop: '2rem'
       }}>
         <h1 style={{
           fontSize: '2rem',
-          color: '#1a1a1a',
+          color: 'white',
           fontWeight: '600',
           display: 'flex',
           alignItems: 'center',
           margin: '0 0 1.5rem'
         }}>
-          <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '12px', width: '32px', height: '32px', fill: '#1a1a1a' }}>
+          <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '12px', width: '32px', height: '32px', fill: 'white' }}>
             <path d="M395.765333 586.570667h-171.733333c-22.421333 0-37.888-22.442667-29.909333-43.381334L364.768 95.274667A32 32 0 0 1 394.666667 74.666667h287.957333c22.72 0 38.208 23.018667 29.632 44.064l-99.36 243.882666h187.050667c27.509333 0 42.186667 32.426667 24.042666 53.098667l-458.602666 522.56c-22.293333 25.408-63.626667 3.392-54.976-29.28l85.354666-322.421333z" />
           </svg>
           <span style={{
@@ -178,7 +179,7 @@ export default function AdminBlogPage() {
           }}>Manage Blog</span>
         </h1>
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
           <Link
             href="/admin/blog/new"
             style={{
@@ -199,12 +200,11 @@ export default function AdminBlogPage() {
             style={{
               display: 'inline-block',
               padding: '0.75rem 1.5rem',
-              background: 'rgba(255, 255, 255, 0.3)',
-              color: '#1a1a1a',
+              background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+              color: 'white',
               borderRadius: '8px',
               textDecoration: 'none',
               fontWeight: '600',
-              border: '1px solid rgba(0, 0, 0, 0.2)',
               transition: 'all 0.3s ease'
             }}
           >
@@ -215,7 +215,7 @@ export default function AdminBlogPage() {
 
       {/* 博客列表 */}
       <div style={{
-        maxWidth: '800px',
+        maxWidth: '1200px',
         margin: '0 auto',
         display: 'flex',
         flexDirection: 'column',
@@ -223,13 +223,13 @@ export default function AdminBlogPage() {
       }}>
         {posts.length === 0 ? (
           <div style={{
-            background: 'rgba(255, 255, 255, 0.25)',
+            background: 'rgba(255, 255, 255, 0.15)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 0, 0, 0.15)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
             borderRadius: '12px',
             padding: '2rem',
             textAlign: 'center',
-            color: 'rgba(0, 0, 0, 0.7)'
+            color: 'rgba(255, 255, 255, 0.7)'
           }}>
             No posts yet
           </div>
@@ -242,29 +242,29 @@ export default function AdminBlogPage() {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 padding: '1.5rem',
-                background: 'rgba(255, 255, 255, 0.25)',
+                background: 'rgba(255, 255, 255, 0.15)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
-                border: '1px solid rgba(0, 0, 0, 0.15)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 transition: 'all 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.35)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.25)';
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.25)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.15)';
               }}
             >
               <div>
-                <Link href={`/blog/${post.slug}`} style={{ color: '#1a1a1a', textDecoration: 'none' }}>
+                <Link href={`/blog/${post.slug}`} style={{ color: 'white', textDecoration: 'none' }}>
                   <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.1rem', fontWeight: '600' }}>{post.title}</h3>
                 </Link>
-                <p style={{ margin: '0 0 0.25rem', color: 'rgba(0, 0, 0, 0.6)', fontSize: '0.85rem' }}>
+                <p style={{ margin: '0 0 0.25rem', color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.85rem' }}>
                   {new Date(post.created_at).toLocaleDateString()}
                 </p>
                 {post.notebook_name && (
-                  <p style={{ margin: 0, color: 'rgba(0, 0, 0, 0.5)', fontSize: '0.8rem' }}>
+                  <p style={{ margin: 0, color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.8rem' }}>
                     📁 {post.notebook_name}
                   </p>
                 )}
@@ -275,10 +275,11 @@ export default function AdminBlogPage() {
                   href={`/admin/blog/edit/${post.id}`}
                   style={{
                     padding: '0.5rem 1rem',
-                    background: 'rgba(0, 0, 0, 0.1)',
+                    background: 'rgba(102, 126, 234, 0.8)',
+                    color: 'white',
+                    border: 'none',
                     borderRadius: '6px',
                     textDecoration: 'none',
-                    color: '#1a1a1a',
                     fontSize: '0.9rem',
                     transition: 'all 0.3s ease'
                   }}

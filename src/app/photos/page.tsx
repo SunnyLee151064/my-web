@@ -47,7 +47,7 @@ export default function PhotosPage() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/Rain.png')`,
+        backgroundImage: `url('/boat.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -64,7 +64,7 @@ export default function PhotosPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/Rain.png')`,
+      backgroundImage: `url('/boat.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',

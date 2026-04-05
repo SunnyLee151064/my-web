@@ -69,7 +69,7 @@ export default function Home() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/tri.jpg')`,
+      backgroundImage: `url('/boat.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
