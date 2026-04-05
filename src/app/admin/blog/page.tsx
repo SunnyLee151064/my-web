@@ -87,7 +87,7 @@ export default function AdminBlogPage() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/boatalone.jpg')`,
+        backgroundImage: `url('/boatseas.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -104,7 +104,7 @@ export default function AdminBlogPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/boatalone.jpg')`,
+      backgroundImage: `url('/boatseas.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',

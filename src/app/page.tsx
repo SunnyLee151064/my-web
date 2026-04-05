@@ -69,7 +69,7 @@ export default function Home() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/boatalone.jpg')`,
+      backgroundImage: `url('/boatseas.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -823,7 +823,7 @@ export default function Home() {
               WebkitBackdropFilter: 'blur(10px)',
               border: '1px solid rgba(0, 0, 0, 0.25)',
               borderRadius: '13px',
-              padding: '1.5rem',
+              padding: '2.5rem 1.5rem',
               position: 'relative',
               overflowX: 'auto'
             }}>
@@ -855,9 +855,9 @@ export default function Home() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    marginRight: '3rem',
+                    marginRight: '2rem',
                     position: 'relative',
-                    minWidth: '180px'
+                    minWidth: '150px'
                   }}>
                     {/* 节点 */}
                     <div style={{
@@ -866,17 +866,18 @@ export default function Home() {
                       borderRadius: '50%',
                       background: item.type === 'blog' ? '#ff6b6b' : item.type === 'photo' ? '#4ecdc4' : '#45b7d1',
                       zIndex: 1,
-                      marginBottom: '0.5rem'
+                      marginBottom: '1rem'
                     }} />
                     
                     {/* 内容 */}
                     <div style={{
                       textAlign: 'center',
-                      fontSize: '0.8rem'
+                      fontSize: '0.8rem',
+                      padding: '1rem 0'
                     }}>
                       <div style={{
                         color: 'white',
-                        marginBottom: '0.25rem'
+                        marginBottom: '0.5rem'
                       }}>
                         {item.time}
                       </div>
