@@ -288,6 +288,42 @@ export default function NewBlogPage() {
                 >
                   + Python Code
                 </button>
+                <label style={{
+                  padding: '0.25rem 0.5rem',
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem'
+                }}>
+                  📷 + Image
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      
+                      const formData = new FormData();
+                      formData.append('file', file);
+                      
+                      try {
+                        const res = await fetch('/api/blog-images', {
+                          method: 'POST',
+                          body: formData
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                          setContent(content + `\n![${data.filename}](${data.url})\n`);
+                        }
+                      } catch (err) {
+                        alert('Failed to upload image');
+                      }
+                    }}
+                  />
+                </label>
                 <span style={{ fontSize: '0.8rem', color: 'rgba(0, 0, 0, 0.6)', alignSelf: 'center' }}>
                   使用 ```language 来添加代码块
                 </span>
