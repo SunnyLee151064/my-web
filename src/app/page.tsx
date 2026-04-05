@@ -913,22 +913,24 @@ export default function Home() {
                       }}>
                         {/* 悬浮提示 */}
                         <div style={{
-                          position: 'absolute',
-                          top: '-40px',
-                          left: '50%',
-                          transform: 'translateX(-50%)',
-                          background: 'rgba(0, 0, 0, 0.8)',
+                          position: 'fixed',
+                          top: '0',
+                          left: '0',
+                          background: 'rgba(0, 0, 0, 0.15)',
+                          backdropFilter: 'blur(10px)',
+                          WebkitBackdropFilter: 'blur(10px)',
+                          border: '1px solid rgba(0, 0, 0, 0.25)',
                           color: 'white',
-                          padding: '8px 12px',
+                          padding: '10px 14px',
                           borderRadius: '8px',
-                          fontSize: '0.75rem',
+                          fontSize: '0.8rem',
                           whiteSpace: 'nowrap',
-                          zIndex: 10,
+                          zIndex: 9999,
                           opacity: 0,
                           visibility: 'hidden',
                           transition: 'opacity 0.2s ease, visibility 0.2s ease',
-                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
-                        }} className="tooltip">
+                          pointerEvents: 'none'
+                        }} className="tooltip" id={`tooltip-${item.id}`}>
                           {getTooltipText(item)}
                         </div>
 
@@ -948,19 +950,26 @@ export default function Home() {
                           }}
                           onClick={handleClick}
                           onMouseEnter={(e) => {
-                            const tooltip = e.currentTarget.parentElement?.querySelector('.tooltip');
+                            const tooltip = document.getElementById(`tooltip-${item.id}`);
                             if (tooltip) {
-                              (tooltip as HTMLElement).style.opacity = '1';
-                              (tooltip as HTMLElement).style.visibility = 'visible';
+                              tooltip.style.opacity = '1';
+                              tooltip.style.visibility = 'visible';
                             }
                             e.currentTarget.style.transform = 'translateY(-50%) scale(1.3)';
                             e.currentTarget.style.boxShadow = `0 0 10px ${getNodeColor(item.action, item.type)}`;
                           }}
-                          onMouseLeave={(e) => {
-                            const tooltip = e.currentTarget.parentElement?.querySelector('.tooltip');
+                          onMouseMove={(e) => {
+                            const tooltip = document.getElementById(`tooltip-${item.id}`);
                             if (tooltip) {
-                              (tooltip as HTMLElement).style.opacity = '0';
-                              (tooltip as HTMLElement).style.visibility = 'hidden';
+                              tooltip.style.left = `${e.clientX + 10}px`;
+                              tooltip.style.top = `${e.clientY - 40}px`;
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            const tooltip = document.getElementById(`tooltip-${item.id}`);
+                            if (tooltip) {
+                              tooltip.style.opacity = '0';
+                              tooltip.style.visibility = 'hidden';
                             }
                             e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
                             e.currentTarget.style.boxShadow = 'none';
