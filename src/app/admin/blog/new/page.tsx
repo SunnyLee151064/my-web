@@ -69,11 +69,15 @@ export default function NewBlogPage() {
     }
   };
 
+  // 防止重复提交的状态
+  const [submitted, setSubmitted] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !content) return;
+    if (!title || !content || submitted) return;
 
     setLoading(true);
+    setSubmitted(true);
 
     const slug = title
       .toLowerCase()
@@ -90,12 +94,17 @@ export default function NewBlogPage() {
       const data = await res.json();
 
       if (data.success) {
-        router.push('/admin/blog');
+        // 延迟跳转，确保状态更新
+        setTimeout(() => {
+          router.push('/admin/blog');
+        }, 100);
       } else {
         alert(data.error || 'Failed to create post');
+        setSubmitted(false);
       }
     } catch (err) {
       alert('Failed to create post');
+      setSubmitted(false);
     } finally {
       setLoading(false);
     }

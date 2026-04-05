@@ -25,6 +25,7 @@ export default function EditBlogPage() {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const params = useParams();
@@ -75,9 +76,10 @@ export default function EditBlogPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !content) return;
+    if (!title || !content || submitted) return;
 
     setLoading(true);
+    setSubmitted(true);
 
     try {
       const res = await fetch(`/api/blog/${id}`, {
@@ -89,12 +91,17 @@ export default function EditBlogPage() {
       const data = await res.json();
 
       if (data.success) {
-        router.push('/admin/blog');
+        // 延迟跳转，确保状态更新
+        setTimeout(() => {
+          router.push('/admin/blog');
+        }, 100);
       } else {
         alert(data.error || 'Failed to update');
+        setSubmitted(false);
       }
     } catch (err) {
       alert('Failed to update');
+      setSubmitted(false);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,14 @@
 import { NextResponse } from 'next/server';
 import { sql, initDatabase } from '@/lib/db';
 
+// 生成唯一的请求ID，防止重复处理
+function generateRequestId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+// 存储已处理的请求
+const processedRequests = new Set<string>();
+
 export async function GET(request: Request) {
   try {
     await initDatabase();
@@ -23,6 +31,22 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    // 生成请求ID
+    const requestId = generateRequestId();
+    
+    // 检查是否已处理
+    if (processedRequests.has(requestId)) {
+      return NextResponse.json({ success: false, error: 'Request already processed' });
+    }
+    
+    // 标记为已处理
+    processedRequests.add(requestId);
+    
+    // 清理过期的请求ID（超过5分钟的）
+    setTimeout(() => {
+      processedRequests.delete(requestId);
+    }, 5 * 60 * 1000);
+    
     await initDatabase();
     
     const { type, action, item_id, item_title, item_slug, item_url } = await request.json();
