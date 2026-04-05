@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface Photo {
   id: number;
@@ -13,6 +13,7 @@ interface Photo {
 export default function PhotosPage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     fetchPhotos();
@@ -34,82 +35,181 @@ export default function PhotosPage() {
 
   if (loading) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        Loading...
+      <div style={{
+        minHeight: '100vh',
+        backgroundImage: `url('/background.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        padding: '2rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <div style={{ color: 'white', fontSize: '1.2rem' }}>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '2rem' }}>Photos</h1>
+    <div style={{
+      minHeight: '100vh',
+      backgroundImage: `url('/background.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      padding: '2rem',
+      position: 'relative'
+    }}>
+      {/* 背景模糊层 */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0, 0, 0, 0.2)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        zIndex: -1
+      }} />
 
-      {photos.length === 0 ? (
-        <p style={{ color: '#666' }}>No photos</p>
-      ) : (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-          gap: '1rem'
+      {/* 返回按钮 */}
+      <button
+        onClick={() => router.push('/')}
+        style={{
+          position: 'absolute',
+          top: '1.5rem',
+          left: '1.5rem',
+          padding: '0.5rem 1rem',
+          background: 'rgba(255, 255, 255, 0.2)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontWeight: '500',
+          color: 'white',
+          fontSize: '0.9rem',
+          transition: 'all 0.3s ease',
+          zIndex: 10
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+        }}
+      >
+        ← Back
+      </button>
+
+      {/* 标题 */}
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto 3rem',
+        paddingTop: '2rem'
+      }}>
+        <h1 style={{
+          fontSize: '2.5rem',
+          color: 'white',
+          fontWeight: '600',
+          display: 'flex',
+          alignItems: 'center',
+          margin: 0
         }}>
-          {photos.map((photo) => (
-            <div key={photo.id} style={{
-              borderRadius: '8px',
-              overflow: 'hidden',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-            }}>
-              <img
-                src={photo.url}
-                alt={photo.description || 'Photo'}
-                style={{
-                  width: '100%',
-                  height: '200px',
-                  objectFit: 'cover'
-                }}
-              />
+          <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '12px', width: '36px', height: '36px', fill: 'white' }}>
+            <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z" />
+          </svg>
+          <span style={{
+            fontFamily: 'cursive',
+            background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}>Photos</span>
+        </h1>
+        <p style={{ color: 'rgba(255, 255, 255, 0.7)', marginTop: '0.5rem', fontSize: '1rem' }}>
+          记录美好瞬间
+        </p>
+      </div>
+
+      {/* 照片网格 */}
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+        gap: '1.5rem'
+      }}>
+        {photos.length === 0 ? (
+          <div style={{ color: 'rgba(255, 255, 255, 0.7)', gridColumn: '1 / -1', textAlign: 'center', padding: '3rem' }}>
+            No photos yet
+          </div>
+        ) : (
+          photos.map((photo, index) => (
+            <div
+              key={photo.id}
+              style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.25)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.15)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.2)';
+              }}
+            >
+              <div style={{
+                width: '100%',
+                height: '200px',
+                overflow: 'hidden'
+              }}>
+                <img
+                  src={photo.url}
+                  alt={photo.description || 'Photo'}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.3s ease'
+                  }}
+                />
+              </div>
               {photo.description && (
-                <p style={{
-                  padding: '0.5rem',
-                  margin: 0,
-                  background: 'white',
-                  fontSize: '0.9rem',
-                  color: '#666'
+                <div style={{
+                  padding: '1rem',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
-                  {photo.description}
-                </p>
+                  <p style={{
+                    margin: 0,
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    fontSize: '0.9rem'
+                  }}>
+                    {photo.description}
+                  </p>
+                  <p style={{
+                    margin: '0.5rem 0 0',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    fontSize: '0.8rem'
+                  }}>
+                    {new Date(photo.created_at).toLocaleDateString()}
+                  </p>
+                </div>
               )}
             </div>
-          ))}
-        </div>
-      )}
-
-      <div style={{ marginTop: '2rem' }}>
-        <button
-          onClick={() => {
-            window.location.href = '/';
-          }}
-          style={{
-            background: 'transparent',
-            border: '1px solid #0066cc',
-            color: '#0066cc',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '0.9rem',
-            fontWeight: '500',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.background = '#0066cc';
-            (e.currentTarget as HTMLElement).style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.background = 'transparent';
-            (e.currentTarget as HTMLElement).style.color = '#0066cc';
-          }}
-        >
-          Back to Home
-        </button>
+          ))
+        )}
       </div>
     </div>
   );
