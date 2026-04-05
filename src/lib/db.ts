@@ -36,6 +36,12 @@ export async function initDatabase() {
     )
   `;
 
+  // 检查是否已有默认笔记本，如果没有则创建
+  const existingNotebook = await sql`SELECT id FROM notebooks WHERE is_default = TRUE`;
+  if (existingNotebook.length === 0) {
+    await sql`INSERT INTO notebooks (name, is_default) VALUES ('默认笔记', TRUE)`;
+  }
+
   // 创建 posts 表（添加 notebook_id）
   await sql`
     CREATE TABLE IF NOT EXISTS posts (
@@ -60,12 +66,6 @@ export async function initDatabase() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `;
-
-  // 检查是否已有默认笔记本，如果没有则创建
-  const existingNotebook = await sql`SELECT id FROM notebooks WHERE is_default = TRUE`;
-  if (existingNotebook.length === 0) {
-    await sql`INSERT INTO notebooks (name, is_default) VALUES ('默认笔记', TRUE)`;
-  }
 
   console.log('Database tables created successfully');
 }
