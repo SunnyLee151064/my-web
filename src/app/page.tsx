@@ -54,11 +54,26 @@ export default function Home() {
       backgroundImage: `url('/background.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
       padding: '2rem',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'flex-start',
+      position: 'relative'
     }}>
+      {/* 背景模糊层 */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0, 0, 0, 0.2)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        zIndex: -1
+      }} />
+      
       {/* Admin 按钮 - 右上角 */}
       <div style={{ 
         position: 'absolute', 
@@ -71,13 +86,22 @@ export default function Home() {
             onClick={handleAdminClick}
             style={{
               padding: '0.5rem 1rem',
-              background: 'white',
-              border: '1px solid #e0e0e0',
+              background: 'rgba(255, 255, 255, 0.2)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '4px',
               cursor: 'pointer',
               fontWeight: '500',
-              color: '#333',
-              fontSize: '0.9rem'
+              color: 'white',
+              fontSize: '0.9rem',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
             }}
           >
             Admin ({user.username})
@@ -87,13 +111,22 @@ export default function Home() {
             onClick={handleLogin}
             style={{
               padding: '0.5rem 1rem',
-              background: 'white',
-              border: '1px solid #e0e0e0',
+              background: 'rgba(255, 255, 255, 0.2)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '4px',
               cursor: 'pointer',
               fontWeight: '500',
-              color: '#333',
-              fontSize: '0.9rem'
+              color: 'white',
+              fontSize: '0.9rem',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
             }}
           >
             Admin Login
@@ -103,36 +136,48 @@ export default function Home() {
 
       <div style={{
         display: 'flex',
-        background: 'white',
-        borderRadius: '12px',
-        padding: '3rem',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-        maxWidth: '900px',
+        gap: '3rem',
         width: '100%',
-        gap: '3rem'
+        maxWidth: '1150px',
+        position: 'relative'
       }}>
         {/* 左侧个人信息区域 */}
         <div style={{
-          flex: '0 0 200px',
+          flex: '0 0 230px',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          height: '100vh',
+          position: 'sticky',
+          top: 0,
+          padding: '2rem 1rem'
         }}>
           {/* 头像区域 - 暂时用纯黑背景 */}
           <div style={{
-            width: '100px',
-            height: '100px',
+            width: '90%',
+            aspectRatio: '1/1',
             background: '#000',
-            borderRadius: '4px',
-            marginBottom: '1.5rem'
+            borderRadius: '50%',
+            marginBottom: '1.5rem',
+            position: 'relative'
           }} />
 
           {/* 个人信息 */}
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <div style={{
+            width: '100%',
+            background: 'rgba(255, 255, 255, 0.2)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '13px',
+            padding: '1.5rem',
+            textAlign: 'center',
+            marginBottom: '1.5rem'
+          }}>
             <h1 style={{
               margin: '0 0 0.5rem',
               fontSize: '1.2rem',
-              color: '#333',
+              color: 'white',
               fontWeight: '600'
             }}>
               SunnyLee
@@ -140,14 +185,14 @@ export default function Home() {
             <p style={{
               margin: '0 0 0.25rem',
               fontSize: '0.8rem',
-              color: '#666'
+              color: 'rgba(255, 255, 255, 0.8)'
             }}>
               Shanghai-China
             </p>
             <p style={{
               margin: '0',
               fontSize: '0.8rem',
-              color: '#666'
+              color: 'rgba(255, 255, 255, 0.8)'
             }}>
               Company: Huawei
             </p>
@@ -159,19 +204,21 @@ export default function Home() {
                 onClick={handleLogout}
                 style={{
                   padding: '0.5rem 1rem',
-                  background: 'transparent',
-                  color: '#666',
-                  border: '1px solid #e0e0e0',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
                   borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '0.8rem',
+                  color: 'white',
                   transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = '#f0f0f0';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'transparent';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
                 }}
               >
                 Logout
@@ -184,29 +231,31 @@ export default function Home() {
         <div style={{
           flex: '1',
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          padding: '2rem 0',
+          minHeight: '100vh'
         }}>
           {/* 招呼语和个人介绍 */}
           <div style={{ marginBottom: '3rem' }}>
             <h2 style={{
               margin: '0 0 1rem',
-              fontSize: '1.8rem',
-              color: '#333',
+              fontSize: '3rem',
+              color: 'white',
               fontWeight: '600'
             }}>
               Hey there！
             </h2>
             <p style={{
               margin: '0 0 0.5rem',
-              fontSize: '1rem',
-              color: '#666'
+              fontSize: '1.2rem',
+              color: 'rgba(255, 255, 255, 0.8)'
             }}>
               AI Infra Developer.
             </p>
             <p style={{
               margin: '0',
-              fontSize: '1rem',
-              color: '#666'
+              fontSize: '1.2rem',
+              color: 'rgba(255, 255, 255, 0.8)'
             }}>
               Love and peace.
             </p>
@@ -216,139 +265,164 @@ export default function Home() {
           <div style={{ marginBottom: '3rem' }}>
             <h3 style={{
               margin: '0 0 1rem',
-              fontSize: '1rem',
-              color: '#333',
+              fontSize: '1.5rem',
+              color: 'white',
               fontWeight: '600'
             }}>
               Contact
             </h3>
             <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-              gap: '1rem'
+              display: 'flex',
+              gap: '1rem',
+              overflowX: 'auto',
+              paddingBottom: '1rem'
             }}>
               <div 
                 style={{
-                  padding: '1rem',
-                  background: '#f8f9fa',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '6px',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
+                  width: '49px',
+                  height: '43px',
+                  boxSizing: 'border-box',
+                  borderRadius: '7px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  transition: 'width 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
+                  flexShrink: 0,
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
-                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  (e.currentTarget as HTMLElement).style.width = '95px';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  const text = e.currentTarget.querySelector('div');
                   if (text) {
-                    (text as HTMLElement).style.opacity = '1';
+                    (text as HTMLElement).style.display = 'block';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  (e.currentTarget as HTMLElement).style.width = '49px';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  const text = e.currentTarget.querySelector('div');
                   if (text) {
-                    (text as HTMLElement).style.opacity = '0';
+                    (text as HTMLElement).style.display = 'none';
                   }
                 }}
               >
+                <img 
+                  src="/github.png" 
+                  alt="GitHub" 
+                  style={{ width: '22px', height: '22px', marginRight: '3px' }}
+                />
                 <div style={{
-                  marginBottom: '0.5rem'
-                }}>
-                  <img 
-                    src="/github.png" 
-                    alt="GitHub" 
-                    style={{ width: '40px', height: '40px' }}
-                  />
-                </div>
-                <div style={{
-                  fontSize: '0.85rem',
-                  color: '#333',
-                  fontWeight: '500',
-                  opacity: 0,
-                  transition: 'opacity 0.3s ease'
+                  whiteSpace: 'nowrap',
+                  display: 'none',
+                  fontSize: '0.8rem',
+                  color: 'white'
                 }}>
                   GitHub
                 </div>
               </div>
               <div 
                 style={{
-                  padding: '1rem',
-                  background: '#f8f9fa',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '6px',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
+                  width: '49px',
+                  height: '43px',
+                  boxSizing: 'border-box',
+                  borderRadius: '7px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  transition: 'width 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
+                  flexShrink: 0,
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
-                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  (e.currentTarget as HTMLElement).style.width = '110px';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  const text = e.currentTarget.querySelector('div');
                   if (text) {
-                    (text as HTMLElement).style.opacity = '1';
+                    (text as HTMLElement).style.display = 'block';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  (e.currentTarget as HTMLElement).style.width = '49px';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  const text = e.currentTarget.querySelector('div');
                   if (text) {
-                    (text as HTMLElement).style.opacity = '0';
+                    (text as HTMLElement).style.display = 'none';
                   }
                 }}
               >
+                <img 
+                  src="/gmail.png" 
+                  alt="Gmail" 
+                  style={{ width: '22px', height: '22px', marginRight: '3px' }}
+                />
                 <div style={{
-                  marginBottom: '0.5rem'
-                }}>
-                  <img 
-                    src="/gmail.png" 
-                    alt="Gmail" 
-                    style={{ width: '40px', height: '40px' }}
-                  />
-                </div>
-                <div style={{
-                  fontSize: '0.85rem',
-                  color: '#333',
-                  fontWeight: '500',
-                  opacity: 0,
-                  transition: 'opacity 0.3s ease'
+                  whiteSpace: 'nowrap',
+                  display: 'none',
+                  fontSize: '0.8rem',
+                  color: 'white'
                 }}>
                   Google Mail
                 </div>
               </div>
               <div 
                 style={{
-                  padding: '1rem',
-                  background: '#f8f9fa',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '6px',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
+                  width: '49px',
+                  height: '43px',
+                  boxSizing: 'border-box',
+                  borderRadius: '7px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  transition: 'width 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
+                  flexShrink: 0,
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
-                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  (e.currentTarget as HTMLElement).style.width = '90px';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  const text = e.currentTarget.querySelector('div');
                   if (text) {
-                    (text as HTMLElement).style.opacity = '1';
+                    (text as HTMLElement).style.display = 'block';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  const text = e.currentTarget.querySelector('div:nth-child(2)');
+                  (e.currentTarget as HTMLElement).style.width = '49px';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  const text = e.currentTarget.querySelector('div');
                   if (text) {
-                    (text as HTMLElement).style.opacity = '0';
+                    (text as HTMLElement).style.display = 'none';
                   }
                 }}
               >
+                <img 
+                  src="/wechat.png" 
+                  alt="WeChat" 
+                  style={{ width: '22px', height: '22px', marginRight: '3px' }}
+                />
                 <div style={{
-                  marginBottom: '0.5rem'
-                }}>
-                  <img 
-                    src="/wechat.png" 
-                    alt="WeChat" 
-                    style={{ width: '40px', height: '40px' }}
-                  />
-                </div>
-                <div style={{
-                  fontSize: '0.85rem',
-                  color: '#333',
-                  fontWeight: '500',
-                  opacity: 0,
-                  transition: 'opacity 0.3s ease'
+                  whiteSpace: 'nowrap',
+                  display: 'none',
+                  fontSize: '0.8rem',
+                  color: 'white'
                 }}>
                   WeChat
                 </div>
@@ -360,86 +434,145 @@ export default function Home() {
           <div style={{ marginBottom: '2rem' }}>
             <h2 style={{
               margin: '0 0 1rem',
-              fontSize: '1.1rem',
-              color: '#333',
-              fontWeight: '600'
+              fontSize: '1.5rem',
+              color: 'white',
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center'
             }}>
+              <svg t="1705257422086" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '8px', width: '26px', height: '26px', fill: 'white' }}>
+                <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z"/>
+              </svg>
               site
             </h2>
             <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+              display: 'flex',
+              flexWrap: 'wrap',
               gap: '1rem'
             }}>
               <button
                 onClick={() => router.push('/blog')}
                 style={{
-                  padding: '1rem',
-                  background: '#f8f9fa',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'all 0.3s ease'
+                  margin: '7px',
+                  display: 'flex',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '8px',
+                  padding: '15px',
+                  height: '100px',
+                  width: 'calc(25% - 15px)',
+                  transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
                 }}
               >
                 <div style={{
-                  fontSize: '0.9rem',
-                  color: '#333',
-                  fontWeight: '500',
-                  marginBottom: '0.25rem',
-                  transition: 'all 0.3s ease'
+                  transition: 'width 0.4s ease',
+                  height: '100%',
+                  width: '80%'
                 }}>
-                  博客
+                  <div style={{
+                    fontSize: '16px',
+                    color: 'white',
+                    fontWeight: '500',
+                    marginBottom: '15px',
+                    transition: 'font-size 0.4s ease'
+                  }}>
+                    博客
+                  </div>
+                  <div style={{
+                    fontSize: '12px',
+                    color: 'rgba(255, 255, 255, 0.8)'
+                  }}>
+                    记录日常
+                  </div>
                 </div>
                 <div style={{
-                  fontSize: '0.8rem',
-                  color: '#666',
-                  transition: 'all 0.3s ease'
+                  overflow: 'hidden',
+                  transition: 'width 0.4s ease',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '20%',
+                  height: '100%'
                 }}>
-                  记录日常
+                  <img 
+                    src="/github.png" 
+                    alt="Blog" 
+                    style={{ width: '39px', height: '39px', transition: 'transform 0.4s ease' }}
+                  />
                 </div>
               </button>
 
               <button
                 onClick={() => router.push('/photos')}
                 style={{
-                  padding: '1rem',
-                  background: '#f8f9fa',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'all 0.3s ease'
+                  margin: '7px',
+                  display: 'flex',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '8px',
+                  padding: '15px',
+                  height: '100px',
+                  width: 'calc(25% - 15px)',
+                  transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
                 }}
               >
                 <div style={{
-                  fontSize: '0.9rem',
-                  color: '#333',
-                  fontWeight: '500',
-                  marginBottom: '0.25rem',
-                  transition: 'all 0.3s ease'
+                  transition: 'width 0.4s ease',
+                  height: '100%',
+                  width: '80%'
                 }}>
-                  图片
+                  <div style={{
+                    fontSize: '16px',
+                    color: 'white',
+                    fontWeight: '500',
+                    marginBottom: '15px',
+                    transition: 'font-size 0.4s ease'
+                  }}>
+                    图片
+                  </div>
+                  <div style={{
+                    fontSize: '12px',
+                    color: 'rgba(255, 255, 255, 0.8)'
+                  }}>
+                    图片集合
+                  </div>
                 </div>
                 <div style={{
-                  fontSize: '0.8rem',
-                  color: '#666',
-                  transition: 'all 0.3s ease'
+                  overflow: 'hidden',
+                  transition: 'width 0.4s ease',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '20%',
+                  height: '100%'
                 }}>
-                  图片集合
+                  <img 
+                    src="/wechat.png" 
+                    alt="Photos" 
+                    style={{ width: '39px', height: '39px', transition: 'transform 0.4s ease' }}
+                  />
                 </div>
               </button>
             </div>
@@ -450,86 +583,115 @@ export default function Home() {
             <div>
               <h2 style={{
                 margin: '0 0 1rem',
-                fontSize: '1.1rem',
-                color: '#333',
-                fontWeight: '600'
+                fontSize: '1.5rem',
+                color: 'white',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center'
               }}>
+                <svg t="1705257422086" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '8px', width: '26px', height: '26px', fill: 'white' }}>
+                  <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z"/>
+                </svg>
                 admin
               </h2>
               <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+                display: 'flex',
+                flexWrap: 'wrap',
                 gap: '1rem'
               }}>
                 <button
                   onClick={() => router.push('/admin/blog')}
                   style={{
-                    padding: '1rem',
-                    background: '#e3f2fd',
-                    border: '1px solid #bbdefb',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    transition: 'all 0.3s ease'
+                    margin: '7px',
+                    display: 'flex',
+                    background: 'rgba(227, 242, 253, 0.3)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(187, 222, 251, 0.5)',
+                    borderRadius: '8px',
+                    padding: '15px',
+                    height: '100px',
+                    width: 'calc(25% - 15px)',
+                    transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
+                    cursor: 'pointer'
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(227, 242, 253, 0.4)';
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(227, 242, 253, 0.3)';
                   }}
                 >
                   <div style={{
-                    fontSize: '0.9rem',
-                    color: '#1976d2',
-                    fontWeight: '500',
-                    marginBottom: '0.25rem',
-                    transition: 'all 0.3s ease'
+                    transition: 'width 0.4s ease',
+                    height: '100%',
+                    width: '100%'
                   }}>
-                    管理博客
-                  </div>
-                  <div style={{
-                    fontSize: '0.8rem',
-                    color: '#64b5f6',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    创建/编辑/删除
+                    <div style={{
+                      fontSize: '16px',
+                      color: '#1976d2',
+                      fontWeight: '500',
+                      marginBottom: '15px',
+                      transition: 'font-size 0.4s ease'
+                    }}>
+                      管理博客
+                    </div>
+                    <div style={{
+                      fontSize: '12px',
+                      color: 'rgba(25, 118, 210, 0.8)'
+                    }}>
+                      创建/编辑/删除
+                    </div>
                   </div>
                 </button>
 
                 <button
                   onClick={() => router.push('/admin/photos')}
                   style={{
-                    padding: '1rem',
-                    background: '#e8f5e9',
-                    border: '1px solid #c8e6c9',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    transition: 'all 0.3s ease'
+                    margin: '7px',
+                    display: 'flex',
+                    background: 'rgba(232, 245, 233, 0.3)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(200, 230, 201, 0.5)',
+                    borderRadius: '8px',
+                    padding: '15px',
+                    height: '100px',
+                    width: 'calc(25% - 15px)',
+                    transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
+                    cursor: 'pointer'
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(232, 245, 233, 0.4)';
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(232, 245, 233, 0.3)';
                   }}
                 >
                   <div style={{
-                    fontSize: '0.9rem',
-                    color: '#388e3c',
-                    fontWeight: '500',
-                    marginBottom: '0.25rem',
-                    transition: 'all 0.3s ease'
+                    transition: 'width 0.4s ease',
+                    height: '100%',
+                    width: '100%'
                   }}>
-                    管理图片
-                  </div>
-                  <div style={{
-                    fontSize: '0.8rem',
-                    color: '#81c784',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    上传/删除
+                    <div style={{
+                      fontSize: '16px',
+                      color: '#388e3c',
+                      fontWeight: '500',
+                      marginBottom: '15px',
+                      transition: 'font-size 0.4s ease'
+                    }}>
+                      管理图片
+                    </div>
+                    <div style={{
+                      fontSize: '12px',
+                      color: 'rgba(56, 142, 60, 0.8)'
+                    }}>
+                      上传/删除
+                    </div>
                   </div>
                 </button>
               </div>
