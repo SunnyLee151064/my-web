@@ -97,10 +97,11 @@ export default function UploadPhotoPage() {
       if (res.ok) {
         router.push('/admin/photos');
       } else {
-        alert('Upload failed');
+        const errorData = await res.json();
+        alert('Upload failed: ' + (errorData.error || 'Unknown error'));
       }
-    } catch {
-      alert('Upload failed');
+    } catch (error) {
+      alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
     } finally {
       setLoading(false);
     }
