@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
-import { sql } from '@/lib/db';
+import { sql, initDatabase } from '@/lib/db';
 import { put } from '@vercel/blob';
 
 export async function GET(request: Request) {
   try {
+    // 确保数据库表已经创建
+    await initDatabase();
+    
     const url = new URL(request.url);
     const albumId = url.searchParams.get('album_id');
 
@@ -39,6 +42,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    // 确保数据库表已经创建
+    await initDatabase();
+    
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const description = formData.get('description') as string;
