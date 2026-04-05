@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMusic } from '@/contexts/MusicContext';
 
 interface Activity {
   id: number;
@@ -31,6 +32,7 @@ export default function Home() {
     y: 0
   });
   const router = useRouter();
+  const { isPlaying, currentIndex, togglePlay, playNext, totalSongs } = useMusic();
 
   const loadActivities = async () => {
     try {
@@ -399,6 +401,106 @@ export default function Home() {
           }}>
             Hello I'm <span className="gradientText" style={{ fontSize: '3.5rem' }}>SunnyLee</span>
           </h2>
+            <p style={{
+              margin: '0 0 1.5rem',
+              fontSize: '1.2rem',
+              color: 'rgba(0, 0, 0, 0.7)',
+              fontStyle: 'italic',
+              fontFamily: 'Georgia, serif',
+              letterSpacing: '0.5px'
+            }}>
+              "Nothing seek, nothing find"
+            </p>
+            {/* 音乐播放界面 */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              background: 'rgba(0, 0, 0, 0.15)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: '1px solid rgba(0, 0, 0, 0.25)',
+              borderRadius: '13px',
+              padding: '1rem 1.5rem',
+              maxWidth: '400px'
+            }}>
+              {/* 播放/暂停按钮 */}
+              <button
+                onClick={togglePlay}
+                style={{
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '50%',
+                  background: isPlaying 
+                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
+                    : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '1.5rem',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1.1)';
+                  (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+                  (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                }}
+              >
+                {isPlaying ? '⏸' : '▶'}
+              </button>
+              {/* 音乐信息 */}
+              <div style={{ flex: 1 }}>
+                <div style={{
+                  fontSize: '0.9rem',
+                  color: 'white',
+                  fontWeight: '500',
+                  marginBottom: '0.25rem'
+                }}>
+                  {isPlaying ? 'Now Playing' : 'Paused'}
+                </div>
+                <div style={{
+                  fontSize: '0.8rem',
+                  color: 'rgba(255, 255, 255, 0.7)'
+                }}>
+                  Track {currentIndex + 1} of {totalSongs}
+                </div>
+              </div>
+              {/* 下一首按钮 */}
+              <button
+                onClick={playNext}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '1rem',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+                }}
+              >
+                ⏭
+              </button>
+            </div>
           </div>
 
           {/* 贪吃蛇动画 */}

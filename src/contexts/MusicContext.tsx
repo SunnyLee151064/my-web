@@ -11,7 +11,10 @@ const musicFiles = [
 
 interface MusicContextType {
   isPlaying: boolean;
+  currentIndex: number;
   togglePlay: () => void;
+  playNext: () => void;
+  totalSongs: number;
 }
 
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
@@ -52,6 +55,17 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const playNext = () => {
+    playRandomSong();
+    setTimeout(() => {
+      if (audioRef.current) {
+        if (isPlaying) {
+          audioRef.current.play();
+        }
+      }
+    }, 100);
+  };
+
   // 当一首歌播放完时，自动播放下一首
   const handleSongEnd = () => {
     playRandomSong();
@@ -64,7 +78,13 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <MusicContext.Provider value={{ isPlaying, togglePlay }}>
+    <MusicContext.Provider value={{ 
+      isPlaying, 
+      currentIndex, 
+      togglePlay, 
+      playNext,
+      totalSongs: musicFiles.length
+    }}>
       {children}
       <audio
         ref={audioRef}
