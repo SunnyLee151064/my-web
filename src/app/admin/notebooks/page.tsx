@@ -110,7 +110,7 @@ export default function NotebooksPage() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/Rain.png')`,
+        backgroundImage: `url('/boatseas.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -119,7 +119,7 @@ export default function NotebooksPage() {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <div style={{ color: '#1a1a1a', fontSize: '1.2rem' }}>Loading...</div>
+        <div style={{ color: 'white', fontSize: '1.2rem' }}>Loading...</div>
       </div>
     );
   }
@@ -127,7 +127,7 @@ export default function NotebooksPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/Rain.png')`,
+      backgroundImage: `url('/boatseas.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -157,11 +157,12 @@ export default function NotebooksPage() {
           padding: '0.5rem 1rem',
           background: 'rgba(0, 0, 0, 0.15)',
           backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
           border: '1px solid rgba(0, 0, 0, 0.25)',
-          borderRadius: '4px',
+          borderRadius: '7px',
           cursor: 'pointer',
           fontWeight: '500',
-          color: '#1a1a1a',
+          color: 'white',
           fontSize: '0.9rem',
           transition: 'all 0.3s ease',
           zIndex: 10
@@ -184,7 +185,7 @@ export default function NotebooksPage() {
       }}>
         <h1 style={{
           fontSize: '2rem',
-          color: '#1a1a1a',
+          color: 'white',
           fontWeight: '600',
           display: 'flex',
           alignItems: 'center',
@@ -213,7 +214,7 @@ export default function NotebooksPage() {
                 border: '1px solid rgba(0, 0, 0, 0.2)',
                 borderRadius: '8px',
                 fontSize: '1rem',
-                color: '#1a1a1a',
+                color: 'white',
                 outline: 'none'
               }}
             />
@@ -246,13 +247,14 @@ export default function NotebooksPage() {
       }}>
         {notebooks.length === 0 ? (
           <div style={{
-            background: 'rgba(255, 255, 255, 0.25)',
+            background: 'rgba(0, 0, 0, 0.15)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 0, 0, 0.15)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0, 0, 0, 0.25)',
             borderRadius: '12px',
             padding: '2rem',
             textAlign: 'center',
-            color: 'rgba(0, 0, 0, 0.7)'
+            color: 'rgba(255, 255, 255, 0.7)'
           }}>
             No notebooks
           </div>
@@ -265,22 +267,22 @@ export default function NotebooksPage() {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 padding: '1.5rem',
-                background: 'rgba(255, 255, 255, 0.25)',
+                background: 'rgba(0, 0, 0, 0.15)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
-                border: '1px solid rgba(0, 0, 0, 0.15)',
+                border: '1px solid rgba(0, 0, 0, 0.25)',
                 borderRadius: '12px',
                 transition: 'all 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.35)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.25)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
               }}
             >
               <div>
-                <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.1rem', fontWeight: '600', color: '#1a1a1a' }}>
+                <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.1rem', fontWeight: '600', color: 'white' }}>
                   {notebook.name}
                   {notebook.is_default && (
                     <span style={{
@@ -295,7 +297,7 @@ export default function NotebooksPage() {
                     </span>
                   )}
                 </h3>
-                <p style={{ margin: 0, color: 'rgba(0, 0, 0, 0.6)', fontSize: '0.85rem' }}>
+                <p style={{ margin: 0, color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.85rem' }}>
                   Created: {new Date(notebook.created_at).toLocaleDateString()}
                 </p>
               </div>
