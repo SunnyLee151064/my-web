@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface User {
   id: number;
@@ -102,7 +104,7 @@ export default function EditBlogPage() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/Rain.png')`,
+        backgroundImage: `url('/boatseas.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -119,7 +121,7 @@ export default function EditBlogPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/Rain.png')`,
+      backgroundImage: `url('/boatseas.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -298,7 +300,32 @@ export default function EditBlogPage() {
                 }}>
                   <h3 style={{ margin: '0 0 1rem', color: 'rgba(0, 0, 0, 0.6)', fontSize: '0.9rem' }}>Preview</h3>
                   <div style={{ color: '#1a1a1a', lineHeight: '1.6' }}>
-                    <ReactMarkdown>{content || '*No content yet*'}</ReactMarkdown>
+                    <ReactMarkdown
+                      components={{
+                        code({ node, inline, className, children, ...props }: any) {
+                          const match = /language-(\w+)/.exec(className || '');
+                          return !inline && match ? (
+                            <div style={{ margin: '1rem 0', borderRadius: '8px', overflow: 'hidden' }}>
+                              <SyntaxHighlighter
+                                style={vscDarkPlus}
+                                language={match[1]}
+                                PreTag="div"
+                                customStyle={{ margin: 0 }}
+                                {...props}
+                              >
+                                {String(children).replace(/\n$/, '')}
+                              </SyntaxHighlighter>
+                            </div>
+                          ) : (
+                            <code className={className} style={{ background: 'rgba(0, 0, 0, 0.1)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.9rem' }} {...props}>
+                              {children}
+                            </code>
+                          );
+                        }
+                      }}
+                    >
+                      {content || '*No content yet*'}
+                    </ReactMarkdown>
                   </div>
                 </div>
               </div>

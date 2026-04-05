@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface Post {
   id: number;
@@ -210,12 +212,26 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
                 a: ({ children, href }) => (
                   <a href={href} style={{ color: '#4ecdc4', textDecoration: 'underline' }} target="_blank" rel="noopener noreferrer">{children}</a>
                 ),
-                code: ({ children }) => (
-                  <code style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.9rem' }}>{children}</code>
-                ),
-                pre: ({ children }) => (
-                  <pre style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '1rem', borderRadius: '8px', overflow: 'auto', marginBottom: '1rem' }}>{children}</pre>
-                ),
+                code({ node, inline, className, children, ...props }: any) {
+                  const match = /language-(\w+)/.exec(className || '');
+                  return !inline && match ? (
+                    <div style={{ margin: '1rem 0', borderRadius: '8px', overflow: 'hidden' }}>
+                      <SyntaxHighlighter
+                        style={vscDarkPlus}
+                        language={match[1]}
+                        PreTag="div"
+                        customStyle={{ margin: 0 }}
+                        {...props}
+                      >
+                        {String(children).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
+                    </div>
+                  ) : (
+                    <code className={className} style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.9rem' }} {...props}>
+                      {children}
+                    </code>
+                  );
+                },
                 blockquote: ({ children }) => (
                   <blockquote style={{ borderLeft: '4px solid #4ecdc4', paddingLeft: '1rem', marginLeft: 0, color: 'rgba(255, 255, 255, 0.7)', fontStyle: 'italic' }}>{children}</blockquote>
                 ),
