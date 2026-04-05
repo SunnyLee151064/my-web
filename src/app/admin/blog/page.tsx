@@ -72,7 +72,6 @@ export default function AdminBlogPage() {
       const data = await res.json();
 
       if (data.success) {
-        // 重新获取列表
         await fetchPosts();
       } else {
         alert(data.error || 'Failed to delete');
@@ -84,53 +83,165 @@ export default function AdminBlogPage() {
 
   if (loading) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        Loading...
+      <div style={{
+        minHeight: '100vh',
+        backgroundImage: `url('/background.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        padding: '2rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <div style={{ color: 'white', fontSize: '1.2rem' }}>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '2rem' }}>Manage Blog</h1>
+    <div style={{
+      minHeight: '100vh',
+      backgroundImage: `url('/background.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      padding: '2rem',
+      position: 'relative'
+    }}>
+      {/* 背景模糊层 */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0, 0, 0, 0.2)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        zIndex: -1
+      }} />
 
-      <Link
-        href="/admin/blog/new"
+      {/* 返回按钮 */}
+      <button
+        onClick={() => router.push('/')}
         style={{
-          display: 'inline-block',
-          padding: '0.75rem 1.5rem',
-          background: '#0066cc',
-          color: 'white',
+          position: 'absolute',
+          top: '1.5rem',
+          left: '1.5rem',
+          padding: '0.5rem 1rem',
+          background: 'rgba(255, 255, 255, 0.2)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '4px',
-          textDecoration: 'none',
-          marginBottom: '2rem'
+          cursor: 'pointer',
+          fontWeight: '500',
+          color: 'white',
+          fontSize: '0.9rem',
+          transition: 'all 0.3s ease',
+          zIndex: 10
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
         }}
       >
-        + New Post
-      </Link>
+        ← Back
+      </button>
 
-      {posts.length === 0 ? (
-        <p style={{ color: '#666' }}>No posts</p>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {posts.map((post) => (
+      {/* 标题 */}
+      <div style={{
+        maxWidth: '800px',
+        margin: '0 auto 2rem',
+        paddingTop: '2rem'
+      }}>
+        <h1 style={{
+          fontSize: '2rem',
+          color: 'white',
+          fontWeight: '600',
+          display: 'flex',
+          alignItems: 'center',
+          margin: '0 0 1.5rem'
+        }}>
+          <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '12px', width: '32px', height: '32px', fill: 'white' }}>
+            <path d="M395.765333 586.570667h-171.733333c-22.421333 0-37.888-22.442667-29.909333-43.381334L364.768 95.274667A32 32 0 0 1 394.666667 74.666667h287.957333c22.72 0 38.208 23.018667 29.632 44.064l-99.36 243.882666h187.050667c27.509333 0 42.186667 32.426667 24.042666 53.098667l-458.602666 522.56c-22.293333 25.408-63.626667 3.392-54.976-29.28l85.354666-322.421333z" />
+          </svg>
+          <span style={{
+            fontFamily: 'cursive',
+            background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}>Manage Blog</span>
+        </h1>
+
+        <Link
+          href="/admin/blog/new"
+          style={{
+            display: 'inline-block',
+            padding: '0.75rem 1.5rem',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: 'white',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontWeight: '600',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          + New Post
+        </Link>
+      </div>
+
+      {/* 博客列表 */}
+      <div style={{
+        maxWidth: '800px',
+        margin: '0 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem'
+      }}>
+        {posts.length === 0 ? (
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRadius: '12px',
+            padding: '2rem',
+            textAlign: 'center',
+            color: 'rgba(255, 255, 255, 0.7)'
+          }}>
+            No posts yet
+          </div>
+        ) : (
+          posts.map((post) => (
             <div
               key={post.id}
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: '1rem',
-                background: 'white',
-                borderRadius: '8px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                padding: '1.5rem',
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.25)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.15)';
               }}
             >
               <div>
-                <Link href={`/blog/${post.slug}`} style={{ color: '#333', textDecoration: 'none' }}>
-                  <h3 style={{ margin: '0 0 0.5rem' }}>{post.title}</h3>
+                <Link href={`/blog/${post.slug}`} style={{ color: 'white', textDecoration: 'none' }}>
+                  <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.1rem', fontWeight: '600' }}>{post.title}</h3>
                 </Link>
-                <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>
+                <p style={{ margin: 0, color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.85rem' }}>
                   {new Date(post.created_at).toLocaleDateString()}
                 </p>
               </div>
@@ -140,10 +251,12 @@ export default function AdminBlogPage() {
                   href={`/admin/blog/edit/${post.id}`}
                   style={{
                     padding: '0.5rem 1rem',
-                    background: '#f0f0f0',
-                    borderRadius: '4px',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    borderRadius: '6px',
                     textDecoration: 'none',
-                    color: '#333'
+                    color: 'white',
+                    fontSize: '0.9rem',
+                    transition: 'all 0.3s ease'
                   }}
                 >
                   Edit
@@ -152,46 +265,21 @@ export default function AdminBlogPage() {
                   onClick={() => handleDelete(post.id)}
                   style={{
                     padding: '0.5rem 1rem',
-                    background: '#ff4444',
+                    background: 'rgba(255, 68, 68, 0.8)',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    transition: 'all 0.3s ease'
                   }}
                 >
                   Delete
                 </button>
               </div>
             </div>
-          ))}
-        </div>
-      )}
-
-      <div style={{ marginTop: '2rem' }}>
-        <button
-          onClick={() => router.push('/')}
-          style={{
-            background: 'transparent',
-            border: '1px solid #0066cc',
-            color: '#0066cc',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '0.9rem',
-            fontWeight: '500',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.background = '#0066cc';
-            (e.currentTarget as HTMLElement).style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.background = 'transparent';
-            (e.currentTarget as HTMLElement).style.color = '#0066cc';
-          }}
-        >
-          Back to Home
-        </button>
+          ))
+        )}
       </div>
     </div>
   );

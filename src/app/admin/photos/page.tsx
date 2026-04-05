@@ -72,7 +72,6 @@ export default function AdminPhotosPage() {
       const data = await res.json();
 
       if (data.success) {
-        // 重新获取列表
         await fetchPhotos();
       } else {
         alert(data.error || 'Failed to delete');
@@ -84,106 +83,195 @@ export default function AdminPhotosPage() {
 
   if (loading) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        Loading...
+      <div style={{
+        minHeight: '100vh',
+        backgroundImage: `url('/background.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        padding: '2rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <div style={{ color: 'white', fontSize: '1.2rem' }}>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '2rem' }}>Manage Photos</h1>
+    <div style={{
+      minHeight: '100vh',
+      backgroundImage: `url('/background.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      padding: '2rem',
+      position: 'relative'
+    }}>
+      {/* 背景模糊层 */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0, 0, 0, 0.2)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        zIndex: -1
+      }} />
 
-      <Link
-        href="/admin/photos/upload"
+      {/* 返回按钮 */}
+      <button
+        onClick={() => router.push('/')}
         style={{
-          display: 'inline-block',
-          padding: '0.75rem 1.5rem',
-          background: '#0066cc',
-          color: 'white',
+          position: 'absolute',
+          top: '1.5rem',
+          left: '1.5rem',
+          padding: '0.5rem 1rem',
+          background: 'rgba(255, 255, 255, 0.2)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '4px',
-          textDecoration: 'none',
-          marginBottom: '2rem'
+          cursor: 'pointer',
+          fontWeight: '500',
+          color: 'white',
+          fontSize: '0.9rem',
+          transition: 'all 0.3s ease',
+          zIndex: 10
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
         }}
       >
-        + Upload Photo
-      </Link>
+        ← Back
+      </button>
 
+      {/* 标题 */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-        gap: '1rem'
+        maxWidth: '1200px',
+        margin: '0 auto 2rem',
+        paddingTop: '2rem'
       }}>
-        {photos.map((photo) => (
-          <div key={photo.id} style={{
-            position: 'relative',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-          }}>
-            <img
-              src={photo.url}
-              alt={photo.description || 'Photo'}
-              style={{
-                width: '100%',
-                height: '150px',
-                objectFit: 'cover'
-              }}
-            />
-            <div style={{
-              padding: '0.5rem',
-              background: 'white'
-            }}>
-              {photo.description && (
-                <p style={{ margin: '0 0 0.5rem', fontSize: '0.8rem', color: '#666' }}>
-                  {photo.description}
-                </p>
-              )}
-              <button
-                onClick={() => handleDelete(photo.id)}
-                style={{
-                  width: '100%',
-                  padding: '0.25rem',
-                  background: '#ff4444',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '0.8rem'
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+        <h1 style={{
+          fontSize: '2rem',
+          color: 'white',
+          fontWeight: '600',
+          display: 'flex',
+          alignItems: 'center',
+          margin: '0 0 1.5rem'
+        }}>
+          <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '12px', width: '32px', height: '32px', fill: 'white' }}>
+            <path d="M629.333333 202.666667v213.333333h277.333334v448h-512v-213.333333h-277.333334v-448h512z m213.333334 277.333333h-213.333334v170.666667h-170.666666v149.333333h384v-320z m-277.333334-213.333333h-384v320h213.333334v-170.666667h170.666666v-149.333333z m0 213.333333h-106.666666v106.666667h106.666666v-106.666667z" />
+          </svg>
+          <span style={{
+            fontFamily: 'cursive',
+            background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}>Manage Photos</span>
+        </h1>
 
-      <div style={{ marginTop: '2rem' }}>
-        <button
-          onClick={() => router.push('/')}
+        <Link
+          href="/admin/photos/upload"
           style={{
-            background: 'transparent',
-            border: '1px solid #0066cc',
-            color: '#0066cc',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '0.9rem',
-            fontWeight: '500',
+            display: 'inline-block',
+            padding: '0.75rem 1.5rem',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: 'white',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontWeight: '600',
             transition: 'all 0.3s ease'
           }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.background = '#0066cc';
-            (e.currentTarget as HTMLElement).style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.background = 'transparent';
-            (e.currentTarget as HTMLElement).style.color = '#0066cc';
-          }}
         >
-          Back to Home
-        </button>
+          + Upload Photo
+        </Link>
+      </div>
+
+      {/* 照片网格 */}
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+        gap: '1.5rem'
+      }}>
+        {photos.length === 0 ? (
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRadius: '12px',
+            padding: '2rem',
+            textAlign: 'center',
+            color: 'rgba(255, 255, 255, 0.7)',
+            gridColumn: '1 / -1'
+          }}>
+            No photos yet
+          </div>
+        ) : (
+          photos.map((photo) => (
+            <div
+              key={photo.id}
+              style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <div style={{
+                width: '100%',
+                height: '150px',
+                overflow: 'hidden'
+              }}>
+                <img
+                  src={photo.url}
+                  alt={photo.description || 'Photo'}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                />
+              </div>
+              <div style={{
+                padding: '1rem'
+              }}>
+                {photo.description && (
+                  <p style={{ margin: '0 0 0.75rem', fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.8)' }}>
+                    {photo.description}
+                  </p>
+                )}
+                <button
+                  onClick={() => handleDelete(photo.id)}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    background: 'rgba(255, 68, 68, 0.8)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

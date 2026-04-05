@@ -44,7 +44,6 @@ export default function UploadPhotoPage() {
     const selected = e.target.files?.[0];
     if (selected) {
       setFile(selected);
-      // 生成预览
       const reader = new FileReader();
       reader.onload = () => setPreview(reader.result as string);
       reader.readAsDataURL(selected);
@@ -58,7 +57,6 @@ export default function UploadPhotoPage() {
     setLoading(true);
 
     try {
-      // 上传到 Vercel Blob
       const formData = new FormData();
       formData.append('file', file);
       formData.append('description', description);
@@ -71,116 +69,189 @@ export default function UploadPhotoPage() {
       if (res.ok) {
         router.push('/admin/photos');
       } else {
-        alert('上传失败');
+        alert('Upload failed');
       }
     } catch {
-      alert('上传失败');
+      alert('Upload failed');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto' }}>
-      <h1>🖼️ 上传照片</h1>
+    <div style={{
+      minHeight: '100vh',
+      backgroundImage: `url('/background.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      padding: '2rem',
+      position: 'relative'
+    }}>
+      {/* 背景模糊层 */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0, 0, 0, 0.2)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        zIndex: -1
+      }} />
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem' }}>选择照片</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ marginBottom: '1rem' }}
-          />
+      {/* 返回按钮 */}
+      <button
+        onClick={() => router.push('/admin/photos')}
+        style={{
+          position: 'absolute',
+          top: '1.5rem',
+          left: '1.5rem',
+          padding: '0.5rem 1rem',
+          background: 'rgba(255, 255, 255, 0.2)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontWeight: '500',
+          color: 'white',
+          fontSize: '0.9rem',
+          transition: 'all 0.3s ease',
+          zIndex: 10
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+        }}
+      >
+        ← Back
+      </button>
 
-          {preview && (
-            <img
-              src={preview}
-              alt="预览"
-              style={{
-                maxWidth: '100%',
-                maxHeight: '300px',
-                borderRadius: '8px'
-              }}
-            />
-          )}
+      {/* 表单内容 */}
+      <div style={{
+        maxWidth: '600px',
+        margin: '0 auto',
+        paddingTop: '4rem'
+      }}>
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: '16px',
+          padding: '2.5rem'
+        }}>
+          <h1 style={{
+            fontSize: '1.8rem',
+            color: 'white',
+            fontWeight: '600',
+            margin: '0 0 2rem'
+          }}>
+            Upload Photo
+          </h1>
+
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{
+                display: 'block',
+                marginBottom: '0.5rem',
+                color: 'rgba(255, 255, 255, 0.9)',
+                fontWeight: '500'
+              }}>
+                Select Photo
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                style={{
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  marginBottom: '1rem'
+                }}
+              />
+
+              {preview && (
+                <img
+                  src={preview}
+                  alt="Preview"
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '300px',
+                    borderRadius: '8px',
+                    marginTop: '1rem'
+                  }}
+                />
+              )}
+            </div>
+
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{
+                display: 'block',
+                marginBottom: '0.5rem',
+                color: 'rgba(255, 255, 255, 0.9)',
+                fontWeight: '500'
+              }}>
+                Description (optional)
+              </label>
+              <input
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.875rem 1rem',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '8px',
+                  fontSize: '1rem',
+                  color: 'white',
+                  outline: 'none',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+              <button
+                type="submit"
+                disabled={loading || !file}
+                style={{
+                  padding: '0.75rem 1.5rem',
+                  background: file ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: '600'
+                }}
+              >
+                {loading ? 'Uploading...' : 'Upload'}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => router.push('/admin/photos')}
+                style={{
+                  padding: '0.75rem 1.5rem',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  color: 'white',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '1rem'
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
-
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem' }}>描述（可选）</label>
-          <input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #ddd',
-              borderRadius: '4px'
-            }}
-          />
-        </div>
-
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-          <button
-            type="submit"
-            disabled={loading || !file}
-            style={{
-              padding: '0.75rem 1.5rem',
-              background: file ? '#0066cc' : '#ccc',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: loading ? 'not-allowed' : 'pointer'
-            }}
-          >
-            {loading ? '上传中...' : '上传'}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => router.push('/admin/photos')}
-            style={{
-              padding: '0.75rem 1.5rem',
-              background: '#f0f0f0',
-              color: '#333',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            取消
-          </button>
-        </div>
-
-        <div style={{ marginTop: '2rem' }}>
-          <button
-            onClick={() => router.push('/')}
-            style={{
-              background: 'transparent',
-              border: '1px solid #0066cc',
-              color: '#0066cc',
-              padding: '0.5rem 1rem',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = '#0066cc';
-              (e.currentTarget as HTMLElement).style.color = 'white';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = 'transparent';
-              (e.currentTarget as HTMLElement).style.color = '#0066cc';
-            }}
-          >
-            返回主页
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 }
