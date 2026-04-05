@@ -333,7 +333,7 @@ export default function Home() {
           height: '100vh',
           position: 'sticky',
           top: 0,
-          padding: '2rem 1rem'
+          padding: '1.5rem 1rem 2rem'
         }}>
           {/* 头像区域 - 双击登录/登出 */}
           <div style={{
@@ -655,7 +655,7 @@ export default function Home() {
           flex: '1',
           display: 'flex',
           flexDirection: 'column',
-          padding: '2rem 0',
+          padding: '1.5rem 0 2rem',
           minHeight: '100vh'
         }}>
           {/* 招呼语和个人介绍 */}
@@ -1056,7 +1056,7 @@ export default function Home() {
           )}
 
           {/* 时间轴功能卡片 */}
-          <div style={{ marginBottom: '2rem', width: '85%' }}>
+          <div style={{ marginBottom: '1.5rem', width: '85%' }}>
             <h2 style={{
               margin: '0 0 1.5rem',
               fontSize: '1.5rem',
