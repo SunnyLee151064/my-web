@@ -996,150 +996,58 @@ export default function Home() {
               </h2>
               <div style={{
                 display: 'flex',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
                 flexWrap: 'wrap',
                 gap: '1rem'
               }}>
                 <button
-                  onClick={() => router.push('/admin/blog')}
+                  onClick={() => router.push('/admin')}
                   style={{
                     margin: '0',
                     display: 'flex',
-                    background: 'rgba(227, 242, 253, 0.3)',
+                    background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%)',
                     backdropFilter: 'blur(10px)',
                     WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(187, 222, 251, 0.5)',
+                    border: '1px solid rgba(102, 126, 234, 0.5)',
                     borderRadius: '8px',
                     padding: '15px',
                     height: '100px',
-                    width: 'calc(33.333% - 0.67rem)',
+                    width: '100%',
                     transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
                     cursor: 'pointer'
                   }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(227, 242, 253, 0.4)';
+                    (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.4) 0%, rgba(118, 75, 162, 0.4) 100%)';
                   }}
                   onMouseLeave={(e) => {
                     (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(227, 242, 253, 0.3)';
+                    (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%)';
                   }}
                 >
                   <div style={{
                     transition: 'width 0.4s ease',
                     height: '100%',
-                    width: '100%'
-                  }}>
-                    <div style={{
-                      fontSize: '16px',
-                      color: 'white',
-                      fontWeight: '500',
-                      marginBottom: '15px',
-                      transition: 'font-size 0.4s ease'
-                    }}>
-                      管理博客
-                    </div>
-                    <div style={{
-                      fontSize: '12px',
-                      color: 'white'
-                    }}>
-                      创建/编辑/删除
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => router.push('/admin/photos')}
-                  style={{
-                    margin: '0',
+                    width: '100%',
+                    textAlign: 'center',
                     display: 'flex',
-                    background: 'rgba(232, 245, 233, 0.3)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(200, 230, 201, 0.5)',
-                    borderRadius: '8px',
-                    padding: '15px',
-                    height: '100px',
-                    width: 'calc(33.333% - 0.67rem)',
-                    transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(232, 245, 233, 0.4)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(232, 245, 233, 0.3)';
-                  }}
-                >
-                  <div style={{
-                    transition: 'width 0.4s ease',
-                    height: '100%',
-                    width: '100%'
+                    flexDirection: 'column',
+                    justifyContent: 'center'
                   }}>
                     <div style={{
-                      fontSize: '16px',
+                      fontSize: '18px',
                       color: 'white',
-                      fontWeight: '500',
-                      marginBottom: '15px',
+                      fontWeight: '600',
+                      marginBottom: '10px',
                       transition: 'font-size 0.4s ease'
                     }}>
-                      管理图片
+                      管理后台
                     </div>
                     <div style={{
-                      fontSize: '12px',
-                      color: 'white'
+                      fontSize: '13px',
+                      color: 'rgba(255, 255, 255, 0.8)'
                     }}>
-                      上传/删除
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => router.push('/admin/notes')}
-                  style={{
-                    margin: '0',
-                    display: 'flex',
-                    background: 'rgba(255, 243, 224, 0.3)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 224, 178, 0.5)',
-                    borderRadius: '8px',
-                    padding: '15px',
-                    height: '100px',
-                    width: 'calc(33.333% - 0.67rem)',
-                    transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 243, 224, 0.4)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 243, 224, 0.3)';
-                  }}
-                >
-                  <div style={{
-                    transition: 'width 0.4s ease',
-                    height: '100%',
-                    width: '100%'
-                  }}>
-                    <div style={{
-                      fontSize: '16px',
-                      color: 'white',
-                      fontWeight: '500',
-                      marginBottom: '15px',
-                      transition: 'font-size 0.4s ease'
-                    }}>
-                      管理笔记
-                    </div>
-                    <div style={{
-                      fontSize: '12px',
-                      color: 'white'
-                    }}>
-                      创建/编辑/删除
+                      博客 / 图片 / 笔记 / 留言板
                     </div>
                   </div>
                 </button>

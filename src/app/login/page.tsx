@@ -54,7 +54,11 @@ export default function LoginPage() {
       }
 
       localStorage.setItem('user', JSON.stringify(data.user));
-      router.push('/');
+      if (data.user.role === 'admin') {
+        router.push('/admin');
+      } else {
+        router.push('/');
+      }
     } catch (err) {
       setError('An error occurred');
     } finally {
