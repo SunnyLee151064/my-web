@@ -8,7 +8,16 @@ export async function GET(request: Request) {
     const search = searchParams.get('search') || '';
     const notebookId = searchParams.get('notebook_id');
 
-    if (search) {
+    if (search && notebookId) {
+      const posts = await sql`
+        SELECT p.id, p.title, p.slug, p.notebook_id, p.created_at, n.name as notebook_name
+        FROM posts p
+        LEFT JOIN notebooks n ON p.notebook_id = n.id
+        WHERE p.title ILIKE ${`%${search}%`} AND p.notebook_id = ${parseInt(notebookId)}
+        ORDER BY p.created_at DESC
+      `;
+      return NextResponse.json({ success: true, posts });
+    } else if (search) {
       const posts = await sql`
         SELECT p.id, p.title, p.slug, p.notebook_id, p.created_at, n.name as notebook_name
         FROM posts p
