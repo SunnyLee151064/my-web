@@ -756,7 +756,7 @@ export default function Home() {
 
           {/* Admin 部分（仅管理员可见） */}
           {user?.role === 'admin' && (
-            <div>
+            <div style={{ marginBottom: '2rem', width: '85%' }}>
               <h2 style={{
                 margin: '0 0 1rem',
                 fontSize: '1.5rem',
@@ -772,13 +772,14 @@ export default function Home() {
               </h2>
               <div style={{
                 display: 'flex',
+                justifyContent: 'space-between',
                 flexWrap: 'wrap',
                 gap: '1rem'
               }}>
                 <button
                   onClick={() => router.push('/admin/blog')}
                   style={{
-                    margin: '7px',
+                    margin: '0',
                     display: 'flex',
                     background: 'rgba(227, 242, 253, 0.3)',
                     backdropFilter: 'blur(10px)',
@@ -787,7 +788,7 @@ export default function Home() {
                     borderRadius: '8px',
                     padding: '15px',
                     height: '100px',
-                    width: 'calc(25% - 15px)',
+                    width: 'calc(33.333% - 0.67rem)',
                     transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
                     cursor: 'pointer'
                   }}
@@ -826,7 +827,7 @@ export default function Home() {
                 <button
                   onClick={() => router.push('/admin/photos')}
                   style={{
-                    margin: '7px',
+                    margin: '0',
                     display: 'flex',
                     background: 'rgba(232, 245, 233, 0.3)',
                     backdropFilter: 'blur(10px)',
@@ -835,7 +836,7 @@ export default function Home() {
                     borderRadius: '8px',
                     padding: '15px',
                     height: '100px',
-                    width: 'calc(25% - 15px)',
+                    width: 'calc(33.333% - 0.67rem)',
                     transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
                     cursor: 'pointer'
                   }}
@@ -867,6 +868,102 @@ export default function Home() {
                       color: 'white'
                     }}>
                       上传/删除
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => router.push('/admin/notes')}
+                  style={{
+                    margin: '0',
+                    display: 'flex',
+                    background: 'rgba(255, 243, 224, 0.3)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 224, 178, 0.5)',
+                    borderRadius: '8px',
+                    padding: '15px',
+                    height: '100px',
+                    width: 'calc(33.333% - 0.67rem)',
+                    transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 243, 224, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 243, 224, 0.3)';
+                  }}
+                >
+                  <div style={{
+                    transition: 'width 0.4s ease',
+                    height: '100%',
+                    width: '100%'
+                  }}>
+                    <div style={{
+                      fontSize: '16px',
+                      color: 'white',
+                      fontWeight: '500',
+                      marginBottom: '15px',
+                      transition: 'font-size 0.4s ease'
+                    }}>
+                      管理笔记
+                    </div>
+                    <div style={{
+                      fontSize: '12px',
+                      color: 'white'
+                    }}>
+                      创建/编辑/删除
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => router.push('/admin/note-books')}
+                  style={{
+                    margin: '0',
+                    display: 'flex',
+                    background: 'rgba(252, 228, 236, 0.3)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(248, 187, 208, 0.5)',
+                    borderRadius: '8px',
+                    padding: '15px',
+                    height: '100px',
+                    width: 'calc(33.333% - 0.67rem)',
+                    transition: 'opacity 0.5s ease, background-color 0.2s ease, border 0.2s ease, transform 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(252, 228, 236, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(252, 228, 236, 0.3)';
+                  }}
+                >
+                  <div style={{
+                    transition: 'width 0.4s ease',
+                    height: '100%',
+                    width: '100%'
+                  }}>
+                    <div style={{
+                      fontSize: '16px',
+                      color: 'white',
+                      fontWeight: '500',
+                      marginBottom: '15px',
+                      transition: 'font-size 0.4s ease'
+                    }}>
+                      管理笔记集合
+                    </div>
+                    <div style={{
+                      fontSize: '12px',
+                      color: 'white'
+                    }}>
+                      创建/删除
                     </div>
                   </div>
                 </button>
