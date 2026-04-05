@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Notebook {
@@ -27,6 +27,7 @@ export default function BlogPage() {
   const [selectedNotebook, setSelectedNotebook] = useState<number | null>(null);
   const [showSearch, setShowSearch] = useState(false);
   const router = useRouter();
+  const abortControllerRef = React.useRef<AbortController | null>(null);
 
   useEffect(() => {
     fetchNotebooks();
@@ -49,6 +50,14 @@ export default function BlogPage() {
   };
 
   const fetchPosts = async () => {
+    // 取消之前的请求
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    
+    // 创建新的AbortController
+    abortControllerRef.current = new AbortController();
+    
     try {
       let url = '/api/blog';
       const params: string[] = [];
@@ -56,7 +65,9 @@ export default function BlogPage() {
       if (selectedNotebook) params.push(`notebook_id=${selectedNotebook}`);
       if (params.length > 0) url += '?' + params.join('&');
 
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        signal: abortControllerRef.current?.signal
+      });
       const data = await res.json();
       if (data.success) {
         setPosts(data.posts || []);
@@ -64,6 +75,10 @@ export default function BlogPage() {
         setPosts([]);
       }
     } catch (err) {
+      // 忽略取消请求的错误
+      if (err instanceof Error && err.name === 'AbortError') {
+        return;
+      }
       console.error('Failed to fetch posts:', err);
       setPosts([]);
     } finally {
