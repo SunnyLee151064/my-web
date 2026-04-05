@@ -60,9 +60,12 @@ export default function BlogPage() {
       const data = await res.json();
       if (data.success) {
         setPosts(data.posts || []);
+      } else {
+        setPosts([]);
       }
     } catch (err) {
       console.error('Failed to fetch posts:', err);
+      setPosts([]);
     } finally {
       setLoading(false);
     }
