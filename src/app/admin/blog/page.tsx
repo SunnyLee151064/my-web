@@ -28,12 +28,22 @@ export default function AdminBlogPage() {
     if (!storedUser) {
       router.push('/login');
     } else {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      if (parsedUser.role !== 'admin') {
-        router.push('/');
-      } else {
-        fetchPosts();
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser && parsedUser.username && parsedUser.role) {
+          setUser(parsedUser);
+          if (parsedUser.role !== 'admin') {
+            router.push('/');
+          } else {
+            fetchPosts();
+          }
+        } else {
+          localStorage.removeItem('user');
+          router.push('/login');
+        }
+      } catch (error) {
+        localStorage.removeItem('user');
+        router.push('/login');
       }
     }
   }, [router]);

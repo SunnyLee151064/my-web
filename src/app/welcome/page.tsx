@@ -18,7 +18,18 @@ export default function WelcomePage() {
     if (!storedUser) {
       router.push('/login');
     } else {
-      setUser(JSON.parse(storedUser));
+      try {
+        const userData = JSON.parse(storedUser);
+        if (userData && userData.username && userData.role) {
+          setUser(userData);
+        } else {
+          localStorage.removeItem('user');
+          router.push('/login');
+        }
+      } catch (error) {
+        localStorage.removeItem('user');
+        router.push('/login');
+      }
     }
   }, [router]);
 

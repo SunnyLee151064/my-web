@@ -14,9 +14,24 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    // 检查是否有用户信息
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        const userData = JSON.parse(storedUser);
+        // 验证用户数据的有效性
+        if (userData && userData.username && userData.role) {
+          setUser(userData);
+        } else {
+          // 如果数据无效，清除它
+          localStorage.removeItem('user');
+          setUser(null);
+        }
+      } catch (error) {
+        // 如果解析失败，清除无效数据
+        localStorage.removeItem('user');
+        setUser(null);
+      }
     }
   }, []);
 

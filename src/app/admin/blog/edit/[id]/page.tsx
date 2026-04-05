@@ -24,25 +24,35 @@ export default function EditBlogPage() {
     if (!storedUser) {
       router.push('/login');
     } else {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      if (parsedUser.role !== 'admin') {
-        router.push('/');
-      } else if (id) {
-        fetch(`/api/blog/${id}`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.post) {
-              setTitle(data.post.title);
-              setContent(data.post.content);
-            }
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser && parsedUser.username && parsedUser.role) {
+          setUser(parsedUser);
+          if (parsedUser.role !== 'admin') {
+            router.push('/');
+          } else if (id) {
+            fetch(`/api/blog/${id}`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.post) {
+                  setTitle(data.post.title);
+                  setContent(data.post.content);
+                }
+                setFetching(false);
+              })
+              .catch(() => {
+                setFetching(false);
+              });
+          } else {
             setFetching(false);
-          })
-          .catch(() => {
-            setFetching(false);
-          });
-      } else {
-        setFetching(false);
+          }
+        } else {
+          localStorage.removeItem('user');
+          router.push('/login');
+        }
+      } catch (error) {
+        localStorage.removeItem('user');
+        router.push('/login');
       }
     }
   }, [id, router]);
