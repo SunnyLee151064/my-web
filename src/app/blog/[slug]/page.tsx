@@ -42,7 +42,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/Rain.png')`,
+        backgroundImage: `url('/boatseas.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -60,7 +60,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: `url('/Rain.png')`,
+        backgroundImage: `url('/boatseas.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
@@ -92,7 +92,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url('/Rain.png')`,
+      backgroundImage: `url('/boatseas.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
