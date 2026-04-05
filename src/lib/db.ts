@@ -145,5 +145,24 @@ export async function initDatabase() {
     console.log('Photos foreign key constraint already exists');
   }
 
+  // 创建 activities 表（活动记录表）
+  try {
+    await sql`
+      CREATE TABLE activities (
+        id SERIAL PRIMARY KEY,
+        type VARCHAR(50) NOT NULL,
+        action VARCHAR(50) NOT NULL,
+        item_id INTEGER,
+        item_title VARCHAR(255),
+        item_slug VARCHAR(255),
+        item_url TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+  } catch (error) {
+    // 表已存在，忽略错误
+    console.log('Activities table already exists');
+  }
+
   console.log('Database tables created successfully');
 }

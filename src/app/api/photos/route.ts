@@ -77,6 +77,12 @@ export async function POST(request: Request) {
     `;
     console.log('Database save successful:', result[0]);
 
+    // 记录上传图片活动
+    await sql`
+      INSERT INTO activities (type, action, item_id, item_title, item_url)
+      VALUES ('photo', 'upload', ${result[0].id}, ${description || '新图片'}, ${blob.url})
+    `;
+
     return NextResponse.json({ success: true, photo: result[0] });
   } catch (error) {
     console.error('Upload error:', error);

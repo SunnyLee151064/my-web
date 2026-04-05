@@ -3,6 +3,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+interface Activity {
+  id: number;
+  type: string;
+  action: string;
+  item_id: number | null;
+  item_title: string | null;
+  item_slug: string | null;
+  item_url: string | null;
+  created_at: string;
+}
+
 interface User {
   id: number;
   username: string;
@@ -11,7 +22,27 @@ interface User {
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activitiesLoading, setActivitiesLoading] = useState(true);
   const router = useRouter();
+
+  const loadActivities = async () => {
+    try {
+      const res = await fetch('/api/activities');
+      const data = await res.json();
+      if (data.success) {
+        setActivities(data.activities);
+      }
+    } catch (error) {
+      console.error('Failed to load activities:', error);
+    } finally {
+      setActivitiesLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadActivities();
+  }, []);
 
   useEffect(() => {
     // 检查是否有用户信息
@@ -752,7 +783,7 @@ export default function Home() {
           )}
 
           {/* 时间轴功能卡片 */}
-          <div style={{ marginBottom: '2rem' }}>
+          <div style={{ marginBottom: '2rem', width: '85%' }}>
             <h2 style={{
               margin: '0 0 1.5rem',
               fontSize: '1.5rem',
@@ -776,73 +807,123 @@ export default function Home() {
               position: 'relative',
               overflowX: 'auto'
             }}>
-              <div style={{
-                display: 'flex',
-                minWidth: 'fit-content',
-                position: 'relative',
-                height: '100px'
-              }}>
-                {/* 时间轴中心线 */}
+              {activitiesLoading ? (
+                <div style={{ textAlign: 'center', color: 'white', padding: '2rem' }}>Loading...</div>
+              ) : activities.length === 0 ? (
+                <div style={{ textAlign: 'center', color: 'white', padding: '2rem' }}>暂无活动记录</div>
+              ) : (
                 <div style={{
-                  position: 'absolute',
-                  top: '35%',
-                  left: '0',
-                  right: '0',
-                  height: '2px',
-                  background: 'linear-gradient(to right, #ff6b6b, #4ecdc4)'
-                }} />
-                
-                {/* 时间轴节点 */}
-                {[
-                  { time: '2024-04-06 15:30', action: '添加了新博客', type: 'blog' },
-                  { time: '2024-04-06 14:15', action: '删除了旧图片', type: 'photo' },
-                  { time: '2024-04-06 11:20', action: '修改了博客内容', type: 'blog' },
-                  { time: '2024-04-05 16:45', action: '上传了新图片', type: 'photo' },
-                  { time: '2024-04-05 10:30', action: '创建了新笔记本', type: 'notebook' }
-                ].map((item, index) => (
-                  <div key={index} style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    marginRight: '2rem',
-                    position: 'relative',
-                    minWidth: '150px'
-                  }}>
-                    {/* 节点 */}
-                    <div style={{
-                      width: '12px',
-                      height: '12px',
-                      borderRadius: '50%',
-                      background: item.type === 'blog' ? '#ff6b6b' : item.type === 'photo' ? '#4ecdc4' : '#45b7d1',
-                      zIndex: 1,
-                      position: 'absolute',
-                      top: '35%',
-                      transform: 'translateY(-50%)'
-                    }} />
-                    
-                    {/* 内容 */}
-                    <div style={{
-                      textAlign: 'center',
-                      fontSize: '0.8rem',
-                      marginTop: '45px',
-                      padding: '0 0.5rem'
-                    }}>
-                      <div style={{
-                        color: 'white',
-                        marginBottom: '0.5rem'
+                  display: 'flex',
+                  minWidth: 'fit-content',
+                  position: 'relative',
+                  height: '100px'
+                }}>
+                  {/* 时间轴中心线 */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '35%',
+                    left: '0',
+                    right: '0',
+                    height: '2px',
+                    background: 'linear-gradient(to right, #ff6b6b, #4ecdc4)'
+                  }} />
+                  
+                  {/* 时间轴节点 */}
+                  {activities.map((item, index) => {
+                    const formatTime = (dateStr: string) => {
+                      const date = new Date(dateStr);
+                      return date.toLocaleString('zh-CN', {
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      });
+                    };
+
+                    const getActionText = (action: string, type: string) => {
+                      const actionMap: Record<string, Record<string, string>> = {
+                        blog: { create: '添加了新博客', update: '修改了博客', delete: '删除了博客' },
+                        photo: { upload: '上传了新图片', delete: '删除了图片' }
+                      };
+                      return actionMap[type]?.[action] || action;
+                    };
+
+                    const handleClick = () => {
+                      if (item.type === 'blog' && item.item_slug && item.action !== 'delete') {
+                        router.push(`/blog/${item.item_slug}`);
+                      } else if (item.type === 'photo' && item.action !== 'delete') {
+                        router.push('/photos');
+                      }
+                    };
+
+                    const isClickable = (item.type === 'blog' && item.item_slug && item.action !== 'delete') || 
+                                       (item.type === 'photo' && item.action !== 'delete');
+
+                    return (
+                      <div key={item.id} style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        marginRight: '2rem',
+                        position: 'relative',
+                        minWidth: '150px'
                       }}>
-                        {item.time}
+                        {/* 节点 */}
+                        <div 
+                          style={{
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            background: item.type === 'blog' ? '#ff6b6b' : item.type === 'photo' ? '#4ecdc4' : '#45b7d1',
+                            zIndex: 1,
+                            position: 'absolute',
+                            top: '35%',
+                            transform: 'translateY(-50%)',
+                            cursor: isClickable ? 'pointer' : 'default',
+                            transition: 'transform 0.2s ease'
+                          }}
+                          onClick={handleClick}
+                          onMouseEnter={(e) => {
+                            if (isClickable) {
+                              e.currentTarget.style.transform = 'translateY(-50%) scale(1.3)';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (isClickable) {
+                              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                            }
+                          }}
+                        />
+                        
+                        {/* 内容 */}
+                        <div 
+                          style={{
+                            textAlign: 'center',
+                            fontSize: '0.8rem',
+                            marginTop: '45px',
+                            padding: '0 0.5rem',
+                            cursor: isClickable ? 'pointer' : 'default'
+                          }}
+                          onClick={handleClick}
+                        >
+                          <div style={{
+                            color: 'white',
+                            marginBottom: '0.5rem'
+                          }}>
+                            {formatTime(item.created_at)}
+                          </div>
+                          <div style={{
+                            color: 'white',
+                            fontWeight: '500'
+                          }}>
+                            {item.item_title || getActionText(item.action, item.type)}
+                          </div>
+                        </div>
                       </div>
-                      <div style={{
-                        color: 'white',
-                        fontWeight: '500'
-                      }}>
-                        {item.action}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>

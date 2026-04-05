@@ -15,7 +15,7 @@ export async function DELETE(request: Request) {
     }
 
     // 获取照片信息
-    const photos = await sql`SELECT blob_id FROM photos WHERE id = ${id}`;
+    const photos = await sql`SELECT blob_id, url, description FROM photos WHERE id = ${id}`;
 
     if (photos.length > 0 && photos[0].blob_id) {
       // 删除 Blob
@@ -24,6 +24,14 @@ export async function DELETE(request: Request) {
       } catch (blobError) {
         console.error('Failed to delete blob:', blobError);
       }
+    }
+
+    // 记录删除图片活动
+    if (photos.length > 0) {
+      await sql`
+        INSERT INTO activities (type, action, item_id, item_title, item_url)
+        VALUES ('photo', 'delete', ${parseInt(id)}, ${photos[0].description || '图片'}, ${photos[0].url})
+      `;
     }
 
     // 删除数据库记录

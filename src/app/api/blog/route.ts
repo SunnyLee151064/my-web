@@ -74,6 +74,12 @@ export async function POST(request: Request) {
       RETURNING id, title, slug, notebook_id, created_at
     `;
 
+    // 记录创建博客活动
+    await sql`
+      INSERT INTO activities (type, action, item_id, item_title, item_slug)
+      VALUES ('blog', 'create', ${result[0].id}, ${title}, ${slug})
+    `;
+
     return NextResponse.json({ success: true, post: result[0] });
   } catch (error) {
     console.error('Create post error:', error);

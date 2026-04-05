@@ -56,6 +56,12 @@ export async function PUT(
       RETURNING id, title, slug, notebook_id
     `;
 
+    // 记录更新博客活动
+    await sql`
+      INSERT INTO activities (type, action, item_id, item_title, item_slug)
+      VALUES ('blog', 'update', ${result[0].id}, ${title}, ${result[0].slug})
+    `;
+
     return NextResponse.json({ success: true, post: result[0] });
   } catch (error) {
     return NextResponse.json(
@@ -71,7 +77,19 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
+    
+    // 先获取被删除的博客信息
+    const posts = await sql`SELECT title, slug FROM posts WHERE id = ${id}`;
+    
     await sql`DELETE FROM posts WHERE id = ${id}`;
+
+    // 记录删除博客活动
+    if (posts.length > 0) {
+      await sql`
+        INSERT INTO activities (type, action, item_id, item_title, item_slug)
+        VALUES ('blog', 'delete', ${parseInt(id)}, ${posts[0].title}, ${posts[0].slug})
+      `;
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
