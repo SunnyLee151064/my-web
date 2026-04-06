@@ -178,9 +178,24 @@ export default function Home() {
   };
 
   useEffect(() => {
-    loadActivities();
-    loadVisitorCount();
-    loadGuestbook();
+    // 立即设置加载状态为false，确保即使API请求失败也能显示内容
+    setActivitiesLoading(false);
+    setGuestbookLoading(false);
+    
+    // 然后异步加载数据
+    const loadData = async () => {
+      try {
+        await Promise.all([
+          loadActivities(),
+          loadVisitorCount(),
+          loadGuestbook()
+        ]);
+      } catch (error) {
+        console.error('Failed to load data:', error);
+      }
+    };
+    
+    loadData();
     
     // 只在用户首次访问时增加计数（使用 sessionStorage 防止同一会话重复计数）
     const hasVisited = sessionStorage.getItem('hasVisited');
