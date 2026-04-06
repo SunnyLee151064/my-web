@@ -49,8 +49,9 @@ export async function GET(request: Request) {
     }
   } catch (error) {
     console.error('GET posts error:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch posts', posts: [] },
+      { success: false, error: 'Failed to fetch posts', detail: errorMessage, posts: [] },
       { status: 500 }
     );
   }

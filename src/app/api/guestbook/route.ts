@@ -1,22 +1,22 @@
 import { NextResponse } from 'next/server';
-import { sql, initDatabase } from '@/lib/db';
+import { sql } from '@/lib/db';
 
+// 强制使用 Node.js runtime
+export const runtime = 'nodejs';
+
+// 获取留言列表
 export async function GET(request: Request) {
   try {
-    await initDatabase();
-    
     const { searchParams } = new URL(request.url);
     const includeAll = searchParams.get('includeAll') === 'true';
-    
+
     let messages;
     if (includeAll) {
-      // 获取所有留言（用于 admin 审核）
       messages = await sql`
         SELECT * FROM guestbook
         ORDER BY created_at DESC
       `;
     } else {
-      // 只获取已审核的留言（用于访客查看）
       messages = await sql`
         SELECT * FROM guestbook
         WHERE is_approved = TRUE
@@ -28,7 +28,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: true, messages });
   } catch (error) {
     console.error('GET guestbook error:', error);
-    // 优雅降级，返回空数组
     return NextResponse.json(
       { success: true, messages: [] },
       { status: 200 }
@@ -38,8 +37,6 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    await initDatabase();
-    
     const { name, message } = await request.json();
 
     if (!name || !message) {
@@ -81,8 +78,6 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    await initDatabase();
-    
     const { id, is_approved } = await request.json();
 
     if (!id || is_approved === undefined) {
@@ -118,8 +113,6 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    await initDatabase();
-    
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 

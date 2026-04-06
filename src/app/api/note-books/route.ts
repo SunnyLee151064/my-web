@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 
+// 强制使用 Node.js runtime
+export const runtime = 'nodejs';
+
 // 获取所有笔记本
 export async function GET() {
   try {

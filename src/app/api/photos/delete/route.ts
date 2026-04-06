@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { del } from '@vercel/blob';
 
+// 强制使用 Node.js runtime
+export const runtime = 'nodejs';
+
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

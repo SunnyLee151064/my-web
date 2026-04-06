@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { sql, initDatabase } from '@/lib/db';
+import { sql } from '@/lib/db';
+
+// 强制使用 Node.js runtime
+export const runtime = 'nodejs';
 
 export async function GET() {
   try {
-    // 确保数据库表已经创建
-    await initDatabase();
-    
     const albums = await sql`
       SELECT id, name, is_default, created_at FROM photo_albums
       ORDER BY is_default DESC, created_at DESC
@@ -23,9 +23,6 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    // 确保数据库表已经创建
-    await initDatabase();
-    
     const body = await request.json();
     console.log('Create album request body:', body);
     const { name, isDefault } = body;
@@ -63,9 +60,6 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    // 确保数据库表已经创建
-    await initDatabase();
-    
     const { id, name, isDefault } = await request.json();
 
     if (!id || !name) {
@@ -106,9 +100,6 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    // 确保数据库表已经创建
-    await initDatabase();
-    
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
 

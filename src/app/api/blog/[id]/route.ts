@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 
+// 强制使用 Node.js runtime
+export const runtime = 'nodejs';
+
 // 根据 ID 或 slug 获取文章
 export async function GET(
   request: Request,

@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 
+// 强制使用 Node.js runtime
+export const runtime = 'nodejs';
+
 export async function POST(request: Request) {
   try {
     const { username, password } = await request.json();

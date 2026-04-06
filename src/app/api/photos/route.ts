@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
-import { sql, initDatabase } from '@/lib/db';
+import { sql } from '@/lib/db';
 import { put } from '@vercel/blob';
+
+// 强制使用 Node.js runtime
+export const runtime = 'nodejs';
 
 export async function GET(request: Request) {
   try {
-    // 确保数据库表已经创建
-    await initDatabase();
     
     const url = new URL(request.url);
     const albumId = url.searchParams.get('album_id');
@@ -42,9 +43,6 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    // 确保数据库表已经创建
-    await initDatabase();
-    
     console.log('Upload request received');
     const formData = await request.formData();
     const file = formData.get('file') as File;
