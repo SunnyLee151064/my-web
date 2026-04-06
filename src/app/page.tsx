@@ -1142,8 +1142,7 @@ export default function Home() {
               border: '1px solid rgba(0, 0, 0, 0.25)',
               borderRadius: '13px',
               padding: '1.5rem',
-              position: 'relative',
-              overflowX: 'auto'
+              position: 'relative'
             }}>
               {activitiesLoading ? (
                 <div style={{ textAlign: 'center', color: 'white', padding: '2rem' }}>Loading...</div>
@@ -1152,7 +1151,7 @@ export default function Home() {
               ) : (
                 <div style={{
                   display: 'flex',
-                  minWidth: 'fit-content',
+                  width: '650px',
                   position: 'relative',
                   height: '100px'
                 }}>

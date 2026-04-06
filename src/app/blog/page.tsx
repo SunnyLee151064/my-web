@@ -104,6 +104,7 @@ export default function BlogPage() {
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setShowSearch(false);
     await fetchPosts();
   };
   if (loading) {
