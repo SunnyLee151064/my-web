@@ -151,10 +151,10 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         paddingTop: '4rem'
       }}>
         <div style={{
-          background: 'rgba(255, 255, 255, 0.15)',
+          background: 'rgba(20, 20, 20, 0.85)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
           borderRadius: '16px',
           padding: '2.5rem'
         }}>
