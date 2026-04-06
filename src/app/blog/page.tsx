@@ -25,7 +25,8 @@ export default function BlogPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedNotebook, setSelectedNotebook] = useState<number | null>(null);
-  const [showSearch, setShowSearch] = useState(false);
+  const [searchExpanded, setSearchExpanded] = useState(false);
+  const [searchMessage, setSearchMessage] = useState<{type: 'success' | 'info', text: string} | null>(null);
   const router = useRouter();
   const abortControllerRef = React.useRef<AbortController | null>(null);
 
@@ -101,11 +102,26 @@ export default function BlogPage() {
     }
   };
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSearch = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setLoading(true);
-    setShowSearch(false);
+    setSearchExpanded(false);
     await fetchPosts();
+
+    // 显示搜索结果提示
+    if (search && posts.length === 0) {
+      setSearchMessage({ type: 'info', text: '未找到相关博客' });
+    } else if (search && posts.length > 0) {
+      const notebookName = selectedNotebook
+        ? notebooks.find(n => n.id === selectedNotebook)?.name || '当前'
+        : '所有';
+      setSearchMessage({ type: 'success', text: `在「${notebookName}」搜索到 ${posts.length} 项内容` });
+    } else {
+      setSearchMessage(null);
+    }
+
+    // 3秒后自动隐藏提示
+    setTimeout(() => setSearchMessage(null), 3000);
   };
   if (loading) {
     return (
@@ -180,125 +196,104 @@ export default function BlogPage() {
         ← Back
       </button>
 
-      {/* 搜索按钮 */}
-      <button
-        onClick={() => setShowSearch(!showSearch)}
-        style={{
+      {/* 搜索按钮和内联搜索栏 */}
+      <div style={{
+        position: 'absolute',
+        top: '1.5rem',
+        right: '1.5rem',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        zIndex: 10
+      }}>
+        {/* 内联搜索栏 - 展开时显示 */}
+        {searchExpanded && (
+          <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.5rem' }}>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="搜索博客..."
+              autoFocus
+              style={{
+                width: '200px',
+                padding: '0.5rem 0.75rem',
+                background: 'rgba(0, 0, 0, 0.3)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '6px',
+                fontSize: '0.9rem',
+                color: 'white',
+                outline: 'none',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)'
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                padding: '0.5rem 0.75rem',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                fontWeight: '500'
+              }}
+            >
+              🔍
+            </button>
+          </form>
+        )}
+
+        {/* 搜索按钮 - 未展开时显示 */}
+        {!searchExpanded && (
+          <button
+            onClick={() => setSearchExpanded(true)}
+            style={{
+              padding: '0.5rem 1rem',
+              background: 'rgba(0, 0, 0, 0.15)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: '1px solid rgba(0, 0, 0, 0.25)',
+              borderRadius: '7px',
+              cursor: 'pointer',
+              fontWeight: '500',
+              color: 'white',
+              fontSize: '0.9rem',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
+              (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
+              (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+            }}
+          >
+            🔍 Search
+          </button>
+        )}
+      </div>
+
+      {/* 搜索结果提示 */}
+      {searchMessage && (
+        <div style={{
           position: 'absolute',
-          top: '1.5rem',
-          right: '1.5rem',
+          top: '5rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
           padding: '0.5rem 1rem',
-          background: 'rgba(0, 0, 0, 0.15)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          border: '1px solid rgba(0, 0, 0, 0.25)',
-          borderRadius: '7px',
-          cursor: 'pointer',
-          fontWeight: '500',
+          background: searchMessage.type === 'success' ? 'rgba(102, 126, 234, 0.9)' : 'rgba(100, 100, 100, 0.9)',
+          borderRadius: '8px',
           color: 'white',
           fontSize: '0.9rem',
-          transition: 'all 0.3s ease',
-          zIndex: 10
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.25)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.15)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-        }}
-      >
-        🔍 Search
-      </button>
-
-      {/* 搜索弹窗 */}
-      {showSearch && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'rgba(0, 0, 0, 0.5)',
-          backdropFilter: 'blur(5px)',
-          WebkitBackdropFilter: 'blur(5px)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 100
+          zIndex: 20,
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)'
         }}>
-          <div style={{
-            background: 'rgba(30, 30, 30, 0.95)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
-            borderRadius: '12px',
-            padding: '2rem',
-            width: '90%',
-            maxWidth: '500px',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
-          }}>
-            <h3 style={{
-              margin: '0 0 1.5rem',
-              fontSize: '1.2rem',
-              color: '#ffffff',
-              fontWeight: '600',
-              textAlign: 'center'
-            }}>
-              Search Blogs
-            </h3>
-            <form onSubmit={handleSearch}>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search blogs..."
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem 1rem',
-                    background: 'rgba(50, 50, 50, 0.9)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    borderRadius: '8px',
-                    fontSize: '1rem',
-                    color: '#ffffff',
-                    outline: 'none'
-                  }}
-                />
-                <button
-                  type="submit"
-                  style={{
-                    padding: '0.75rem 1.5rem',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontWeight: '600'
-                  }}
-                >
-                  Search
-                </button>
-              </div>
-            </form>
-            <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-              <button
-                onClick={() => setShowSearch(false)}
-                style={{
-                  padding: '0.5rem 1rem',
-                  background: 'rgba(100, 100, 100, 0.5)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  color: '#ffffff',
-                  fontSize: '0.9rem'
-                }}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+          {searchMessage.text}
         </div>
       )}
 
@@ -335,6 +330,7 @@ export default function BlogPage() {
             onClick={async () => {
               setSelectedNotebook(null);
               setSearch('');
+              setSearchMessage(null);
               setLoading(true);
               await fetchPosts();
             }}
@@ -357,6 +353,7 @@ export default function BlogPage() {
               onClick={async () => {
                 setSelectedNotebook(notebook.id);
                 setSearch('');
+                setSearchMessage(null);
                 setLoading(true);
                 await fetchPosts();
               }}
