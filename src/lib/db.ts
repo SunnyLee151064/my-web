@@ -1,10 +1,11 @@
 import { neon } from '@neondatabase/serverless';
 
-const url = process.env.POSTGRES_URL;
+// 支持多种环境变量名：POSTGRES_URL 或 DATABASE_URL
+const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
 
 export const sql = (...args: Parameters<ReturnType<typeof neon>>) => {
   if (!url) {
-    throw new Error('POSTGRES_URL is not configured');
+    throw new Error('DATABASE_URL/POSTGRES_URL is not configured');
   }
   const db = neon(url);
   return db(...args);
@@ -12,7 +13,7 @@ export const sql = (...args: Parameters<ReturnType<typeof neon>>) => {
 
 export async function initDatabase() {
   if (!url) {
-    console.warn('Database is not configured. Please set POSTGRES_URL environment variable.');
+    console.warn('Database is not configured. Please set DATABASE_URL or POSTGRES_URL environment variable.');
     return;
   }
 
