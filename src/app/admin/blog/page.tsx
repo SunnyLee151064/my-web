@@ -296,7 +296,7 @@ export default function AdminBlogPage() {
               }}
               style={{
                 padding: '0.5rem 1rem',
-                background: selectedNotebook === notebook.id ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
+                background: selectedNotebook === notebook.id ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(0, 0, 0, 0.4)',
                 color: 'white',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '20px',
@@ -443,7 +443,7 @@ export default function AdminBlogPage() {
           href="/admin/notebooks"
           style={{
             padding: '0.75rem 1.5rem',
-            background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             color: 'white',
             borderRadius: '8px',
             textDecoration: 'none',
@@ -452,7 +452,7 @@ export default function AdminBlogPage() {
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
           }}
         >
-          + New Notebook
+          ⚙️ Manage Notebooks
         </Link>
       </div>
     </div>

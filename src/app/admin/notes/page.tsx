@@ -267,9 +267,9 @@ export default function AdminNotesPage() {
             }}
             style={{
               padding: '0.5rem 1rem',
-              background: selectedNoteBook === null ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
+              background: selectedNoteBook === null ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(0, 0, 0, 0.4)',
               color: 'white',
-              border: '1px solid rgba(0, 0, 0, 0.2)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: '20px',
               cursor: 'pointer',
               fontSize: '0.9rem',
@@ -288,9 +288,9 @@ export default function AdminNotesPage() {
               }}
               style={{
                 padding: '0.5rem 1rem',
-                background: selectedNoteBook === noteBook.id ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
+                background: selectedNoteBook === noteBook.id ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(0, 0, 0, 0.4)',
                 color: 'white',
-                border: '1px solid rgba(0, 0, 0, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '20px',
                 cursor: 'pointer',
                 fontSize: '0.9rem',
@@ -433,7 +433,7 @@ export default function AdminNotesPage() {
           href="/admin/note-books"
           style={{
             padding: '0.75rem 1.5rem',
-            background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             color: 'white',
             borderRadius: '8px',
             textDecoration: 'none',
@@ -442,7 +442,7 @@ export default function AdminNotesPage() {
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
           }}
         >
-          + New Note Book
+          ⚙️ Manage Note Books
         </Link>
       </div>
     </div>
