@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
-import { sql } from '@/lib/db';
+import { sql, initDatabase } from '@/lib/db';
 
 // 获取博客列表 - 支持搜索和笔记本筛选
 export async function GET(request: Request) {
   try {
+    // 确保数据库已初始化
+    await initDatabase();
+
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search') || '';
     const notebookId = searchParams.get('notebook_id');
