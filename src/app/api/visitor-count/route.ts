@@ -15,10 +15,11 @@ export async function GET() {
     });
   } catch (error) {
     console.error('GET visitor count error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch visitor count', count: 0 },
-      { status: 500 }
-    );
+    // 优雅降级，返回0
+    return NextResponse.json({ 
+      success: true, 
+      count: 0 
+    });
   }
 }
 

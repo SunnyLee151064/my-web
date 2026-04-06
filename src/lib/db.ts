@@ -12,7 +12,8 @@ export const sql = (...args: Parameters<ReturnType<typeof neon>>) => {
 
 export async function initDatabase() {
   if (!url) {
-    throw new Error('Database is not configured. Please set POSTGRES_URL environment variable.');
+    console.warn('Database is not configured. Please set POSTGRES_URL environment variable.');
+    return;
   }
 
   // 创建 users 表

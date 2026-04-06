@@ -28,9 +28,10 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: true, messages });
   } catch (error) {
     console.error('GET guestbook error:', error);
+    // 优雅降级，返回空数组
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch guestbook messages', messages: [] },
-      { status: 500 }
+      { success: true, messages: [] },
+      { status: 200 }
     );
   }
 }
