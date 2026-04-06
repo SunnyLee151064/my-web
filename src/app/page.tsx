@@ -50,13 +50,24 @@ export default function Home() {
 
   const loadActivities = async () => {
     try {
-      const res = await fetch('/api/activities');
+      const res = await fetch('/api/activities', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
       if (data.success) {
-        setActivities(data.activities);
+        setActivities(data.activities || []);
       }
     } catch (error) {
       console.error('Failed to load activities:', error);
+      setActivities([]);
     } finally {
       setActivitiesLoading(false);
     }
@@ -64,22 +75,43 @@ export default function Home() {
 
   const loadVisitorCount = async () => {
     try {
-      const res = await fetch('/api/visitor-count');
+      const res = await fetch('/api/visitor-count', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
       if (data.success) {
-        setVisitorCount(data.count);
+        setVisitorCount(data.count || 0);
       }
     } catch (error) {
       console.error('Failed to load visitor count:', error);
+      setVisitorCount(0);
     }
   };
 
   const incrementVisitorCount = async () => {
     try {
-      const res = await fetch('/api/visitor-count', { method: 'POST' });
+      const res = await fetch('/api/visitor-count', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
       if (data.success) {
-        setVisitorCount(data.count);
+        setVisitorCount(data.count || 0);
       }
     } catch (error) {
       console.error('Failed to increment visitor count:', error);
@@ -88,13 +120,24 @@ export default function Home() {
 
   const loadGuestbook = async () => {
     try {
-      const res = await fetch('/api/guestbook');
+      const res = await fetch('/api/guestbook', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
       if (data.success) {
-        setGuestbookMessages(data.messages);
+        setGuestbookMessages(data.messages || []);
       }
     } catch (error) {
       console.error('Failed to load guestbook:', error);
+      setGuestbookMessages([]);
     } finally {
       setGuestbookLoading(false);
     }
@@ -108,14 +151,21 @@ export default function Home() {
     try {
       const res = await fetch('/api/guestbook', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'same-origin',
         body: JSON.stringify({
           name: newMessageName.trim(),
           message: newMessageContent.trim()
         })
       });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.message) {
         setGuestbookMessages(prev => [data.message, ...prev]);
         setNewMessageName('');
         setNewMessageContent('');
