@@ -122,7 +122,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
           top: '1.5rem',
           left: '1.5rem',
           padding: '0.5rem 1rem',
-          background: 'rgba(255, 255, 255, 0.2)',
+          background: 'rgba(0, 0, 0, 0.5)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
           border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -135,10 +135,10 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
           zIndex: 10
         }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.3)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.7)';
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0, 0, 0, 0.5)';
         }}
       >
         ← Back to Blog
