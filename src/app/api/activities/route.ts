@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
-import { sql, initDatabase } from '@/lib/db';
+import { sql } from '@/lib/db';
+
+// 强制使用 Node.js runtime 确保与 Neon 的兼容性
+export const runtime = 'nodejs';
 
 // 生成唯一的请求ID，防止重复处理
 function generateRequestId() {
@@ -9,10 +12,8 @@ function generateRequestId() {
 // 存储已处理的请求
 const processedRequests = new Set<string>();
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    await initDatabase();
-    
     const activities = await sql`
       SELECT * FROM activities
       ORDER BY created_at DESC
@@ -42,14 +43,12 @@ export async function POST(request: Request) {
     
     // 标记为已处理
     processedRequests.add(requestId);
-    
+
     // 清理过期的请求ID（超过5分钟的）
     setTimeout(() => {
       processedRequests.delete(requestId);
     }, 5 * 60 * 1000);
-    
-    await initDatabase();
-    
+
     const { type, action, item_id, item_title, item_slug, item_url } = await request.json();
 
     if (!type || !action) {

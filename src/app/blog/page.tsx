@@ -40,6 +40,12 @@ export default function BlogPage() {
   const fetchNotebooks = async () => {
     try {
       const res = await fetch('/api/notebooks');
+
+      if (!res.ok) {
+        console.error('API error:', res.status, res.statusText);
+        return;
+      }
+
       const data = await res.json();
       if (data.success) {
         setNotebooks(data.notebooks || []);
@@ -54,10 +60,10 @@ export default function BlogPage() {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
-    
+
     // 创建新的AbortController
     abortControllerRef.current = new AbortController();
-    
+
     try {
       let url = '/api/blog';
       const params: string[] = [];
@@ -68,10 +74,19 @@ export default function BlogPage() {
       const res = await fetch(url, {
         signal: abortControllerRef.current?.signal
       });
+
+      // 检查响应状态
+      if (!res.ok) {
+        console.error('API error:', res.status, res.statusText);
+        setPosts([]);
+        return;
+      }
+
       const data = await res.json();
       if (data.success) {
         setPosts(data.posts || []);
       } else {
+        console.error('API returned error:', data.error);
         setPosts([]);
       }
     } catch (err) {
