@@ -15,7 +15,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "lwq's web",
+  title: "Lee's",
   description: "Sunny's personal website",
 };
 

@@ -27,19 +27,10 @@ export default function BlogPage() {
   const [selectedNotebook, setSelectedNotebook] = useState<number | null>(null);
   const [searchExpanded, setSearchExpanded] = useState(false);
   const [searchMessage, setSearchMessage] = useState<{type: 'success' | 'info', text: string} | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
   const abortControllerRef = React.useRef<AbortController | null>(null);
 
   useEffect(() => {
-    // 检测是否是 admin
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        const user = JSON.parse(storedUser);
-        if (user.role === 'admin') setIsAdmin(true);
-      } catch {}
-    }
     fetchNotebooks();
   }, []);
 
@@ -343,23 +334,6 @@ export default function BlogPage() {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>Blog</span>
-          {isAdmin && (
-            <button
-              onClick={() => router.push('/admin/notebooks')}
-              style={{
-                marginLeft: '12px',
-                padding: '0.25rem 0.5rem',
-                background: 'rgba(0, 0, 0, 0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '6px',
-                color: 'white',
-                fontSize: '0.75rem',
-                cursor: 'pointer'
-              }}
-            >
-              ⚙️ 管理
-            </button>
-          )}
         </h1>
 
         {/* 笔记本列表 */}
