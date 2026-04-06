@@ -254,9 +254,6 @@ export default function PhotosPage() {
             WebkitTextFillColor: 'transparent'
           }}>Photos</span>
         </h1>
-        <p style={{ color: 'rgba(255, 255, 255, 0.7)', marginTop: '0.5rem', fontSize: '1rem' }}>
-          记录美好瞬间
-        </p>
         
         {/* 图集选择器 */}
         <div style={{ marginTop: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>

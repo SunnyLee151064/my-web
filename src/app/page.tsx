@@ -851,7 +851,7 @@ export default function Home() {
                     fontSize: '12px',
                     color: 'white'
                   }}>
-                    Daily Records
+                    技术文章
                   </div>
                 </div>
                 <div style={{
@@ -936,7 +936,7 @@ export default function Home() {
                     fontSize: '12px',
                     color: 'white'
                   }}>
-                    Photo Collection
+                    我的照片
                   </div>
                 </div>
                 <div style={{
@@ -1021,7 +1021,7 @@ export default function Home() {
                     fontSize: '12px',
                     color: 'white'
                   }}>
-                    Quick Notes
+                    随手小记
                   </div>
                 </div>
                 <div style={{
