@@ -264,7 +264,7 @@ export default function PhotosPage() {
             onClick={() => setSelectedAlbum(null)}
             style={{
               padding: '0.5rem 1rem',
-              background: selectedAlbum === null ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
+              background: selectedAlbum === null ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.4)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -283,7 +283,7 @@ export default function PhotosPage() {
               onClick={() => setSelectedAlbum(album.id)}
               style={{
                 padding: '0.5rem 1rem',
-                background: selectedAlbum === album.id ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
+                background: selectedAlbum === album.id ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.4)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
