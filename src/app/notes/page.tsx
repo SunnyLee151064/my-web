@@ -87,16 +87,28 @@ export default function NotesPage() {
     if (e) e.preventDefault();
     setLoading(true);
     setSearchExpanded(false);
-    await fetchNotes();
+
+    // 直接获取搜索结果
+    let url = '/api/notes';
+    const params: string[] = [];
+    if (search) params.push(`search=${encodeURIComponent(search)}`);
+    if (selectedNoteBook) params.push(`note_book_id=${selectedNoteBook}`);
+    if (params.length > 0) url += '?' + params.join('&');
+
+    const res = await fetch(url);
+    const data = await res.json();
+    const results = data.notes || [];
+    setNotes(results);
+    setLoading(false);
 
     // 显示搜索结果提示
-    if (search && notes.length === 0) {
+    if (search && results.length === 0) {
       setSearchMessage({ type: 'info', text: '未找到相关笔记' });
-    } else if (search && notes.length > 0) {
+    } else if (search && results.length > 0) {
       const noteBookName = selectedNoteBook
         ? noteBooks.find(n => n.id === selectedNoteBook)?.name || '当前'
         : '所有';
-      setSearchMessage({ type: 'success', text: `在「${noteBookName}」搜索到 ${notes.length} 项内容` });
+      setSearchMessage({ type: 'success', text: `在「${noteBookName}」搜索到 ${results.length} 项内容` });
     } else {
       setSearchMessage(null);
     }

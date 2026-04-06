@@ -106,16 +106,28 @@ export default function BlogPage() {
     if (e) e.preventDefault();
     setLoading(true);
     setSearchExpanded(false);
-    await fetchPosts();
+
+    // 直接获取搜索结果，不用 fetchPosts，避免时序问题
+    let url = '/api/blog';
+    const params: string[] = [];
+    if (search) params.push(`search=${encodeURIComponent(search)}`);
+    if (selectedNotebook) params.push(`notebook_id=${selectedNotebook}`);
+    if (params.length > 0) url += '?' + params.join('&');
+
+    const res = await fetch(url);
+    const data = await res.json();
+    const results = data.posts || [];
+    setPosts(results);
+    setLoading(false);
 
     // 显示搜索结果提示
-    if (search && posts.length === 0) {
+    if (search && results.length === 0) {
       setSearchMessage({ type: 'info', text: '未找到相关博客' });
-    } else if (search && posts.length > 0) {
+    } else if (search && results.length > 0) {
       const notebookName = selectedNotebook
         ? notebooks.find(n => n.id === selectedNotebook)?.name || '当前'
         : '所有';
-      setSearchMessage({ type: 'success', text: `在「${notebookName}」搜索到 ${posts.length} 项内容` });
+      setSearchMessage({ type: 'success', text: `在「${notebookName}」搜索到 ${results.length} 项内容` });
     } else {
       setSearchMessage(null);
     }
