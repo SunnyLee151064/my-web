@@ -22,6 +22,8 @@ export default function NoteBooksPage() {
   const [user, setUser] = useState<User | null>(null);
   const [newName, setNewName] = useState('');
   const [creating, setCreating] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editName, setEditName] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -103,6 +105,29 @@ export default function NoteBooksPage() {
       }
     } catch (err) {
       alert('Failed to delete');
+    }
+  };
+
+  const handleUpdate = async (id: number) => {
+    if (!editName.trim()) return;
+
+    try {
+      const res = await fetch(`/api/note-books/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: editName.trim() })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setEditingId(null);
+        setEditName('');
+        fetchNoteBooks();
+      } else {
+        alert(data.error || 'Failed to update');
+      }
+    } catch (err) {
+      alert('Failed to update');
     }
   };
 

@@ -22,6 +22,8 @@ export default function NotebooksPage() {
   const [user, setUser] = useState<User | null>(null);
   const [newName, setNewName] = useState('');
   const [creating, setCreating] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editName, setEditName] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -103,6 +105,29 @@ export default function NotebooksPage() {
       }
     } catch (err) {
       alert('Failed to delete');
+    }
+  };
+
+  const handleUpdate = async (id: number) => {
+    if (!editName.trim()) return;
+
+    try {
+      const res = await fetch(`/api/notebooks/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: editName.trim() })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setEditingId(null);
+        setEditName('');
+        fetchNotebooks();
+      } else {
+        alert(data.error || 'Failed to update');
+      }
+    } catch (err) {
+      alert('Failed to update');
     }
   };
 
@@ -283,18 +308,66 @@ export default function NotebooksPage() {
             >
               <div>
                 <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.1rem', fontWeight: '600', color: 'white' }}>
-                  {notebook.name}
-                  {notebook.is_default && (
-                    <span style={{
-                      marginLeft: '0.5rem',
-                      padding: '0.2rem 0.5rem',
-                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                      borderRadius: '4px',
-                      fontSize: '0.75rem',
-                      color: 'white'
-                    }}>
-                      Default
-                    </span>
+                  {editingId === notebook.id ? (
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <input
+                        type="text"
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        style={{
+                          padding: '0.25rem 0.5rem',
+                          borderRadius: '4px',
+                          border: '1px solid rgba(255,255,255,0.3)',
+                          background: 'rgba(0,0,0,0.3)',
+                          color: 'white',
+                          fontSize: '0.9rem'
+                        }}
+                      />
+                      <button
+                        onClick={() => handleUpdate(notebook.id)}
+                        style={{
+                          padding: '0.25rem 0.5rem',
+                          background: 'rgba(102, 126, 234, 0.8)',
+                          border: 'none',
+                          borderRadius: '4px',
+                          color: 'white',
+                          fontSize: '0.8rem',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => { setEditingId(null); setEditName(''); }}
+                        style={{
+                          padding: '0.25rem 0.5rem',
+                          background: 'rgba(100,100,100,0.8)',
+                          border: 'none',
+                          borderRadius: '4px',
+                          color: 'white',
+                          fontSize: '0.8rem',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      {notebook.name}
+                      {notebook.is_default && (
+                        <span style={{
+                          marginLeft: '0.5rem',
+                          padding: '0.2rem 0.5rem',
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          borderRadius: '4px',
+                          fontSize: '0.75rem',
+                          color: 'white'
+                        }}>
+                          Default
+                        </span>
+                      )}
+                    </>
                   )}
                 </h3>
                 <p style={{ margin: 0, color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.85rem' }}>
@@ -302,22 +375,39 @@ export default function NotebooksPage() {
                 </p>
               </div>
 
-              {!notebook.is_default && (
-                <button
-                  onClick={() => handleDelete(notebook.id)}
-                  style={{
-                    padding: '0.5rem 1rem',
-                    background: 'rgba(255, 68, 68, 0.8)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  Delete
-                </button>
+              {!notebook.is_default && editingId !== notebook.id && (
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button
+                    onClick={() => { setEditingId(notebook.id); setEditName(notebook.name); }}
+                    style={{
+                      padding: '0.5rem 1rem',
+                      background: 'rgba(102, 126, 234, 0.8)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(notebook.id)}
+                    style={{
+                      padding: '0.5rem 1rem',
+                      background: 'rgba(255, 68, 68, 0.8)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               )}
             </div>
           ))
