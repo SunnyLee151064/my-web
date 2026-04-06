@@ -275,9 +275,9 @@ export default function AdminBlogPage() {
             }}
             style={{
               padding: '0.5rem 1rem',
-              background: selectedNotebook === null ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
+              background: selectedNotebook === null ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(0, 0, 0, 0.4)',
               color: 'white',
-              border: '1px solid rgba(0, 0, 0, 0.2)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: '20px',
               cursor: 'pointer',
               fontSize: '0.9rem',
@@ -298,7 +298,7 @@ export default function AdminBlogPage() {
                 padding: '0.5rem 1rem',
                 background: selectedNotebook === notebook.id ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.3)',
                 color: 'white',
-                border: '1px solid rgba(0, 0, 0, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '20px',
                 cursor: 'pointer',
                 fontSize: '0.9rem',
