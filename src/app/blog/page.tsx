@@ -125,7 +125,7 @@ export default function BlogPage() {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <div style={{ color: '#1a1a1a', fontSize: '1.2rem' }}>Loading...</div>
+        <div style={{ color: 'white', fontSize: '1.2rem' }}>Loading...</div>
       </div>
     );
   }
@@ -234,20 +234,20 @@ export default function BlogPage() {
           zIndex: 100
         }}>
           <div style={{
-            background: 'rgba(255, 255, 255, 0.95)',
+            background: 'rgba(30, 30, 30, 0.95)',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 0, 0, 0.15)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
             borderRadius: '12px',
             padding: '2rem',
             width: '90%',
             maxWidth: '500px',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)'
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
           }}>
             <h3 style={{
               margin: '0 0 1.5rem',
               fontSize: '1.2rem',
-              color: '#1a1a1a',
+              color: '#ffffff',
               fontWeight: '600',
               textAlign: 'center'
             }}>
@@ -263,11 +263,11 @@ export default function BlogPage() {
                   style={{
                     flex: 1,
                     padding: '0.75rem 1rem',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    border: '1px solid rgba(0, 0, 0, 0.2)',
+                    background: 'rgba(50, 50, 50, 0.9)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '8px',
                     fontSize: '1rem',
-                    color: '#1a1a1a',
+                    color: '#ffffff',
                     outline: 'none'
                   }}
                 />
@@ -292,11 +292,11 @@ export default function BlogPage() {
                 onClick={() => setShowSearch(false)}
                 style={{
                   padding: '0.5rem 1rem',
-                  background: 'rgba(0, 0, 0, 0.1)',
-                  border: '1px solid rgba(0, 0, 0, 0.2)',
+                  background: 'rgba(100, 100, 100, 0.5)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
                   borderRadius: '8px',
                   cursor: 'pointer',
-                  color: '#1a1a1a',
+                  color: '#ffffff',
                   fontSize: '0.9rem'
                 }}
               >
