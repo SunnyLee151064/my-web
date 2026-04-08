@@ -30,6 +30,7 @@ export default function AdminPhotosPage() {
   const [user, setUser] = useState<User | null>(null);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
   const [showAlbumModal, setShowAlbumModal] = useState(false);
+  const [showManageAlbumsModal, setShowManageAlbumsModal] = useState(false);
   const [editingAlbum, setEditingAlbum] = useState<Album | null>(null);
   const [albumName, setAlbumName] = useState('');
   const [isDefault, setIsDefault] = useState(false);
@@ -382,14 +383,6 @@ export default function AdminPhotosPage() {
                 maxWidth: '80%',
                 textAlign: 'center'
               }}>
-                <h3 style={{
-                  margin: '0 0 0.5rem',
-                  fontSize: '1.1rem',
-                  color: 'white',
-                  fontWeight: '600'
-                }}>
-                  图片描述
-                </h3>
                 <p style={{
                   margin: '0 0 0.5rem',
                   color: 'rgba(255, 255, 255, 0.8)',
@@ -610,10 +603,10 @@ export default function AdminPhotosPage() {
           + Upload Photo
         </Link>
         <button
-          onClick={handleCreateAlbum}
+          onClick={() => setShowManageAlbumsModal(true)}
           style={{
             padding: '0.75rem 1.5rem',
-            background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             color: 'white',
             borderRadius: '8px',
             border: 'none',
@@ -623,7 +616,7 @@ export default function AdminPhotosPage() {
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
           }}
         >
-          + New Album
+          ⚙️ Manage Albums
         </button>
       </div>
 
@@ -708,6 +701,30 @@ export default function AdminPhotosPage() {
               </label>
             </div>
             <div style={{ display: 'flex', gap: '1rem' }}>
+              {editingAlbum && (
+                <button
+                  onClick={() => {
+                    if (editingAlbum.is_default) {
+                      alert('Cannot delete the default album');
+                      return;
+                    }
+                    handleDeleteAlbum(editingAlbum.id);
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: '0.75rem',
+                    background: 'rgba(255, 68, 68, 0.8)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Delete Album
+                </button>
+              )}
               <button
                 onClick={() => setShowAlbumModal(false)}
                 style={{
@@ -739,6 +756,144 @@ export default function AdminPhotosPage() {
                 }}
               >
                 {editingAlbum ? 'Save Changes' : 'Create Album'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Manage Albums Modal */}
+      {showManageAlbumsModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.8)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }} onClick={() => setShowManageAlbumsModal(false)}>
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRadius: '12px',
+            padding: '2rem',
+            width: '500px',
+            maxWidth: '90%',
+            position: 'relative',
+            maxHeight: '80vh',
+            overflow: 'auto'
+          }} onClick={(e) => e.stopPropagation()}>
+            <h2 style={{
+              margin: '0 0 1.5rem',
+              fontSize: '1.5rem',
+              color: 'white',
+              fontWeight: '600'
+            }}>
+              Manage Albums
+            </h2>
+
+            {/* Album List */}
+            <div style={{ marginBottom: '1.5rem' }}>
+              {albums.map((album) => (
+                <div
+                  key={album.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.75rem',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    borderRadius: '6px',
+                    marginBottom: '0.5rem'
+                  }}
+                >
+                  <span style={{ color: 'white', fontSize: '1rem' }}>
+                    {album.name} {album.is_default && (
+                      <span style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.85rem' }}>(默认)</span>
+                    )}
+                  </span>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button
+                      onClick={() => {
+                        handleEditAlbum(album);
+                      }}
+                      style={{
+                        padding: '0.4rem 0.75rem',
+                        background: 'rgba(255, 255, 255, 0.2)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '0.85rem',
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      Edit
+                    </button>
+                    {!album.is_default && (
+                      <button
+                        onClick={() => handleDeleteAlbum(album.id)}
+                        style={{
+                          padding: '0.4rem 0.75rem',
+                          background: 'rgba(255, 68, 68, 0.8)',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '0.85rem',
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <button
+                onClick={() => {
+                  setShowManageAlbumsModal(false);
+                }}
+                style={{
+                  flex: 1,
+                  padding: '0.75rem',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  color: 'white',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  handleCreateAlbum();
+                }}
+                style={{
+                  flex: 1,
+                  padding: '0.75rem',
+                  background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                + New Album
               </button>
             </div>
           </div>
