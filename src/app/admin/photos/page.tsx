@@ -437,10 +437,10 @@ export default function AdminPhotosPage() {
             onClick={() => setSelectedAlbum(null)}
             style={{
               padding: '0.5rem 1rem',
-              background: selectedAlbum === null ? 'rgba(255, 255, 255, 0.45)' : 'rgba(255, 255, 255, 0.25)',
+              background: selectedAlbum === null ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(0, 0, 0, 0.15)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
+              border: '1px solid rgba(0, 0, 0, 0.2)',
               borderRadius: '4px',
               cursor: 'pointer',
               color: 'white',
@@ -456,10 +456,10 @@ export default function AdminPhotosPage() {
               onClick={() => setSelectedAlbum(album.id)}
               style={{
                 padding: '0.5rem 1rem',
-                background: selectedAlbum === album.id ? 'rgba(255, 255, 255, 0.45)' : 'rgba(255, 255, 255, 0.25)',
+                background: selectedAlbum === album.id ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(0, 0, 0, 0.15)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(0, 0, 0, 0.2)',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 color: 'white',
