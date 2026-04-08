@@ -148,13 +148,6 @@ export default function AdminDashboard() {
             WebkitTextFillColor: 'transparent'
           }}>Admin Dashboard</span>
         </h1>
-        <p style={{
-          fontSize: '1rem',
-          color: 'rgba(255, 255, 255, 0.8)',
-          margin: 0
-        }}>
-          Manage your website content
-        </p>
       </div>
 
       {/* 管理项网格 */}

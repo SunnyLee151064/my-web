@@ -429,9 +429,7 @@ export default function AdminPhotosPage() {
             WebkitTextFillColor: 'transparent'
           }}>Manage Photos</span>
         </h1>
-        <p style={{ color: 'rgba(255, 255, 255, 0.7)', marginTop: '0.5rem', fontSize: '1rem' }}>
-          管理照片和相册
-        </p>
+
         
         {/* 图集选择器 */}
         <div style={{ marginTop: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
@@ -439,7 +437,7 @@ export default function AdminPhotosPage() {
             onClick={() => setSelectedAlbum(null)}
             style={{
               padding: '0.5rem 1rem',
-              background: selectedAlbum === null ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
+              background: selectedAlbum === null ? 'rgba(255, 255, 255, 0.45)' : 'rgba(255, 255, 255, 0.25)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -458,7 +456,7 @@ export default function AdminPhotosPage() {
               onClick={() => setSelectedAlbum(album.id)}
               style={{
                 padding: '0.5rem 1rem',
-                background: selectedAlbum === album.id ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
+                background: selectedAlbum === album.id ? 'rgba(255, 255, 255, 0.45)' : 'rgba(255, 255, 255, 0.25)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
