@@ -375,7 +375,7 @@ export default function AdminPhotosPage() {
               <div style={{
                 marginTop: '1rem',
                 padding: '1rem 1.5rem',
-                background: 'rgba(255, 255, 255, 0.15)',
+                background: 'rgba(255, 255, 255, 0.25)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -633,7 +633,7 @@ export default function AdminPhotosPage() {
           zIndex: 1000
         }} onClick={() => setShowAlbumModal(false)}>
           <div style={{
-            background: 'rgba(255, 255, 255, 0.15)',
+            background: 'rgba(255, 255, 255, 0.25)',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)',
             border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -775,7 +775,7 @@ export default function AdminPhotosPage() {
           zIndex: 1000
         }} onClick={() => setShowManageAlbumsModal(false)}>
           <div style={{
-            background: 'rgba(255, 255, 255, 0.15)',
+            background: 'rgba(255, 255, 255, 0.25)',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)',
             border: '1px solid rgba(255, 255, 255, 0.2)',

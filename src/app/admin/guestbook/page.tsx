@@ -252,7 +252,7 @@ export default function AdminGuestbookPage() {
             onClick={() => setFilter('all')}
             style={{
               padding: '0.5rem 1rem',
-              background: filter === 'all' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.45)',
+              background: filter === 'all' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.5)',
               color: 'white',
               border: '1px solid rgba(0, 0, 0, 0.2)',
               borderRadius: '20px',
@@ -267,7 +267,7 @@ export default function AdminGuestbookPage() {
             onClick={() => setFilter('pending')}
             style={{
               padding: '0.5rem 1rem',
-              background: filter === 'pending' ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' : 'rgba(255, 255, 255, 0.45)',
+              background: filter === 'pending' ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' : 'rgba(255, 255, 255, 0.5)',
               color: 'white',
               border: '1px solid rgba(0, 0, 0, 0.2)',
               borderRadius: '20px',
@@ -282,7 +282,7 @@ export default function AdminGuestbookPage() {
             onClick={() => setFilter('approved')}
             style={{
               padding: '0.5rem 1rem',
-              background: filter === 'approved' ? 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)' : 'rgba(255, 255, 255, 0.45)',
+              background: filter === 'approved' ? 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)' : 'rgba(255, 255, 255, 0.5)',
               color: 'white',
               border: '1px solid rgba(0, 0, 0, 0.2)',
               borderRadius: '20px',
