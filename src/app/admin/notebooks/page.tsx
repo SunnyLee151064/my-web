@@ -235,7 +235,7 @@ export default function NotebooksPage() {
               style={{
                 flex: 1,
                 padding: '0.75rem 1rem',
-                background: 'rgba(255, 255, 255, 0.15)',
+                background: 'rgba(255, 255, 255, 0.25)',
                 border: '1px solid rgba(0, 0, 0, 0.2)',
                 borderRadius: '8px',
                 fontSize: '1rem',
